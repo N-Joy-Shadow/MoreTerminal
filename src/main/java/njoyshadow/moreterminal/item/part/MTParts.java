@@ -33,7 +33,7 @@ public final class MTParts implements IMTParts {
         this.basicTerminal = createPart("basic_crafting_terminal", CraftingTerminalPart.class, CraftingTerminalPart::new);
 
     }
-
+    //
     private <T extends IPart> IItemDefinition createPart(String id, Class<T> partClass,
                                                          Function<ItemStack, T> factory) {
         partModels.registerModels(PartModelsHelper.createModels(partClass));
