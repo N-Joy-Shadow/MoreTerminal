@@ -1,10 +1,10 @@
-package njoyshadow.moreterminal.item.extendedTerminal;
-
+package njoyshadow.moreterminal.item.part.extendedcrafting;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.parts.IPartModel;
 import appeng.container.me.items.CraftingTermContainer;
 import appeng.container.me.items.ItemTerminalContainer;
+import appeng.core.AppEng;
 import appeng.items.parts.PartModels;
 import appeng.parts.PartModel;
 import appeng.parts.reporting.AbstractTerminalPart;
@@ -20,11 +20,13 @@ import njoyshadow.moreterminal.Moreterminal;
 
 import java.util.List;
 
-public class ItemBasicTerminal extends AbstractTerminalPart {
+public class BasicTerminalPart extends AbstractTerminalPart {
     @PartModels
-    public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
+    //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
+    public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
     @PartModels
-    public static final ResourceLocation MODEL_ON = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_on");
+    //public static final ResourceLocation MODEL_ON = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_on");
+    public static final ResourceLocation MODEL_ON = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_on");
 
     public static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
     public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
@@ -32,7 +34,7 @@ public class ItemBasicTerminal extends AbstractTerminalPart {
 
     private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 9);
 
-    public ItemBasicTerminal(final ItemStack is) {
+    public BasicTerminalPart(final ItemStack is) {
         super(is);
     }
 
@@ -50,13 +52,13 @@ public class ItemBasicTerminal extends AbstractTerminalPart {
     @Override
     public void readFromNBT(final CompoundNBT data) {
         super.readFromNBT(data);
-        this.craftingGrid.readFromNBT(data, "craftingGrid");
+        this.craftingGrid.readFromNBT(data, "basic_crafting_grid");
     }
 
     @Override
     public void writeToNBT(final CompoundNBT data) {
         super.writeToNBT(data);
-        this.craftingGrid.writeToNBT(data, "craftingGrid");
+        this.craftingGrid.writeToNBT(data, "basic_crafting_grid");
     }
 
     @Override
@@ -67,6 +69,8 @@ public class ItemBasicTerminal extends AbstractTerminalPart {
         return ItemTerminalContainer.TYPE;
     }
 
+
+    //고쳐야함
     @Override
     public IItemHandler getInventoryByName(final String name) {
         if (name.equals("crafting")) {
@@ -79,8 +83,4 @@ public class ItemBasicTerminal extends AbstractTerminalPart {
     public IPartModel getStaticModels() {
         return this.selectModel(MODELS_OFF, MODELS_ON, MODELS_HAS_CHANNEL);
     }
-
-
-
-
 }

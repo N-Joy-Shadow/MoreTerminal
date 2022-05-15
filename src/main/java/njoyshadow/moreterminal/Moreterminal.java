@@ -7,6 +7,7 @@ import appeng.core.Api;
 import appeng.core.CreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -52,6 +53,7 @@ public class Moreterminal {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addGenericListener(Item.class, MTRegisteration::registerItems);
+        modEventBus.addGenericListener(ContainerType.class, MTRegisteration::registerContainerTypes);
         modEventBus.addListener(this::commonSetup);
 
         registration = new MTRegisteration();
@@ -60,10 +62,10 @@ public class Moreterminal {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         MTDefinitions definitions = MTApi.INSTANCE.definitions();
-        definitions.getRegistry().getBootstrapComponents(IInitComponent.class)
-                .forEachRemaining(IInitComponent::initialize);
-        definitions.getRegistry().getBootstrapComponents(IPostInitComponent.class)
-                .forEachRemaining(IPostInitComponent::postInitialize);
+        //definitions.getRegistry().getBootstrapComponents(IInitComponent.class)
+        //        .forEachRemaining(IInitComponent::initialize);
+        //definitions.getRegistry().getBootstrapComponents(IPostInitComponent.class)
+        //        .forEachRemaining(IPostInitComponent::postInitialize);
 
         MTRegisteration.setupInternalRegistries();
         MTRegisteration.postInit();

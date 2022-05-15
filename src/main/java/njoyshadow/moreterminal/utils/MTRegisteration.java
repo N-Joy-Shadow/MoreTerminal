@@ -3,11 +3,13 @@ package njoyshadow.moreterminal.utils;
 import appeng.bootstrap.components.IBlockRegistrationComponent;
 import appeng.bootstrap.components.IItemRegistrationComponent;
 import net.minecraft.block.Block;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
+import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
 
 public class MTRegisteration {
 
@@ -30,7 +32,15 @@ public class MTRegisteration {
         definitions.getRegistry().getBootstrapComponents(IBlockRegistrationComponent.class)
                 .forEachRemaining(b -> b.blockRegistration(dist, registry));
     }
-    public static void setupInternalRegistries() {
+    public static void registerContainerTypes(RegistryEvent.Register<ContainerType<?>> event) {
+        final IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
+
+        registry.registerAll(
+                BasicCraftingTerminalContainer.TYPE
+        );
+    }
+
+        public static void setupInternalRegistries() {
     }
 
     public static void postInit() {
