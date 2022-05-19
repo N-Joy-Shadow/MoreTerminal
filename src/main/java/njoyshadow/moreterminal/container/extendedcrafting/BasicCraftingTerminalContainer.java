@@ -16,10 +16,15 @@ import appeng.helpers.IContainerCraftingPacket;
 import appeng.helpers.InventoryAction;
 import appeng.util.Platform;
 import appeng.util.inv.WrapperInvItemHandler;
+import com.blakebr0.cucumber.inventory.BaseItemStackHandler;
+import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
+import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
+import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
 import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -28,28 +33,42 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
+import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
+
+import java.util.Optional;
 
 public class BasicCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
 
-    public static final ContainerType<BasicCraftingTerminalContainer> TYPE = ContainerTypeBuilder
+    public static final ContainerType<BasicCraftingTerminalContainer> TYPE = MTContainerTypeBulder
             .create(BasicCraftingTerminalContainer::new, ITerminalHost.class)
             .requirePermission(SecurityPermissions.CRAFT)
-            .build("craftingterm");
+            .build("basiccraftingterm");
+            //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
     private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[9];
     private final CraftingTermSlot outputSlot;
     private IRecipe<CraftingInventory> currentRecipe;
+    private final World world;
+
 
     public BasicCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
         super(TYPE, id, ip, host, false);
         this.craftingInventoryHost = (ISegmentedInventory) host;
+        this.world = ip.player.world;
 
         final IItemHandler craftingGridInv = this.craftingInventoryHost.getInventoryByName("crafting");
-
-        for (int i = 0; i < 9; i++) {
-            this.addSlot(this.craftingSlots[i] = new CraftingMatrixSlot(this, craftingGridInv, i),
-                    SlotSemantic.CRAFTING_GRID);
+        
+        //s여기 캐스팅 하는 구간 오류 발생
+        
+        //ㄴㄴ 여기 다 싹다 고쳐야함
+        BaseItemStackHandler Inv = new BaseItemStackHandler(25);
+        IInventory matrix = new ExtendedCraftingInventory(this, (BaseItemStackHandler) Inv, 5);
+        int i, j;
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 5; j++) {
+                this.addSlot(new Slot(matrix, j + i * 5, 14 + j * 18, 18 + i * 18),SlotSemantic.CRAFTING_GRID);
+            }
         }
 
         this.addSlot(this.outputSlot = new CraftingTermSlot(this.getPlayerInventory().player, this.getActionSource(),
@@ -65,24 +84,17 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
      */
 
     @Override
-    public void onCraftMatrixChanged(IInventory inventory) {
-        final ContainerNull cn = new ContainerNull();
-        final CraftingInventory ic = new CraftingInventory(cn, 3, 3);
+    public void onCraftMatrixChanged(IInventory matrix) {
+        Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
 
-        for (int x = 0; x < 9; x++) {
-            ic.setInventorySlotContents(x, this.craftingSlots[x].getStack());
+        if (recipe.isPresent()) {
+            ItemStack result = recipe.get().getCraftingResult(matrix);
+            this.outputSlot.putStack(result);
         }
-
-        World world = this.getPlayerInventory().player.world;
-        if (this.currentRecipe == null || !this.currentRecipe.matches(ic, world)) {
-            this.currentRecipe = world.getRecipeManager().getRecipe(IRecipeType.CRAFTING, ic, world).orElse(null);
-        }
-
-        if (this.currentRecipe == null) {
+        else {
             this.outputSlot.putStack(ItemStack.EMPTY);
-        } else {
-            this.outputSlot.putStack(this.currentRecipe.getCraftingResult(ic));
         }
+
     }
 
     @Override

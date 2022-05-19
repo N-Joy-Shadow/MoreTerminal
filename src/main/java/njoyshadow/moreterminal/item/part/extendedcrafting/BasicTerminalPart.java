@@ -4,6 +4,7 @@ import appeng.api.config.SecurityPermissions;
 import appeng.api.parts.IPartModel;
 import appeng.container.me.items.CraftingTermContainer;
 import appeng.container.me.items.ItemTerminalContainer;
+import appeng.core.AELog;
 import appeng.core.AppEng;
 import appeng.items.parts.PartModels;
 import appeng.parts.PartModel;
@@ -17,6 +18,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandler;
 import njoyshadow.moreterminal.Moreterminal;
+import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
 
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     @Override
     public void readFromNBT(final CompoundNBT data) {
         super.readFromNBT(data);
+        System.out.println(data);
         this.craftingGrid.readFromNBT(data, "basic_crafting_grid");
     }
 
@@ -64,16 +67,18 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     @Override
     public ContainerType<?> getContainerType(final PlayerEntity p) {
         if (Platform.checkPermissions(p, this, SecurityPermissions.CRAFT, false)) {
-            return CraftingTermContainer.TYPE;
+            return BasicCraftingTerminalContainer.TYPE;
         }
-        return ItemTerminalContainer.TYPE;
+        return BasicCraftingTerminalContainer.TYPE;
     }
 
 
     //고쳐야함
     @Override
     public IItemHandler getInventoryByName(final String name) {
+        System.out.println(name);
         if (name.equals("crafting")) {
+            //return this.craftingGrid;
             return this.craftingGrid;
         }
         return super.getInventoryByName(name);
@@ -84,3 +89,4 @@ public class BasicTerminalPart extends AbstractTerminalPart {
         return this.selectModel(MODELS_OFF, MODELS_ON, MODELS_HAS_CHANNEL);
     }
 }
+

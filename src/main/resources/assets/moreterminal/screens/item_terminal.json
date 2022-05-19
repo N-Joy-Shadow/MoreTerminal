@@ -1,0 +1,18 @@
+{
+  "$schema": "schema.json.json",
+  "includes": ["base_terminals.json"],
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.appliedenergistics2.Terminal"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  },
+  "terminalStyle": {
+    "supportsAutoCrafting": true
+  }
+}

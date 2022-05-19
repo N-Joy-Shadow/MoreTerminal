@@ -7,9 +7,13 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
+import njoyshadow.moreterminal.client.ScreenRegistration;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+
+import appeng.container.slot.AppEngSlot;
 
 public class MTRegisteration {
 
@@ -38,6 +42,9 @@ public class MTRegisteration {
         registry.registerAll(
                 BasicCraftingTerminalContainer.TYPE
         );
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            ScreenRegistration.register();
+        });
     }
 
         public static void setupInternalRegistries() {
