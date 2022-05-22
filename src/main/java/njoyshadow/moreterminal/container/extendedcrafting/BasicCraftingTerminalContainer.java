@@ -20,6 +20,7 @@ import com.blakebr0.cucumber.inventory.BaseItemStackHandler;
 import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
 import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
+import com.blakebr0.extendedcrafting.container.slot.TableOutputSlot;
 import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
@@ -33,6 +34,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
+import njoyshadow.moreterminal.container.extendedcrafting.slot.BasicCraftingSlot;
 import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
 
 import java.util.Optional;
@@ -46,10 +48,10 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
             //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
-    private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[9];
-    private final CraftingTermSlot outputSlot;
-    private IRecipe<CraftingInventory> currentRecipe;
+    private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[25];
+    private final BasicCraftingSlot outputSlot;
     private final World world;
+    private ITableRecipe currentRecipe;
 
 
     public BasicCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
@@ -58,35 +60,39 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
         this.world = ip.player.world;
 
         final IItemHandler craftingGridInv = this.craftingInventoryHost.getInventoryByName("crafting");
-        
-        //s여기 캐스팅 하는 구간 오류 발생
-        
+
+
+        //s25여기 캐스팅 하는 구간 오류 발생
         //ㄴㄴ 여기 다 싹다 고쳐야함
         BaseItemStackHandler Inv = new BaseItemStackHandler(25);
-        IInventory matrix = new ExtendedCraftingInventory(this, (BaseItemStackHandler) Inv, 5);
+
+        IInventory matrix = new ExtendedCraftingInventory(this, Inv, 5);
         int i, j;
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 5; j++) {
                 this.addSlot(new Slot(matrix, j + i * 5, 14 + j * 18, 18 + i * 18),SlotSemantic.CRAFTING_GRID);
+                //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
             }
         }
 
-        this.addSlot(this.outputSlot = new CraftingTermSlot(this.getPlayerInventory().player, this.getActionSource(),
-                this.powerSource, host, craftingGridInv, craftingGridInv, this), SlotSemantic.CRAFTING_RESULT);
+        //CrafingTermSlot 고치기
+        this.addSlot(this.outputSlot = new BasicCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
+                this.powerSource, host, Inv, Inv, this,this,5,matrix), SlotSemantic.CRAFTING_RESULT);
 
         this.createPlayerInventorySlots(ip);
 
         this.onCraftMatrixChanged(new WrapperInvItemHandler(craftingGridInv));
     }
-
     /**
      * Callback for when the crafting matrix is changed.
      */
-
     @Override
     public void onCraftMatrixChanged(IInventory matrix) {
         Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
 
+        for (int i = 0; i < 25; i++){
+        //System.out.println(matrix.getStackInSlot(i).getItem());
+        }
         if (recipe.isPresent()) {
             ItemStack result = recipe.get().getCraftingResult(matrix);
             this.outputSlot.putStack(result);
@@ -96,6 +102,7 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
         }
 
     }
+    public ITableRecipe getCurrentRecipe() {    return this.currentRecipe; }
 
     @Override
     public IItemHandler getInventoryByName(final String name) {
@@ -110,9 +117,6 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
         return true;
     }
 
-    public IRecipe<CraftingInventory> getCurrentRecipe() {
-        return this.currentRecipe;
-    }
 
     /**
      * Clears the crafting grid and moves everything back into the network inventory.

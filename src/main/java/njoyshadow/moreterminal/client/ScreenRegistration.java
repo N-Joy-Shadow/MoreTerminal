@@ -24,7 +24,7 @@ public class ScreenRegistration {
     static final Map<ContainerType<?>, String> CONTAINER_STYLES = new IdentityHashMap<>();
 
     public static void register() {
-        register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"screens/basic_terminal.json");
+        register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
     }
     private static <M extends AEBaseContainer, U extends AEBaseScreen<M>> void register(ContainerType<M> type,
                                                                                         StyledScreenFactory<M, U> factory,

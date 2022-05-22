@@ -60,6 +60,7 @@ public class BasicTerminalPart extends AbstractTerminalPart {
 
     @Override
     public void writeToNBT(final CompoundNBT data) {
+        System.out.println(data);
         super.writeToNBT(data);
         this.craftingGrid.writeToNBT(data, "basic_crafting_grid");
     }
@@ -76,7 +77,6 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     //고쳐야함
     @Override
     public IItemHandler getInventoryByName(final String name) {
-        System.out.println(name);
         if (name.equals("crafting")) {
             //return this.craftingGrid;
             return this.craftingGrid;

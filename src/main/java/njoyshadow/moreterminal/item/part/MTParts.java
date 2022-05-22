@@ -3,6 +3,7 @@ package njoyshadow.moreterminal.item.part;
 import appeng.api.definitions.IItemDefinition;
 import appeng.api.parts.IPart;
 import appeng.bootstrap.FeatureFactory;
+import appeng.core.CreativeTab;
 import appeng.core.features.registries.PartModels;
 import appeng.items.parts.PartItem;
 import appeng.items.parts.PartItemRendering;
@@ -31,7 +32,7 @@ public final class MTParts implements IMTParts {
                                                          Function<ItemStack, T> factory) {
         partModels.registerModels(PartModelsHelper.createModels(partClass));
 
-        return registry.item(id, props -> new PartItem<>(props, factory)).itemGroup(MTCreativeTab.INSTANCE)
+        return registry.item(id, props -> new PartItem<>(props, factory)).itemGroup(CreativeTab.INSTANCE)
                 .rendering(new PartItemRendering()).build();    }
 
 

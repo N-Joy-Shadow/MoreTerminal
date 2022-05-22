@@ -144,6 +144,7 @@ dependencies {
     implementation fg.deobf("libs:jei:1.16.5-7.7.1.152")
 
     implementation fg.deobf("libs:TheOneProbe-1.16:3.1.7")
+    implementation fg.deobf("libs:CraftTweaker-1.16.5:7.1.2.510")
 
     implementation fg.deobf("libs:Cucumber:1.16.5-4.1.12")
     implementation fg.deobf("libs:ExtendedCrafting:1.16.5-3.1.11")
