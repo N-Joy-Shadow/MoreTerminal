@@ -34,7 +34,7 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
     public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_HAS_CHANNEL);
 
-    private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 9);
+    private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 25);
 
     public BasicTerminalPart(final ItemStack is) {
         super(is);
@@ -74,7 +74,7 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     }
 
 
-    //고쳐야함
+    //todo fix
     @Override
     public IItemHandler getInventoryByName(final String name) {
         if (name.equals("crafting")) {

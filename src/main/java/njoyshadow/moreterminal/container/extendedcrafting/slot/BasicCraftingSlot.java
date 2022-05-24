@@ -10,9 +10,6 @@ import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.AEBaseContainer;
 import appeng.container.ContainerNull;
-import appeng.container.me.items.CraftingTermContainer;
-import appeng.container.slot.AppEngCraftingSlot;
-import appeng.container.slot.AppEngSlot;
 import appeng.core.Api;
 import appeng.helpers.IContainerCraftingPacket;
 import appeng.helpers.InventoryAction;
@@ -24,47 +21,48 @@ import appeng.util.inv.AdaptorItemHandler;
 import appeng.util.inv.WrapperCursorItemHandler;
 import appeng.util.inv.WrapperInvItemHandler;
 import appeng.util.item.AEItemStack;
+import com.blakebr0.cucumber.inventory.BaseItemStackHandler;
 import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
+import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.utils.MTPlatform;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class BasicCraftingSlot extends MTOutputSlot {
+public class BasicCraftingSlot extends MTBaseSlot {
     private final IItemHandler craftInv;
     private final IItemHandler pattern;
     private final IActionSource mySrc;
     private final IEnergySource energySrc;
     private final IStorageMonitorable storage;
     private final IContainerCraftingPacket container;
-
+    private int Gridsize =0;
     public BasicCraftingSlot(PlayerEntity player, IActionSource mySrc, IEnergySource energySrc,
                              IStorageMonitorable storage, IItemHandler cMatrix, IItemHandler secondMatrix, IContainerCraftingPacket ccp,
-                             AEBaseContainer container,int GridSize, IInventory matrix) {
-        
-        //고쳐야함
-        super(player, cMatrix,GridSize,matrix,container);
+                             int GridSize, IInventory matrix) {
+
+        //TODO fix
+        super(player, cMatrix,GridSize,matrix);
         this.energySrc = energySrc;
         this.storage = storage;
         this.mySrc = mySrc;
         this.pattern = cMatrix;
         this.craftInv = secondMatrix;
         this.container = ccp;
+        this.Gridsize =GridSize;
     }
 
     public IItemHandler getCraftingMatrix() {
@@ -157,20 +155,20 @@ public class BasicCraftingSlot extends MTOutputSlot {
             Arrays.fill(set, ItemStack.EMPTY);
             World world = p.world;
             if (!world.isRemote()) {
-                CraftingInventory ic = new CraftingInventory(new ContainerNull(), 3, 3);
-
-                for(int x = 0; x < 9; ++x) {
-                    ic.setInventorySlotContents(x, this.getPattern().getStackInSlot(x));
+                BaseItemStackHandler Inv = new BaseItemStackHandler(Gridsize * Gridsize);
+                IInventory matrix = new ExtendedCraftingInventory(this.getContainer(), Inv, Gridsize);
+                for(int x = 0; x < Gridsize * Gridsize; ++x) {
+                    matrix.setInventorySlotContents(x, this.getPattern().getStackInSlot(x));
                 }
 
-                ITableRecipe r = this.findRecipe(ic, world);
+                ITableRecipe r = this.findRecipe(matrix, world);
                 if (r == null) {
                     Item target = request.getItem();
                     if (target.isDamageable() && target.isRepairable(request)) {
                         boolean isBad = false;
 
-                        for(int x = 0; x < ic.getSizeInventory(); ++x) {
-                            ItemStack pis = ic.getStackInSlot(x);
+                        for(int x = 0; x < matrix.getSizeInventory(); ++x) {
+                            ItemStack pis = matrix.getStackInSlot(x);
                             if (!pis.isEmpty() && pis.getItem() != target) {
                                 isBad = true;
                             }
@@ -186,13 +184,14 @@ public class BasicCraftingSlot extends MTOutputSlot {
                     return ItemStack.EMPTY;
                 }
 
-                is = r.getCraftingResult(ic);
+                is = r.getCraftingResult(matrix);
                 if (inv != null) {
                     for(int x = 0; x < this.getPattern().getSlots(); ++x) {
                         if (!this.getPattern().getStackInSlot(x).isEmpty()) {
-                            //고쳐야함
-                            //set[x] = Platform.extractItemsByRecipe(this.energySrc, this.mySrc, inv, world, r, is, ic, this.getPattern().getStackInSlot(x), x, all, Actionable.MODULATE, ViewCellItem.createFilter(this.container.getViewCells()));
-                            ic.setInventorySlotContents(x, set[x]);
+                            //Todo Fix
+
+                            set[x] = MTPlatform.extractItemsByRecipe(this.energySrc, this.mySrc, inv, world, r, is, matrix, this.getPattern().getStackInSlot(x), x, all, Actionable.MODULATE, ViewCellItem.createFilter(this.container.getViewCells()));
+                            matrix.setInventorySlotContents(x, set[x]);
                         }
                     }
                 }

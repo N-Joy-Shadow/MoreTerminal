@@ -35,11 +35,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
 import njoyshadow.moreterminal.container.extendedcrafting.slot.BasicCraftingSlot;
+import njoyshadow.moreterminal.container.extendedcrafting.slot.MTMatrixSlot;
 import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
+
 
 import java.util.Optional;
 
 public class BasicCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
+
 
     public static final ContainerType<BasicCraftingTerminalContainer> TYPE = MTContainerTypeBulder
             .create(BasicCraftingTerminalContainer::new, ITerminalHost.class)
@@ -48,12 +51,12 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
             //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
-    private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[25];
+    //private final BasicCraftingSlot outputSlot;
     private final BasicCraftingSlot outputSlot;
     private final World world;
     private ITableRecipe currentRecipe;
-
-
+    private final int GridSize =5;
+    private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[GridSize * GridSize];
     public BasicCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
         super(TYPE, id, ip, host, false);
         this.craftingInventoryHost = (ISegmentedInventory) host;
@@ -61,23 +64,25 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
 
         final IItemHandler craftingGridInv = this.craftingInventoryHost.getInventoryByName("crafting");
 
+        //Todo Yes
+        BaseItemStackHandler Inv = new BaseItemStackHandler(GridSize * GridSize);
 
-        //s25여기 캐스팅 하는 구간 오류 발생
-        //ㄴㄴ 여기 다 싹다 고쳐야함
-        BaseItemStackHandler Inv = new BaseItemStackHandler(25);
+        IInventory matrix = new ExtendedCraftingInventory(this, Inv, GridSize);
+        int i;
+        for (i = 0; i < GridSize * GridSize; i++) {
+                this.addSlot(this.craftingSlots[i] = new CraftingMatrixSlot(this, craftingGridInv,i),SlotSemantic.CRAFTING_GRID);
+                //this.addSlot(new Slot(matrix,i,0,0), SlotSemantic.CRAFTING_GRID);
 
-        IInventory matrix = new ExtendedCraftingInventory(this, Inv, 5);
-        int i, j;
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 5; j++) {
-                this.addSlot(new Slot(matrix, j + i * 5, 14 + j * 18, 18 + i * 18),SlotSemantic.CRAFTING_GRID);
                 //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
-            }
-        }
 
-        //CrafingTermSlot 고치기
+        }
+        //new CraftingTermSlot();
+        //TODO Fix CrafingTermSlot
+
         this.addSlot(this.outputSlot = new BasicCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
-                this.powerSource, host, Inv, Inv, this,this,5,matrix), SlotSemantic.CRAFTING_RESULT);
+                this.powerSource, host, craftingGridInv, craftingGridInv, this,GridSize,matrix), SlotSemantic.CRAFTING_RESULT);
+        //this.addSlot(this.outputSlot = new BasicCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
+        ///        this.powerSource, host, Inv, Inv, this,this,5,matrix), SlotSemantic.CRAFTING_RESULT);
 
         this.createPlayerInventorySlots(ip);
 
@@ -87,14 +92,25 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
      * Callback for when the crafting matrix is changed.
      */
     @Override
-    public void onCraftMatrixChanged(IInventory matrix) {
-        Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
+    public void onCraftMatrixChanged(IInventory inventory) {
 
-        for (int i = 0; i < 25; i++){
-        //System.out.println(matrix.getStackInSlot(i).getItem());
+        BaseItemStackHandler Inv = new BaseItemStackHandler(25);
+        ContainerNull cn = new ContainerNull();
+        IInventory matrix = new ExtendedCraftingInventory(cn, Inv, 5);
+        int i;
+        for (i = 0; i < GridSize * GridSize; i++) {
+            //inventory.setInventorySlotContents(i,this.craftingSlots[i].getStack());
+            matrix.setInventorySlotContents(i,this.craftingSlots[i].getStack());
+                //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
         }
+        //Extended Recipe
+        Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
+        //Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, inventory, this.world);
+
         if (recipe.isPresent()) {
             ItemStack result = recipe.get().getCraftingResult(matrix);
+            System.out.println(result.getItem());
+            //ItemStack result = recipe.get().getCraftingResult(inventory);
             this.outputSlot.putStack(result);
         }
         else {
@@ -123,7 +139,7 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
      */
     public void clearCraftingGrid() {
         Preconditions.checkState(isClient());
-        CraftingMatrixSlot slot = craftingSlots[0];
+        CraftingMatrixSlot slot =this.craftingSlots[0];
         final InventoryActionPacket p = new InventoryActionPacket(InventoryAction.MOVE_REGION, slot.slotNumber, 0);
         NetworkHandler.instance().sendToServer(p);
     }

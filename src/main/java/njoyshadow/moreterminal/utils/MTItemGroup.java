@@ -23,7 +23,7 @@ public class MTItemGroup extends ItemGroup {
     }
 
 
-    //TODO: 이거 왜 인터페이스인지 알아내기
+
     @Override
     public ItemStack createIcon() {
         IDefinitions definitions = Api.instance().definitions();
