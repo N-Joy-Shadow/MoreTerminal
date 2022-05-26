@@ -34,8 +34,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
-import njoyshadow.moreterminal.container.extendedcrafting.slot.BasicCraftingSlot;
-import njoyshadow.moreterminal.container.extendedcrafting.slot.MTMatrixSlot;
+import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingSlot;
 import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
 
 
@@ -52,9 +51,9 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
 
     private final ISegmentedInventory craftingInventoryHost;
     //private final BasicCraftingSlot outputSlot;
-    private final BasicCraftingSlot outputSlot;
+    private final ExtendedCraftingSlot outputSlot;
     private final World world;
-    private ITableRecipe currentRecipe;
+    private Optional<ITableRecipe> currentRecipe;
     private final int GridSize =5;
     private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[GridSize * GridSize];
     public BasicCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
@@ -64,22 +63,19 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
 
         final IItemHandler craftingGridInv = this.craftingInventoryHost.getInventoryByName("crafting");
 
-        //Todo Yes
         BaseItemStackHandler Inv = new BaseItemStackHandler(GridSize * GridSize);
 
         IInventory matrix = new ExtendedCraftingInventory(this, Inv, GridSize);
         int i;
         for (i = 0; i < GridSize * GridSize; i++) {
                 this.addSlot(this.craftingSlots[i] = new CraftingMatrixSlot(this, craftingGridInv,i),SlotSemantic.CRAFTING_GRID);
-                //this.addSlot(new Slot(matrix,i,0,0), SlotSemantic.CRAFTING_GRID);
-
-                //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
 
         }
+        //new CraftingTermContainer();
         //new CraftingTermSlot();
         //TODO Fix CrafingTermSlot
 
-        this.addSlot(this.outputSlot = new BasicCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
+        this.addSlot(this.outputSlot = new ExtendedCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
                 this.powerSource, host, craftingGridInv, craftingGridInv, this,GridSize,matrix), SlotSemantic.CRAFTING_RESULT);
         //this.addSlot(this.outputSlot = new BasicCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
         ///        this.powerSource, host, Inv, Inv, this,this,5,matrix), SlotSemantic.CRAFTING_RESULT);
@@ -101,15 +97,14 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
         for (i = 0; i < GridSize * GridSize; i++) {
             //inventory.setInventorySlotContents(i,this.craftingSlots[i].getStack());
             matrix.setInventorySlotContents(i,this.craftingSlots[i].getStack());
-                //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
+            //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
         }
         //Extended Recipe
-        Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
+        this.currentRecipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
         //Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, inventory, this.world);
 
-        if (recipe.isPresent()) {
-            ItemStack result = recipe.get().getCraftingResult(matrix);
-            System.out.println(result.getItem());
+        if (this.currentRecipe.isPresent()) {
+            ItemStack result = this.currentRecipe.get().getCraftingResult(matrix);
             //ItemStack result = recipe.get().getCraftingResult(inventory);
             this.outputSlot.putStack(result);
         }
@@ -118,7 +113,7 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
         }
 
     }
-    public ITableRecipe getCurrentRecipe() {    return this.currentRecipe; }
+    public Optional<ITableRecipe> getCurrentRecipe() {    return this.currentRecipe; }
 
     @Override
     public IItemHandler getInventoryByName(final String name) {

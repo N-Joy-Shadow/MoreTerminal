@@ -12,7 +12,6 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.text.ITextComponent;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.slot.BasicCraftingSlot;
 
 import javax.annotation.Nullable;
 
@@ -20,6 +19,7 @@ public class BasicCraftingTermScreen extends ItemTerminalScreen<BasicCraftingTer
 
     public BasicCraftingTermScreen(BasicCraftingTerminalContainer container, PlayerInventory playerInventory, ITextComponent title, ScreenStyle style) {
         super(container, playerInventory, title, style);
+
     }
 /*
     @Override

@@ -42,7 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class BasicCraftingSlot extends MTBaseSlot {
+public class ExtendedCraftingSlot extends MTBaseSlot {
     private final IItemHandler craftInv;
     private final IItemHandler pattern;
     private final IActionSource mySrc;
@@ -50,12 +50,14 @@ public class BasicCraftingSlot extends MTBaseSlot {
     private final IStorageMonitorable storage;
     private final IContainerCraftingPacket container;
     private int Gridsize =0;
-    public BasicCraftingSlot(PlayerEntity player, IActionSource mySrc, IEnergySource energySrc,
+    public ExtendedCraftingSlot(PlayerEntity player, IActionSource mySrc, IEnergySource energySrc,
                              IStorageMonitorable storage, IItemHandler cMatrix, IItemHandler secondMatrix, IContainerCraftingPacket ccp,
                              int GridSize, IInventory matrix) {
 
-        //TODO fix
         super(player, cMatrix,GridSize,matrix);
+
+
+
         this.energySrc = energySrc;
         this.storage = storage;
         this.mySrc = mySrc;
@@ -78,6 +80,7 @@ public class BasicCraftingSlot extends MTBaseSlot {
     }
 
     public void doClick(InventoryAction action, PlayerEntity who) {
+        System.out.println("Recieve Click");
         if (!this.getStack().isEmpty()) {
             if (!this.isRemote()) {
                 IMEMonitor<IAEItemStack> inv = this.storage.getInventory(Api.instance().storage().getStorageChannel(IItemStorageChannel.class));
@@ -124,12 +127,12 @@ public class BasicCraftingSlot extends MTBaseSlot {
             BasicCraftingTerminalContainer containerTerminal = (BasicCraftingTerminalContainer)this.container;
 
             Optional<ITableRecipe> recipe = world.getRecipeManager().getRecipe(RecipeTypes.TABLE, ic, world);
-            if (recipe != null && recipe.isPresent()) {
-                return containerTerminal.getCurrentRecipe();
+            if (recipe.isPresent()) {
+                return containerTerminal.getCurrentRecipe().get();
             }
         }
 
-        return world.getRecipeManager().getRecipe(RecipeTypes.TABLE, ic, world).orElse((ITableRecipe) null);
+        return world.getRecipeManager().getRecipe(RecipeTypes.TABLE, ic, world).orElse(null);
     }
 
     protected NonNullList<ItemStack> getRemainingItems(IInventory ic, World world) {
@@ -137,7 +140,7 @@ public class BasicCraftingSlot extends MTBaseSlot {
             BasicCraftingTerminalContainer containerTerminal = (BasicCraftingTerminalContainer)this.container;
             Optional<ITableRecipe> recipe = world.getRecipeManager().getRecipe(RecipeTypes.TABLE, ic, world);
             if (recipe != null && recipe.isPresent()) {
-                return containerTerminal.getCurrentRecipe().getRemainingItems(ic);
+                return containerTerminal.getCurrentRecipe().get().getRemainingItems(ic);
             }
         }
 
@@ -162,6 +165,7 @@ public class BasicCraftingSlot extends MTBaseSlot {
                 }
 
                 ITableRecipe r = this.findRecipe(matrix, world);
+                System.out.println(r);
                 if (r == null) {
                     Item target = request.getItem();
                     if (target.isDamageable() && target.isRepairable(request)) {
@@ -180,7 +184,7 @@ public class BasicCraftingSlot extends MTBaseSlot {
                             return request;
                         }
                     }
-
+                    System.out.println("Null");
                     return ItemStack.EMPTY;
                 }
 
@@ -189,7 +193,7 @@ public class BasicCraftingSlot extends MTBaseSlot {
                     for(int x = 0; x < this.getPattern().getSlots(); ++x) {
                         if (!this.getPattern().getStackInSlot(x).isEmpty()) {
                             //Todo Fix
-
+                            System.out.println("TODO FIX");
                             set[x] = MTPlatform.extractItemsByRecipe(this.energySrc, this.mySrc, inv, world, r, is, matrix, this.getPattern().getStackInSlot(x), x, all, Actionable.MODULATE, ViewCellItem.createFilter(this.container.getViewCells()));
                             matrix.setInventorySlotContents(x, set[x]);
                         }

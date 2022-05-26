@@ -43,6 +43,7 @@ public class MTBaseSlot extends AppEngSlot {
     protected void onCrafting(ItemStack par1ItemStack, int par2) {
         this.amountCrafted += par2;
         this.onCrafting(par1ItemStack);
+
     }
 
     protected void onCrafting(ItemStack par1ItemStack) {
@@ -69,10 +70,9 @@ public class MTBaseSlot extends AppEngSlot {
         NonNullList<ItemStack> aitemstack = this.getRemainingItems(playerIn.world);
 
         //Warn
-        ItemHandlerUtil.copy((IItemHandler) matrix, this.craftingGrid, false);
+        ItemHandlerUtil.copy((CraftingInventory) matrix, this.craftingGrid, false);
         ForgeHooks.setCraftingPlayer(null);
 
-        System.out.println(String.format("%s Remain size" ,remaining.size()));
 
         for(int i = 0; i < remaining.size(); ++i) {
             ItemStack itemstack1 = this.craftingGrid.getStackInSlot(i);
