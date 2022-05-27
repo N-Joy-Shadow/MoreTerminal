@@ -29,16 +29,15 @@ import net.minecraftforge.items.wrapper.PlayerInvWrapper;
 import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingTermSlot;
 import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
 
-
 import java.util.Optional;
 
-public class BasicCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
+public class UltimateCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
 
 
-    public static final ContainerType<BasicCraftingTerminalContainer> TYPE = MTContainerTypeBulder
-            .create(BasicCraftingTerminalContainer::new, ITerminalHost.class)
+    public static final ContainerType<UltimateCraftingTerminalContainer> TYPE = MTContainerTypeBulder
+            .create(UltimateCraftingTerminalContainer::new, ITerminalHost.class)
             .requirePermission(SecurityPermissions.CRAFT)
-            .build("basiccraftingterm");
+            .build("ultimatecraftingterm");
             //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
@@ -46,9 +45,11 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
     private final ExtendedCraftingTermSlot outputSlot;
     private final World world;
     private Optional<ITableRecipe> currentRecipe;
-    private final int GridSize =3;
+
+    private final int GridSize =9;
+
     private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[GridSize * GridSize];
-    public BasicCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
+    public UltimateCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
         super(TYPE, id, ip, host, false);
         this.craftingInventoryHost = (ISegmentedInventory) host;
         this.world = ip.player.world;

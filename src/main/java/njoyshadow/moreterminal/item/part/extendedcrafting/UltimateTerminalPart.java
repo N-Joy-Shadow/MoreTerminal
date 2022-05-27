@@ -2,9 +2,6 @@ package njoyshadow.moreterminal.item.part.extendedcrafting;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.parts.IPartModel;
-import appeng.container.me.items.CraftingTermContainer;
-import appeng.container.me.items.ItemTerminalContainer;
-import appeng.core.AELog;
 import appeng.core.AppEng;
 import appeng.items.parts.PartModels;
 import appeng.parts.PartModel;
@@ -17,12 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandler;
-import njoyshadow.moreterminal.Moreterminal;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
 
 import java.util.List;
 
-public class BasicTerminalPart extends AbstractTerminalPart {
+public class UltimateTerminalPart extends AbstractTerminalPart {
     @PartModels
     //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
     public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
@@ -34,9 +31,9 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
     public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_HAS_CHANNEL);
 
-    private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 9);
+    private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 81);
 
-    public BasicTerminalPart(final ItemStack is) {
+    public UltimateTerminalPart(final ItemStack is) {
         super(is);
     }
 
@@ -54,21 +51,21 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     @Override
     public void readFromNBT(final CompoundNBT data) {
         System.out.println(data);
-        this.craftingGrid.readFromNBT(data, "basic_crafting_grid");
+        this.craftingGrid.readFromNBT(data, "ultimate_crafting_grid");
     }
 
     @Override
     public void writeToNBT(final CompoundNBT data) {
         super.writeToNBT(data);
-        this.craftingGrid.writeToNBT(data, "basic_crafting_grid");
+        this.craftingGrid.writeToNBT(data, "ultimate_crafting_grid");
     }
 
     @Override
     public ContainerType<?> getContainerType(final PlayerEntity p) {
         if (Platform.checkPermissions(p, this, SecurityPermissions.CRAFT, false)) {
-            return BasicCraftingTerminalContainer.TYPE;
+            return UltimateCraftingTerminalContainer.TYPE;
         }
-        return BasicCraftingTerminalContainer.TYPE;
+        return UltimateCraftingTerminalContainer.TYPE;
     }
 
 

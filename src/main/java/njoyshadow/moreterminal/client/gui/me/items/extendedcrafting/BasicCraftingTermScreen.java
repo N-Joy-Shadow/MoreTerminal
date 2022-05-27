@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.client.gui.me.items;
+package njoyshadow.moreterminal.client.gui.me.items.extendedcrafting;
 
 import appeng.api.storage.ITerminalHost;
 import appeng.client.gui.me.items.ItemTerminalScreen;
@@ -21,29 +21,4 @@ public class BasicCraftingTermScreen extends ItemTerminalScreen<BasicCraftingTer
         super(container, playerInventory, title, style);
 
     }
-/*
-    @Override
-    protected void handleMouseClick(@Nullable Slot slot, final int slotIdx, final int mouseButton,
-                                    final ClickType clickType) {
-        if(slot instanceof BasicCraftingSlot){
-            if (mouseButton == 6) {
-                return; // prevent weird double clicks..
-            }
-
-            InventoryAction action;
-            if (hasShiftDown()) {
-                action = InventoryAction.CRAFT_SHIFT;
-            } else {
-                // Craft stack on right-click, craft single on left-click
-                action = mouseButton == 1 ? InventoryAction.CRAFT_STACK : InventoryAction.CRAFT_ITEM;
-            }
-
-            final InventoryActionPacket p = new InventoryActionPacket(action, slotIdx, 0);
-            NetworkHandler.instance().sendToServer(p);
-
-            return;
-        }
-    }
- */
-
 }

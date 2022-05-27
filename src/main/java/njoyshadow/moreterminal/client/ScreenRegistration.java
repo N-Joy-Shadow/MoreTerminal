@@ -12,8 +12,14 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.text.ITextComponent;
-import njoyshadow.moreterminal.client.gui.me.items.BasicCraftingTermScreen;
+import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.AdvancedCraftingTermScreen;
+import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.BasicCraftingTermScreen;
+import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.EliteCraftingTermScreen;
+import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.UltimateCraftingTermScreen;
+import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
 
 import java.io.FileNotFoundException;
 import java.util.IdentityHashMap;
@@ -25,6 +31,9 @@ public class ScreenRegistration {
 
     public static void register() {
         register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
+        register(AdvancedCraftingTerminalContainer.TYPE, AdvancedCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
+        register(EliteCraftingTerminalContainer.TYPE, EliteCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
+        register(UltimateCraftingTerminalContainer.TYPE, UltimateCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
     }
     private static <M extends AEBaseContainer, U extends AEBaseScreen<M>> void register(ContainerType<M> type,
                                                                                         StyledScreenFactory<M, U> factory,

@@ -11,9 +11,12 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
 import njoyshadow.moreterminal.client.ScreenRegistration;
+import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
 
 import appeng.container.slot.AppEngSlot;
+import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
 
 public class MTRegisteration {
 
@@ -40,7 +43,10 @@ public class MTRegisteration {
         final IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
 
         registry.registerAll(
-                BasicCraftingTerminalContainer.TYPE
+                BasicCraftingTerminalContainer.TYPE,
+                AdvancedCraftingTerminalContainer.TYPE,
+                EliteCraftingTerminalContainer.TYPE,
+                UltimateCraftingTerminalContainer.TYPE
         );
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
             ScreenRegistration.register();
