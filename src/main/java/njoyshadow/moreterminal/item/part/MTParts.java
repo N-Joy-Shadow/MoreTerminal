@@ -9,6 +9,7 @@ import appeng.items.parts.PartItem;
 import appeng.items.parts.PartItemRendering;
 import appeng.items.parts.PartModelsHelper;
 import net.minecraft.item.ItemStack;
+import njoyshadow.moreterminal.api.item.part.IMTParts;
 import njoyshadow.moreterminal.item.part.extendedcrafting.AdvancedTerminalPart;
 import njoyshadow.moreterminal.item.part.extendedcrafting.BasicTerminalPart;
 import njoyshadow.moreterminal.item.part.extendedcrafting.EliteTerminalPart;
@@ -42,7 +43,7 @@ public final class MTParts implements IMTParts {
                                                          Function<ItemStack, T> factory) {
         partModels.registerModels(PartModelsHelper.createModels(partClass));
 
-        return registry.item(id, props -> new PartItem<>(props, factory)).itemGroup(CreativeTab.INSTANCE)
+        return registry.item(id, props -> new PartItem<>(props, factory)).itemGroup(MTCreativeTab.INSTANCE)
                 .rendering(new PartItemRendering()).build();    }
 
 

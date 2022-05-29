@@ -8,8 +8,9 @@ import appeng.core.api.ApiClientHelper;
 import appeng.core.api.ApiPart;
 import appeng.core.features.registries.PartModels;
 import appeng.core.features.registries.RegistryContainer;
+import njoyshadow.moreterminal.api.utlis.IMTApi;
 
-public class MTApi implements  IMTApi{
+public class MTApi implements IMTApi {
 
     public static final MTApi INSTANCE = new MTApi();
 

@@ -75,7 +75,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
     }
 
     public void doClick(InventoryAction action, PlayerEntity who) {
-        System.out.println("Recieve Click");
         if (!this.getStack().isEmpty()) {
             if (!this.isRemote()) {
                 IMEMonitor<IAEItemStack> inv = this.storage.getInventory(Api.instance().storage().getStorageChannel(IItemStorageChannel.class));
@@ -160,7 +159,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                 }
 
                 ITableRecipe r = this.findRecipe(matrix, world);
-                System.out.println(r);
                 if (r == null) {
                     Item target = request.getItem();
                     if (target.isDamageable() && target.isRepairable(request)) {
@@ -179,7 +177,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                             return request;
                         }
                     }
-                    System.out.println("Null");
                     return ItemStack.EMPTY;
                 }
 
@@ -187,8 +184,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                 if (inv != null) {
                     for(int x = 0; x < this.getPattern().getSlots(); ++x) {
                         if (!this.getPattern().getStackInSlot(x).isEmpty()) {
-                            //Todo Fix
-                            System.out.println("TODO FIX");
                             set[x] = MTPlatform.extractItemsByRecipe(this.energySrc, this.mySrc, inv, world, r, is, matrix, this.getPattern().getStackInSlot(x), x, all, Actionable.MODULATE, ViewCellItem.createFilter(this.container.getViewCells()));
                             matrix.setInventorySlotContents(x, set[x]);
                         }

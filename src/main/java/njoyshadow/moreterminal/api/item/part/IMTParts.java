@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.item.part;
+package njoyshadow.moreterminal.api.item.part;
 
 import appeng.api.definitions.IItemDefinition;
 

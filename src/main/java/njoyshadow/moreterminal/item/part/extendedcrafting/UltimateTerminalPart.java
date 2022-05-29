@@ -50,7 +50,8 @@ public class UltimateTerminalPart extends AbstractTerminalPart {
 
     @Override
     public void readFromNBT(final CompoundNBT data) {
-        System.out.println(data);
+        super.readFromNBT(data);
+
         this.craftingGrid.readFromNBT(data, "ultimate_crafting_grid");
     }
 

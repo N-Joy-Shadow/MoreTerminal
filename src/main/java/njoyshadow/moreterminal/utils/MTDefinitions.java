@@ -5,7 +5,8 @@ import appeng.bootstrap.FeatureFactory;
 import appeng.core.api.definitions.ApiParts;
 import appeng.core.features.ItemDefinition;
 import appeng.core.features.registries.PartModels;
-import njoyshadow.moreterminal.item.part.IMTParts;
+import njoyshadow.moreterminal.api.utlis.IMTDefinitions;
+
 import njoyshadow.moreterminal.item.part.MTParts;
 
 public class MTDefinitions implements IMTDefinitions {

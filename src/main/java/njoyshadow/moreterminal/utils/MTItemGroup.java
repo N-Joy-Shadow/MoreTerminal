@@ -1,15 +1,12 @@
 package njoyshadow.moreterminal.utils;
 
-import appeng.api.definitions.IBlocks;
 import appeng.api.definitions.IDefinitions;
 import appeng.api.definitions.IItemDefinition;
 import appeng.api.definitions.IParts;
-import appeng.core.AEItemGroup;
 import appeng.core.Api;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import njoyshadow.moreterminal.item.part.IMTParts;
 
 import java.util.ArrayList;
 import java.util.List;

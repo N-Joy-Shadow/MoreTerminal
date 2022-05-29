@@ -1,6 +1,5 @@
-package njoyshadow.moreterminal.utils;
+package njoyshadow.moreterminal.api.utlis;
 
-import appeng.api.definitions.IDefinitions;
 import appeng.api.features.IRegistryContainer;
 
 public interface IMTApi {

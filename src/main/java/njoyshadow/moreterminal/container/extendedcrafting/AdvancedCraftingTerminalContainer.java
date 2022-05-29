@@ -62,22 +62,13 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
                 this.addSlot(this.craftingSlots[i] = new CraftingMatrixSlot(this, craftingGridInv,i),SlotSemantic.CRAFTING_GRID);
 
         }
-        //new CraftingTermContainer();
-        //new CraftingTermSlot();
-        //TODO Fix CrafingTermSlot
-
         this.addSlot(this.outputSlot = new ExtendedCraftingTermSlot(this.getPlayerInventory().player, this.getActionSource(),
                 this.powerSource, host, craftingGridInv, craftingGridInv, this,GridSize,matrix), SlotSemantic.CRAFTING_RESULT);
-        //this.addSlot(this.outputSlot = new BasicCraftingSlot(this.getPlayerInventory().player, this.getActionSource(),
-        ///        this.powerSource, host, Inv, Inv, this,this,5,matrix), SlotSemantic.CRAFTING_RESULT);
-
         this.createPlayerInventorySlots(ip);
 
         this.onCraftMatrixChanged(new WrapperInvItemHandler(craftingGridInv));
     }
-    /**
-     * Callback for when the crafting matrix is changed.
-     */
+
     @Override
     public void onCraftMatrixChanged(IInventory inventory) {
 
@@ -86,17 +77,13 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
         IInventory matrix = new ExtendedCraftingInventory(cn, Inv, GridSize);
         int i;
         for (i = 0; i < GridSize * GridSize; i++) {
-            //inventory.setInventorySlotContents(i,this.craftingSlots[i].getStack());
             matrix.setInventorySlotContents(i,this.craftingSlots[i].getStack());
-            //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
         }
         //Extended Recipe
         this.currentRecipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
-        //Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, inventory, this.world);
 
         if (this.currentRecipe.isPresent()) {
             ItemStack result = this.currentRecipe.get().getCraftingResult(matrix);
-            //ItemStack result = recipe.get().getCraftingResult(inventory);
             this.outputSlot.putStack(result);
         }
         else {

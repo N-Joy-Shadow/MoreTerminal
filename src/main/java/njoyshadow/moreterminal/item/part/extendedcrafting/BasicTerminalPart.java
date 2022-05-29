@@ -53,7 +53,7 @@ public class BasicTerminalPart extends AbstractTerminalPart {
 
     @Override
     public void readFromNBT(final CompoundNBT data) {
-        System.out.println(data);
+        super.readFromNBT(data);
         this.craftingGrid.readFromNBT(data, "basic_crafting_grid");
     }
 
