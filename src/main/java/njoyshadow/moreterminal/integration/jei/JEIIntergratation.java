@@ -21,7 +21,7 @@ import static njoyshadow.moreterminal.Moreterminal.MOD_ID;
 
 @JeiPlugin
 public class JEIIntergratation implements IModPlugin {
-    private static final ResourceLocation ID = new ResourceLocation("appliedenergistics", "core");
+    private static final ResourceLocation ID = new ResourceLocation("moreterminal", "core");
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -29,7 +29,7 @@ public class JEIIntergratation implements IModPlugin {
     }
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-
+        System.out.println(String.format("MoreTerminal : %s",ID));
         // Allow Extended Crafting recipe transfer from JEI to Extended Crafting terminal
         registration.addRecipeTransferHandler(
             new BasicCraftingRecipeTransferHandler(BasicCraftingTerminalContainer.class, registration.getTransferHelper(),3),

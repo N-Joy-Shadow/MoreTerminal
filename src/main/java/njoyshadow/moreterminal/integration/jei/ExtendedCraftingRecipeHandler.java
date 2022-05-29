@@ -21,6 +21,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import njoyshadow.moreterminal.integration.AppEng.sync.JEIExtendedRecipePacket;
+import njoyshadow.moreterminal.integration.AppEng.sync.MTNetworkHandler;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -65,7 +66,7 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                     IRecipeTransferError error = this.doTransferRecipe(container, irecipe, recipeLayout, player, maxTransfer);
                     if (doTransfer && this.canTransfer(error)) {
                         if (canSendReference) {
-                            NetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
+                            MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
                             //NetworkHandler.instance().sendToServer(new JEIRecipePacket(recipeId, this.isCrafting()));
                         } else {
                             NonNullList<Ingredient> flatIngredients = NonNullList.withSize(Gridsize*Gridsize, Ingredient.EMPTY);
@@ -85,7 +86,7 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
 
 
 
-                                            NetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(fallbackRecipe, this.isCrafting(),Gridsize));
+                                            MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(fallbackRecipe, this.isCrafting(),Gridsize));
                                             //NetworkHandler.instance().sendToServer(new JEIRecipePacket(fallbackRecipe, this.isCrafting()));
                                             return error;
                                         }

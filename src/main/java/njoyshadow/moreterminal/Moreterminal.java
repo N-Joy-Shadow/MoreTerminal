@@ -10,6 +10,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
 import njoyshadow.moreterminal.client.ScreenRegistration;
+import njoyshadow.moreterminal.integration.AppEng.sync.MTNetworkHandler;
 import njoyshadow.moreterminal.utils.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,6 +65,9 @@ public class Moreterminal {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
+        MTCreativeTab.init();
+        MTNetworkHandler.init(new ResourceLocation(MOD_ID, "main"));
+
         MTDefinitions definitions = MTApi.INSTANCE.definitions();
         //definitions.getRegistry().getBootstrapComponents(IInitComponent.class)
         //        .forEachRemaining(IInitComponent::initialize);
@@ -75,7 +80,6 @@ public class Moreterminal {
 
     private void setup(final FMLCommonSetupEvent event) {
         // some preinit code
-        MTCreativeTab.init();
         LOGGER.info("AE >> {}", MTApi.instance().definitions().parts().basicCraftingTerminal().item().getRegistryName());
 
     }

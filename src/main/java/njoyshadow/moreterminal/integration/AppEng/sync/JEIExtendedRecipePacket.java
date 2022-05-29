@@ -17,6 +17,7 @@ import appeng.container.me.items.PatternTermContainer;
 import appeng.core.Api;
 import appeng.core.sync.BasePacket;
 import appeng.core.sync.network.INetworkInfo;
+import appeng.core.sync.packets.JEIRecipePacket;
 import appeng.helpers.IContainerCraftingPacket;
 import appeng.items.storage.ViewCellItem;
 import appeng.me.Grid;
@@ -55,7 +56,7 @@ import java.util.stream.Stream;
 import njoyshadow.moreterminal.integration.ExtendedCrafting.ITableRecipeSerializer;
 
 
-public class JEIExtendedRecipePacket extends BasePacket {
+public class JEIExtendedRecipePacket extends MTBasePacket {
     private static final int INLINE_RECIPE_NONE = 1;
     private static final int INLINE_RECIPE_SHAPED = 2;
     //TODO Replace recipeId to not crash thing
@@ -65,6 +66,7 @@ public class JEIExtendedRecipePacket extends BasePacket {
     private boolean crafting;
     private int GridSize = 5;
     public JEIExtendedRecipePacket(PacketBuffer stream) {
+        System.out.println(String.format("PacketID : %s",this.getPacketID()));
         this.crafting = stream.readBoolean();
         String id = stream.readString(32767);
         this.recipeId = new ResourceLocation(id);
@@ -90,7 +92,7 @@ public class JEIExtendedRecipePacket extends BasePacket {
     }
 
     public JEIExtendedRecipePacket(ShapedTableRecipe recipe, boolean crafting,int GridSize) {
-        System.out.println(this.getPacketID());
+        System.out.println(JEIRecipePacket.class);
         PacketBuffer data = this.createCommonHeader(recipe.getId(), crafting, 2);
         //ITableRecipeSerializer.CRAFTING_SHAPED.write(data,recipe);
 
@@ -103,7 +105,10 @@ public class JEIExtendedRecipePacket extends BasePacket {
 
     private PacketBuffer createCommonHeader(ResourceLocation recipeId, boolean crafting, int inlineRecipeType) {
 
+
         PacketBuffer data = new PacketBuffer(Unpooled.buffer());
+        System.out.println(String.format("MoreTerminal : %s",this.getPacketID()));
+        //Fake PacketID
         data.writeInt(this.getPacketID());
         data.writeBoolean(crafting);
         data.writeResourceLocation(recipeId);
