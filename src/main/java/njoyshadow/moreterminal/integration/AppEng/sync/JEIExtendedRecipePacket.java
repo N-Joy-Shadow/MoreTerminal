@@ -53,8 +53,6 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import njoyshadow.moreterminal.integration.ExtendedCrafting.ITableRecipeSerializer;
-
 
 public class JEIExtendedRecipePacket extends MTBasePacket {
     private static final int INLINE_RECIPE_NONE = 1;
@@ -64,7 +62,9 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     @Nullable
     private IRecipe<?> recipe;
     private boolean crafting;
-    private int GridSize = 5;
+
+    //TODO FIX me GridSize Relative
+    private int GridSize =81;
     public JEIExtendedRecipePacket(PacketBuffer stream) {
         System.out.println(String.format("PacketID : %s",this.getPacketID()));
         this.crafting = stream.readBoolean();
@@ -73,6 +73,8 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         int inlineRecipeType = stream.readVarInt();
         switch(inlineRecipeType) {
             case 2:
+                System.out.println(String.format("case : %s",2));
+
                 //this.recipe = IRecipeSerializer.CRAFTING_SHAPED.read(this.recipeId, stream);
                 //this.recipe = ITableRecipeSerializer.CRAFTING_SHAPED.read(this.recipeId,stream);
 
@@ -91,14 +93,16 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         this.GridSize = GridSize;
     }
 
-    public JEIExtendedRecipePacket(ShapedTableRecipe recipe, boolean crafting,int GridSize) {
+    public JEIExtendedRecipePacket(ShapedRecipe recipe, boolean crafting,int GridSize) {
         System.out.println(JEIRecipePacket.class);
         PacketBuffer data = this.createCommonHeader(recipe.getId(), crafting, 2);
         //ITableRecipeSerializer.CRAFTING_SHAPED.write(data,recipe);
 
+        System.out.println(String.format("write : %s",recipe.getRecipeOutput()));
 
         //Todo Fix this
-        //ShapedTableRecipe.Serializer.CRAFTING_SHAPED.write(data,recipe);
+        ShapedTableRecipe.Serializer.CRAFTING_SHAPED.write(data,recipe);
+        //IRecipeSerializer.CRAFTING_SHAPED.write(data,recipe);
         this.configureWrite(data);
         this.GridSize = GridSize;
     }
@@ -120,20 +124,30 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         ServerPlayerEntity pmp = (ServerPlayerEntity)player;
         Container con = pmp.openContainer;
         Preconditions.checkArgument(con instanceof IContainerCraftingPacket);
-        ShapedTableRecipe recipe = (ShapedTableRecipe) player.getEntityWorld().getRecipeManager().getRecipe(this.recipeId).orElse(null);
+        IRecipe<?> recipe = (IRecipe<?>) player.getEntityWorld().getRecipeManager().getRecipe(this.recipeId).orElse(null);
         if (recipe == null && this.recipe != null) {
             recipe = (ShapedTableRecipe) this.recipe;
         }
 
         Preconditions.checkArgument(recipe != null);
+        System.out.println(String.format("Network Step %s",1));
+
         IContainerCraftingPacket cct = (IContainerCraftingPacket)con;
         IGridNode node = cct.getNetworkNode();
         Preconditions.checkArgument(node != null);
+        System.out.println(String.format("Network  Step %s",2));
+
         IGrid grid = node.getGrid();
         Preconditions.checkArgument(grid != null);
+
+        System.out.println(String.format("Network  Step %s",3));
         IStorageGrid inv = (IStorageGrid)grid.getCache(IStorageGrid.class);
+
+        System.out.println(String.format("Network  Step %s",4));
         Preconditions.checkArgument(inv != null);
         ISecurityGrid security = (ISecurityGrid)grid.getCache(ISecurityGrid.class);
+
+        System.out.println(String.format("Network  Step %s",5));
         Preconditions.checkArgument(security != null);
         IEnergyGrid energy = (IEnergyGrid)grid.getCache(IEnergyGrid.class);
         ICraftingGrid crafting = (ICraftingGrid)grid.getCache(ICraftingGrid.class);
@@ -141,7 +155,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         IItemHandler playerInventory = cct.getInventoryByName("player");
         IMEMonitor<IAEItemStack> storage = inv.getInventory(Api.instance().storage().getStorageChannel(IItemStorageChannel.class));
         IPartitionList<IAEItemStack> filter = ViewCellItem.createFilter(cct.getViewCells());
-        NonNullList<Ingredient> ingredients = this.ensure3by3CraftingMatrix(recipe, GridSize);
+        NonNullList<Ingredient> ingredients = this.ensure3by3CraftingMatrix(recipe);
 
         for(int x = 0; x < craftMatrix.getSlots(); ++x) {
             ItemStack currentItem = craftMatrix.getStackInSlot(x);
@@ -209,7 +223,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     }
 
     //TODO integrate gridsize
-    private NonNullList<Ingredient> ensure3by3CraftingMatrix(IRecipe<?> recipe,int GridSize) {
+    private NonNullList<Ingredient> ensure3by3CraftingMatrix(IRecipe<?> recipe) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
         System.out.println(ingredients);
         System.out.println("CHECK");

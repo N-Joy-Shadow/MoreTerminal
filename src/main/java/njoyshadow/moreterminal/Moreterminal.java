@@ -50,6 +50,8 @@ public class Moreterminal {
 
 
     public Moreterminal() {
+        MTCreativeTab.init();
+
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
@@ -65,8 +67,7 @@ public class Moreterminal {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        MTCreativeTab.init();
-        MTNetworkHandler.init(new ResourceLocation(MOD_ID, "main"));
+        MTNetworkHandler.init(new ResourceLocation("moreterminal", "main"));
 
         MTDefinitions definitions = MTApi.INSTANCE.definitions();
         //definitions.getRegistry().getBootstrapComponents(IInitComponent.class)

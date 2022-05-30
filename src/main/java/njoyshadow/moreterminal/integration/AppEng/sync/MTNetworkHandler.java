@@ -1,8 +1,6 @@
 package njoyshadow.moreterminal.integration.AppEng.sync;
 
-import appeng.core.sync.BasePacket;
 import appeng.core.sync.network.IPacketHandler;
-import appeng.core.sync.network.ServerPacketHandler;
 import appeng.core.sync.network.TargetPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -20,8 +18,8 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.event.EventNetworkChannel;
-import njoyshadow.moreterminal.network.MTClientPacketHandler;
-import njoyshadow.moreterminal.network.MTServerPacketHandler;
+import njoyshadow.moreterminal.integration.AppEng.sync.Packet.MTClientPacketHandler;
+import njoyshadow.moreterminal.integration.AppEng.sync.Packet.MTServerPacketHandler;
 
 public class MTNetworkHandler{
     private static MTNetworkHandler instance;

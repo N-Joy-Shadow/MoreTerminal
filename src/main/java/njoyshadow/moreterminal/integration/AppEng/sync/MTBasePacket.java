@@ -3,15 +3,13 @@ package njoyshadow.moreterminal.integration.AppEng.sync;
 import appeng.api.features.AEFeature;
 import appeng.core.AEConfig;
 import appeng.core.AELog;
-import appeng.core.sync.BasePacket;
-import appeng.core.sync.BasePacketHandler;
 import appeng.core.sync.network.INetworkInfo;
 import appeng.core.sync.network.NetworkHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
-import njoyshadow.moreterminal.network.MTBasePacketHandler;
+import njoyshadow.moreterminal.integration.AppEng.sync.Packet.MTBasePacketHandler;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class MTBasePacket {
@@ -46,7 +44,7 @@ public class MTBasePacket {
                 AELog.info(this.getClass().getName() + " : " + this.p.readableBytes(), new Object[0]);
             }
 
-            return direction.buildPacket(Pair.of(this.p, 0), NetworkHandler.instance().getChannel()).getThis();
+            return direction.buildPacket(Pair.of(this.p, 0), MTNetworkHandler.instance().getChannel()).getThis();
         }
     }
 }

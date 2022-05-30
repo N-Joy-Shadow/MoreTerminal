@@ -1,7 +1,5 @@
-package njoyshadow.moreterminal.network;
+package njoyshadow.moreterminal.integration.AppEng.sync.Packet;
 
-import appeng.core.sync.BasePacket;
-import appeng.core.sync.BasePacketHandler;
 import net.minecraft.network.PacketBuffer;
 import njoyshadow.moreterminal.integration.AppEng.sync.JEIExtendedRecipePacket;
 import njoyshadow.moreterminal.integration.AppEng.sync.MTBasePacket;

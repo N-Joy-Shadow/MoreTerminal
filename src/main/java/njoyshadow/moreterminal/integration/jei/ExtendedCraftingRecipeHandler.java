@@ -5,12 +5,14 @@ import appeng.core.sync.packets.JEIRecipePacket;
 import appeng.helpers.IContainerCraftingPacket;
 import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.crafting.recipe.ShapedTableRecipe;
+import com.blakebr0.extendedcrafting.crafting.recipe.ShapelessTableRecipe;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.ingredient.IGuiIngredient;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -46,16 +48,27 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
         } else {
             ITableRecipe irecipe = (ITableRecipe) recipe;
             ResourceLocation recipeId = irecipe.getId();
-            System.out.println(recipeId);
-            System.out.println(player.getEntityWorld().getRecipeManager().getRecipe(recipeId).get());
+
+            System.out.println(String.format("Step %s",1));
+            System.out.println(String.format("Item Tier %s",irecipe.getTier()));
+            System.out.println(String.format("Item Tier %s",irecipe.getId()));
+
             if (recipeId == null) {
                 return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.missing_id"));
             } else {
+
+                System.out.println(String.format("Step %s",2));
+
                 boolean canSendReference = true;
-                if (!player.getEntityWorld().getRecipeManager().getRecipe(recipeId).isPresent()) {
-                    if (!(recipe instanceof ShapedRecipe) && !(recipe instanceof ShapelessRecipe)) {
+                boolean isPresentRecipe = player.getEntityWorld().getRecipeManager().getRecipe(recipeId).isPresent();
+
+                System.out.println(String.format("isPresentRecipe : %s", isPresentRecipe));
+
+                if (!isPresentRecipe) {
+                    if (!(recipe instanceof ShapedTableRecipe) && !(recipe instanceof ShapelessTableRecipe)) {
                         return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.missing_id"));
                     }
+                    System.out.println(String.format("Step %s",2.5));
 
                     canSendReference = false;
                 }
@@ -63,8 +76,16 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                 if (!irecipe.canFit(Gridsize, Gridsize)) {
                     return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.recipe_too_large"));
                 } else {
+
+                    System.out.println(String.format("Step %s",3));
+
                     IRecipeTransferError error = this.doTransferRecipe(container, irecipe, recipeLayout, player, maxTransfer);
                     if (doTransfer && this.canTransfer(error)) {
+
+                        System.out.println(String.format("Step %s",4));
+                        System.out.println(String.format("canSendReference %b",canSendReference));
+                        System.out.println(String.format("this.isCrafting %b",this.isCrafting()));
+
                         if (canSendReference) {
                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
                             //NetworkHandler.instance().sendToServer(new JEIRecipePacket(recipeId, this.isCrafting()));
@@ -76,13 +97,16 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                             }).mapToInt(Map.Entry::getKey).min().orElse(0);
                             Iterator var14 = recipeLayout.getItemStacks().getGuiIngredients().entrySet().iterator();
 
+                            System.out.println(String.format("Step %s",5));
+
                             while(true) {
                                 while(true) {
                                     Map.Entry entry;
                                     IGuiIngredient item;
                                     do {
                                         if (!var14.hasNext()) {
-                                            ShapedTableRecipe fallbackRecipe = new ShapedTableRecipe(recipeId, Gridsize, Gridsize, flatIngredients, output);
+                                            ShapedRecipe fallbackRecipe = new ShapedRecipe(recipeId,"", Gridsize, Gridsize, flatIngredients, output);
+                                            //ShapedTableRecipe fallbackRecipe = new ShapedTableRecipe(recipeId, Gridsize, Gridsize, flatIngredients, output);
 
 
 
