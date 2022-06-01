@@ -64,20 +64,14 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     private boolean crafting;
 
     //TODO FIX me GridSize Relative
-    private int GridSize =81;
+    private int GridSize =9;
     public JEIExtendedRecipePacket(PacketBuffer stream) {
-        System.out.println(String.format("PacketID : %s",this.getPacketID()));
         this.crafting = stream.readBoolean();
         String id = stream.readString(32767);
         this.recipeId = new ResourceLocation(id);
         int inlineRecipeType = stream.readVarInt();
         switch(inlineRecipeType) {
             case 2:
-                System.out.println(String.format("case : %s",2));
-
-                //this.recipe = IRecipeSerializer.CRAFTING_SHAPED.read(this.recipeId, stream);
-                //this.recipe = ITableRecipeSerializer.CRAFTING_SHAPED.read(this.recipeId,stream);
-
                 this.recipe = ShapedTableRecipe.Serializer.CRAFTING_SHAPED.read(this.recipeId,stream);
             case 1:
                 return;
@@ -96,13 +90,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     public JEIExtendedRecipePacket(ShapedRecipe recipe, boolean crafting,int GridSize) {
         System.out.println(JEIRecipePacket.class);
         PacketBuffer data = this.createCommonHeader(recipe.getId(), crafting, 2);
-        //ITableRecipeSerializer.CRAFTING_SHAPED.write(data,recipe);
-
-        System.out.println(String.format("write : %s",recipe.getRecipeOutput()));
-
-        //Todo Fix this
         ShapedTableRecipe.Serializer.CRAFTING_SHAPED.write(data,recipe);
-        //IRecipeSerializer.CRAFTING_SHAPED.write(data,recipe);
         this.configureWrite(data);
         this.GridSize = GridSize;
     }
@@ -130,24 +118,19 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         }
 
         Preconditions.checkArgument(recipe != null);
-        System.out.println(String.format("Network Step %s",1));
 
         IContainerCraftingPacket cct = (IContainerCraftingPacket)con;
         IGridNode node = cct.getNetworkNode();
         Preconditions.checkArgument(node != null);
-        System.out.println(String.format("Network  Step %s",2));
 
         IGrid grid = node.getGrid();
         Preconditions.checkArgument(grid != null);
 
-        System.out.println(String.format("Network  Step %s",3));
         IStorageGrid inv = (IStorageGrid)grid.getCache(IStorageGrid.class);
 
-        System.out.println(String.format("Network  Step %s",4));
         Preconditions.checkArgument(inv != null);
         ISecurityGrid security = (ISecurityGrid)grid.getCache(ISecurityGrid.class);
 
-        System.out.println(String.format("Network  Step %s",5));
         Preconditions.checkArgument(security != null);
         IEnergyGrid energy = (IEnergyGrid)grid.getCache(IEnergyGrid.class);
         ICraftingGrid crafting = (ICraftingGrid)grid.getCache(ICraftingGrid.class);
@@ -225,15 +208,13 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     //TODO integrate gridsize
     private NonNullList<Ingredient> ensure3by3CraftingMatrix(IRecipe<?> recipe) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
-        System.out.println(ingredients);
-        System.out.println("CHECK");
         NonNullList<Ingredient> expandedIngredients = NonNullList.withSize(GridSize*GridSize, Ingredient.EMPTY);
-        //Preconditions.checkArgument(ingredients.size() <= GridSize * GridSize);
+        Preconditions.checkArgument(ingredients.size() <= GridSize * GridSize);
         if (recipe instanceof ShapedTableRecipe) {
             ShapedTableRecipe shapedRecipe = (ShapedTableRecipe) recipe;
             int width = shapedRecipe.getWidth();
             int height = shapedRecipe.getHeight();
-            //Preconditions.checkArgument(width <= GridSize && height <= GridSize);
+            Preconditions.checkArgument(width <= GridSize && height <= GridSize);
 
             for(int h = 0; h < height; ++h) {
                 for(int w = 0; w < width; ++w) {

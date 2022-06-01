@@ -49,26 +49,19 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
             ITableRecipe irecipe = (ITableRecipe) recipe;
             ResourceLocation recipeId = irecipe.getId();
 
-            System.out.println(String.format("Step %s",1));
-            System.out.println(String.format("Item Tier %s",irecipe.getTier()));
-            System.out.println(String.format("Item Tier %s",irecipe.getId()));
 
             if (recipeId == null) {
                 return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.missing_id"));
             } else {
 
-                System.out.println(String.format("Step %s",2));
-
                 boolean canSendReference = true;
                 boolean isPresentRecipe = player.getEntityWorld().getRecipeManager().getRecipe(recipeId).isPresent();
 
-                System.out.println(String.format("isPresentRecipe : %s", isPresentRecipe));
 
                 if (!isPresentRecipe) {
                     if (!(recipe instanceof ShapedTableRecipe) && !(recipe instanceof ShapelessTableRecipe)) {
                         return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.missing_id"));
                     }
-                    System.out.println(String.format("Step %s",2.5));
 
                     canSendReference = false;
                 }
@@ -77,14 +70,9 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                     return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.recipe_too_large"));
                 } else {
 
-                    System.out.println(String.format("Step %s",3));
 
                     IRecipeTransferError error = this.doTransferRecipe(container, irecipe, recipeLayout, player, maxTransfer);
                     if (doTransfer && this.canTransfer(error)) {
-
-                        System.out.println(String.format("Step %s",4));
-                        System.out.println(String.format("canSendReference %b",canSendReference));
-                        System.out.println(String.format("this.isCrafting %b",this.isCrafting()));
 
                         if (canSendReference) {
                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
@@ -97,7 +85,6 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                             }).mapToInt(Map.Entry::getKey).min().orElse(0);
                             Iterator var14 = recipeLayout.getItemStacks().getGuiIngredients().entrySet().iterator();
 
-                            System.out.println(String.format("Step %s",5));
 
                             while(true) {
                                 while(true) {

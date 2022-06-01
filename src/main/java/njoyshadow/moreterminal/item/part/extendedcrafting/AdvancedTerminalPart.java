@@ -2,6 +2,7 @@ package njoyshadow.moreterminal.item.part.extendedcrafting;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.parts.IPartModel;
+import appeng.api.util.AEColor;
 import appeng.core.AppEng;
 import appeng.items.parts.PartModels;
 import appeng.parts.PartModel;
@@ -19,14 +20,18 @@ import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalC
 
 import java.util.List;
 
+import static njoyshadow.moreterminal.Moreterminal.MOD_ID;
+
 public class AdvancedTerminalPart extends AbstractTerminalPart {
     @PartModels
     //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
+//    public static final ResourceLocation MODEL_OFF = new ResourceLocation(MOD_ID, "part/extendedcrafting/advanced_crafting_terminal_off");
     public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
+
     @PartModels
     //public static final ResourceLocation MODEL_ON = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_on");
+    //public static final ResourceLocation MODEL_ON = new ResourceLocation(MOD_ID, "part/extendedcrafting/advanced_crafting_terminal_on");
     public static final ResourceLocation MODEL_ON = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_on");
-
     public static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
     public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
     public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_HAS_CHANNEL);
@@ -40,7 +45,6 @@ public class AdvancedTerminalPart extends AbstractTerminalPart {
     @Override
     public void getDrops(final List<ItemStack> drops, final boolean wrenched) {
         super.getDrops(drops, wrenched);
-
         for (final ItemStack is : this.craftingGrid) {
             if (!is.isEmpty()) {
                 drops.add(is);

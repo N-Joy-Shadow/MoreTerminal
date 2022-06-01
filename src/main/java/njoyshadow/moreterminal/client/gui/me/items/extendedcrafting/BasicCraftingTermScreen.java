@@ -11,13 +11,15 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.text.ITextComponent;
+import njoyshadow.moreterminal.client.gui.me.items.MTItemTerminalScreen;
+import njoyshadow.moreterminal.client.gui.me.style.MTScreenStyle;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
 
 import javax.annotation.Nullable;
 
-public class BasicCraftingTermScreen extends ItemTerminalScreen<BasicCraftingTerminalContainer> {
+public class BasicCraftingTermScreen extends MTItemTerminalScreen<BasicCraftingTerminalContainer> {
 
-    public BasicCraftingTermScreen(BasicCraftingTerminalContainer container, PlayerInventory playerInventory, ITextComponent title, ScreenStyle style) {
+    public BasicCraftingTermScreen(BasicCraftingTerminalContainer container, PlayerInventory playerInventory, ITextComponent title, MTScreenStyle style) {
         super(container, playerInventory, title, style);
 
     }

@@ -1,11 +1,17 @@
 package njoyshadow.moreterminal.utils;
 
+import appeng.api.util.AEColor;
 import appeng.bootstrap.components.IBlockRegistrationComponent;
 import appeng.bootstrap.components.IItemRegistrationComponent;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -19,7 +25,25 @@ import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalC
 import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
 
 public class MTRegisteration {
+    @OnlyIn(Dist.CLIENT)
+    public static void registerModels(ModelRegistryEvent event){
+        final MTDefinitions definitions = MTApi.INSTANCE.definitions();
+        IItemColor terminalItemColor = new TerminalItemColor();
 
+        MTApi.instance().definitions().parts().AdvanedCraftingTerminal().maybeItem().ifPresent(item -> {
+            Minecraft.getInstance().getItemColors().register(terminalItemColor, item.asItem());
+        });
+
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class TerminalItemColor implements IItemColor {
+        @Override
+        public int getColor(ItemStack stack, int tintIndex) {
+            return AEColor.TRANSPARENT.getVariantByTintIndex(tintIndex);
+        }
+    }
     public static void registerItems(RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 

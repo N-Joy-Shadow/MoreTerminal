@@ -12,10 +12,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.text.ITextComponent;
+import njoyshadow.moreterminal.client.gui.me.items.MTBaseScreen;
 import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.AdvancedCraftingTermScreen;
 import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.BasicCraftingTermScreen;
 import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.EliteCraftingTermScreen;
 import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.UltimateCraftingTermScreen;
+import njoyshadow.moreterminal.client.gui.me.style.MTScreenStyle;
+import njoyshadow.moreterminal.client.gui.me.style.MTStyleManager;
 import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
@@ -30,19 +33,19 @@ public class ScreenRegistration {
     static final Map<ContainerType<?>, String> CONTAINER_STYLES = new IdentityHashMap<>();
 
     public static void register() {
-        register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
-        register(AdvancedCraftingTerminalContainer.TYPE, AdvancedCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
-        register(EliteCraftingTerminalContainer.TYPE, EliteCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
-        register(UltimateCraftingTerminalContainer.TYPE, UltimateCraftingTermScreen::new,"/screens/terminals/crafting_terminal.json");
+        register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/basic_crafting_terminal.json");
+        register(AdvancedCraftingTerminalContainer.TYPE, AdvancedCraftingTermScreen::new,"/screens/crafting_terminal.json");
+        register(EliteCraftingTerminalContainer.TYPE, EliteCraftingTermScreen::new,"/screens/crafting_terminal.json");
+        register(UltimateCraftingTerminalContainer.TYPE, UltimateCraftingTermScreen::new,"/screens/crafting_terminal.json");
     }
-    private static <M extends AEBaseContainer, U extends AEBaseScreen<M>> void register(ContainerType<M> type,
+    private static <M extends AEBaseContainer, U extends MTBaseScreen<M>> void register(ContainerType<M> type,
                                                                                         StyledScreenFactory<M, U> factory,
                                                                                         String stylePath) {
         CONTAINER_STYLES.put(type, stylePath);
         ScreenManager.<M, U>registerFactory(type, (container, playerInv, title) -> {
-            ScreenStyle style;
+            MTScreenStyle style;
             try {
-                style = StyleManager.loadStyleDoc(stylePath);
+                style = MTStyleManager.loadStyleDoc(stylePath);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException("Failed to read Screen JSON file: " + stylePath + ": " + e.getMessage());
             } catch (Exception e) {
@@ -59,7 +62,7 @@ public class ScreenRegistration {
      */
     @FunctionalInterface
     public interface StyledScreenFactory<T extends Container, U extends Screen & IHasContainer<T>> {
-        U create(T t, PlayerInventory pi, ITextComponent title, ScreenStyle style);
+        U create(T t, PlayerInventory pi, ITextComponent title, MTScreenStyle style);
     }
 
 }

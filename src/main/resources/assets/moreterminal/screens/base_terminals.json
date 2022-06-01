@@ -1,6 +1,6 @@
 {
   "$schema": "schema.json",
-  "includes": ["player_inv.json"],
+  "includes": ["common.json", "player_inv.json"],
   "terminalStyle": {
     "searchFieldRect": [80, 4, 90, 12],
     "slotsPerRow": 9,

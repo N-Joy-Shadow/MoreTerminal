@@ -7,6 +7,7 @@ import appeng.core.Api;
 import appeng.core.CreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
 import njoyshadow.moreterminal.client.ScreenRegistration;
+import njoyshadow.moreterminal.client.gui.me.style.MTStyleManager;
 import njoyshadow.moreterminal.integration.AppEng.sync.MTNetworkHandler;
 import njoyshadow.moreterminal.utils.*;
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +42,11 @@ import java.util.stream.Collectors;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("moreterminal")
 public class Moreterminal {
+
+    public static ResourceLocation MakeID(String Path){
+        return new ResourceLocation(MOD_ID,Path);
+    }
+
     //TODO : First Code Clean
     public static final String MOD_ID = "moreterminal";
     public static final String MOD_NAME = "More Terminal";
@@ -60,6 +67,13 @@ public class Moreterminal {
 
         modEventBus.addGenericListener(Item.class, MTRegisteration::registerItems);
         modEventBus.addGenericListener(ContainerType.class, MTRegisteration::registerContainerTypes);
+
+        Minecraft minecraft = Minecraft.getInstance();
+if(minecraft != null){
+        MTStyleManager.initialize(minecraft.getResourceManager());
+}
+
+
         modEventBus.addListener(this::commonSetup);
 
         registration = new MTRegisteration();
@@ -74,7 +88,7 @@ public class Moreterminal {
         //        .forEachRemaining(IInitComponent::initialize);
         //definitions.getRegistry().getBootstrapComponents(IPostInitComponent.class)
         //        .forEachRemaining(IPostInitComponent::postInitialize);
-
+        //MTRegisteration.registerModels(event);
         MTRegisteration.setupInternalRegistries();
         MTRegisteration.postInit();
     }
@@ -82,9 +96,7 @@ public class Moreterminal {
     private void setup(final FMLCommonSetupEvent event) {
         // some preinit code
         LOGGER.info("AE >> {}", MTApi.instance().definitions().parts().basicCraftingTerminal().item().getRegistryName());
-
     }
-
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent

@@ -43,7 +43,7 @@ public final class MTParts implements IMTParts {
                                                          Function<ItemStack, T> factory) {
         partModels.registerModels(PartModelsHelper.createModels(partClass));
 
-        return registry.item(id, props -> new PartItem<>(props, factory)).itemGroup(MTCreativeTab.INSTANCE)
+        return registry.item(id, props -> new MTPartItem<>(props, factory)).itemGroup(MTCreativeTab.INSTANCE)
                 .rendering(new PartItemRendering()).build();    }
 
 
