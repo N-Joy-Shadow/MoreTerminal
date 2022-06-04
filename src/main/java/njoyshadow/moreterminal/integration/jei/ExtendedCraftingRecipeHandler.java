@@ -96,7 +96,7 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                                             //ShapedTableRecipe fallbackRecipe = new ShapedTableRecipe(recipeId, Gridsize, Gridsize, flatIngredients, output);
 
 
-
+                                            System.out.println(Gridsize);
                                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(fallbackRecipe, this.isCrafting(),Gridsize));
                                             //NetworkHandler.instance().sendToServer(new JEIRecipePacket(fallbackRecipe, this.isCrafting()));
                                             return error;
