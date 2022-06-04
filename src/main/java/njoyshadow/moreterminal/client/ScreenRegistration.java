@@ -33,10 +33,10 @@ public class ScreenRegistration {
     static final Map<ContainerType<?>, String> CONTAINER_STYLES = new IdentityHashMap<>();
 
     public static void register() {
-        register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/basic_crafting_terminal.json");
-        register(AdvancedCraftingTerminalContainer.TYPE, AdvancedCraftingTermScreen::new,"/screens/crafting_terminal.json");
-        register(EliteCraftingTerminalContainer.TYPE, EliteCraftingTermScreen::new,"/screens/crafting_terminal.json");
-        register(UltimateCraftingTerminalContainer.TYPE, UltimateCraftingTermScreen::new,"/screens/crafting_terminal.json");
+        register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/extendedterminals/basic_crafting_terminal.json");
+        register(AdvancedCraftingTerminalContainer.TYPE, AdvancedCraftingTermScreen::new,"/screens/extendedterminals/advanced_crafting_terminal.json");
+        register(EliteCraftingTerminalContainer.TYPE, EliteCraftingTermScreen::new,"/screens/extendedterminals/elite_crafting_terminal.json");
+        register(UltimateCraftingTerminalContainer.TYPE, UltimateCraftingTermScreen::new,"/screens/extendedterminals/ultimate_crafting_terminal.json");
     }
     private static <M extends AEBaseContainer, U extends MTBaseScreen<M>> void register(ContainerType<M> type,
                                                                                         StyledScreenFactory<M, U> factory,

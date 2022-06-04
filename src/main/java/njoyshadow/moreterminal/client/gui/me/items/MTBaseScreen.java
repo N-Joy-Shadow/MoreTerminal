@@ -2,13 +2,11 @@ package njoyshadow.moreterminal.client.gui.me.items;
 
 import appeng.client.Point;
 import appeng.client.gui.*;
-import appeng.client.gui.layout.SlotGridLayout;
 import appeng.client.gui.style.SlotPosition;
 import appeng.client.gui.style.Text;
 import appeng.client.gui.widgets.CustomSlotWidget;
 import appeng.client.gui.widgets.ITickingWidget;
 import appeng.client.gui.widgets.ITooltip;
-import appeng.client.gui.widgets.VerticalButtonBar;
 import appeng.container.AEBaseContainer;
 import appeng.container.SlotSemantic;
 import appeng.container.slot.*;
@@ -43,15 +41,18 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 import njoyshadow.moreterminal.client.gui.me.style.MTScreenStyle;
+import njoyshadow.moreterminal.client.gui.me.style.grid.MTSlotGridLayout;
+import njoyshadow.moreterminal.client.gui.me.style.slot.MTSlotPosition;
 import njoyshadow.moreterminal.client.gui.widget.MTVerticalButtonBar;
 import njoyshadow.moreterminal.client.gui.widget.MTWidgetContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingTermSlot;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> {
+public abstract class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> {
     private static final Point HIDDEN_SLOT_POS = new Point(-9999, -9999);
     public static final String TEXT_ID_DIALOG_TITLE = "dialog_title";
     private final MTVerticalButtonBar verticalToolbar;
@@ -89,6 +90,7 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
 
     }
 
+    @Override
     @OverridingMethodsMustInvokeSuper
     protected void init() {
         super.init();
@@ -96,45 +98,36 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
         this.widgets.populateScreen(this::addButton, this.getBounds(true), this);
     }
 
+
     private void positionSlots(MTScreenStyle style) {
-        Iterator var2 = style.getSlots().entrySet().iterator();
+        for (Map.Entry<SlotSemantic, MTSlotPosition> entry : style.getSlots().entrySet()) {
+        // Do not position slots that are hidden
+        if (hiddenSlots.contains(entry.getKey())) {
+            continue;
+        }
 
-        while(true) {
-            Map.Entry entry;
-            List guiSlots;
-            do {
-                do {
-                    if (!var2.hasNext()) {
-                        return;
-                    }
+        List<Slot> slots = container.getSlots(entry.getKey());
+        for (int i = 0; i < slots.size(); i++) {
+            Slot slot = slots.get(i);
+            Point pos = getSlotPosition(entry.getValue(), i);
+            slot.xPos = pos.getX();
+            slot.yPos = pos.getY();
+        }
 
-                    entry = (Map.Entry)var2.next();
-                } while(this.hiddenSlots.contains(entry.getKey()));
-
-                List<Slot> slots = ((AEBaseContainer)this.container).getSlots((SlotSemantic)entry.getKey());
-
-                for(int i = 0; i < slots.size(); ++i) {
-                    Slot slot = (Slot)slots.get(i);
-                    Point pos = this.getSlotPosition((SlotPosition)entry.getValue(), i);
-                    //TODO FIX ME
-                    //slot.xPos = pos.getX();
-                    //slot.yPos = pos.getY();
-                }
-
-                guiSlots = this.guiSlotsBySemantic.get((SlotSemantic) entry.getKey());
-            } while(guiSlots == null);
-
-            for(int i = 0; i < guiSlots.size(); ++i) {
-                CustomSlotWidget guiSlot = (CustomSlotWidget)guiSlots.get(i);
-                Point pos = this.getSlotPosition((SlotPosition)entry.getValue(), i);
+        // Do the same for GUI-only slots, which are used in Fluid-related UIs that do not deal with normal slots
+        List<CustomSlotWidget> guiSlots = guiSlotsBySemantic.get(entry.getKey());
+        if (guiSlots != null) {
+            for (int i = 0; i < guiSlots.size(); i++) {
+                CustomSlotWidget guiSlot = guiSlots.get(i);
+                Point pos = getSlotPosition(entry.getValue(), i);
                 guiSlot.setPos(pos);
             }
-        }
-    }
+        }}}
 
-    private Point getSlotPosition(SlotPosition position, int semanticIndex) {
+    private Point getSlotPosition(MTSlotPosition position, int semanticIndex) {
         Point pos = position.resolve(this.getBounds(false));
-        SlotGridLayout grid = position.getGrid();
+        MTSlotGridLayout grid = position.getGrid();
+
         if (grid != null) {
             pos = grid.getPosition(pos.getX(), pos.getY(), semanticIndex);
         }
@@ -434,7 +427,21 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
                     NetworkHandler.instance().sendToServer(p);
                     return;
                 }
+                else if(slot instanceof ExtendedCraftingTermSlot){
+                    if (mouseButton == 6) {
+                        return; // prevent weird double clicks..
+                    }
+                    if (hasShiftDown()) {
+                        action = InventoryAction.CRAFT_SHIFT;
+                    } else {
+                        // Craft stack on right-click, craft single on left-click
+                        action = mouseButton == 1 ? InventoryAction.CRAFT_STACK : InventoryAction.CRAFT_ITEM;
+                    }
+                    p = new InventoryActionPacket(action, slotIdx, 0);
+                    NetworkHandler.instance().sendToServer(p);
 
+                    return;
+                }
                 if (slot != null && InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 32)) {
                     int slotNum = slot.slotNumber;
                     p = new InventoryActionPacket(InventoryAction.MOVE_REGION, slotNum, 0L);
@@ -550,7 +557,7 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
     protected ITextComponent getGuiDisplayName(ITextComponent in) {
         return this.title.getString().isEmpty() ? in : this.title;
     }
-
+    @Override
     protected void moveItems(MatrixStack matrices, Slot s) {
         if (s instanceof AppEngSlot) {
             try {
@@ -559,9 +566,7 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
                 AELog.warn("[AppEng] AE prevented crash while drawing slot: " + var4, new Object[0]);
             }
         } else {
-            //TODO FIX ME
-
-            //super.moveItems(matrices, s);
+            super.moveItems(matrices, s);
         }
 
     }
@@ -579,9 +584,7 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
         s.setRendering(true);
 
         try {
-            //TODO FIX ME
-
-            //super.moveItems(matrices, s);
+            super.moveItems(matrices,s);
         } finally {
             s.setRendering(false);
         }
@@ -641,13 +644,12 @@ public class MTBaseScreen<T extends AEBaseContainer> extends ContainerScreen<T> 
             Slot slot;
             if (this.hiddenSlots.add(semantic)) {
 
-                //TODO FIX ME
-                /*
+
                 for(Iterator var3 = ((AEBaseContainer)this.container).getSlots(semantic).iterator(); var3.hasNext();
                     slot.yPos = HIDDEN_SLOT_POS.getY()) {
                     slot = (Slot)var3.next();
-                    //slot.xPos = HIDDEN_SLOT_POS.getX();
-                }*/
+                    slot.xPos = HIDDEN_SLOT_POS.getX();
+                }
             }
         } else if (this.hiddenSlots.remove(semantic) && this.style != null) {
             this.positionSlots(this.style);

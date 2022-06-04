@@ -7,6 +7,7 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.Rectangle2d;
 import njoyshadow.moreterminal.api.client.gui.widget.IMTCompositeWidget;
+import njoyshadow.moreterminal.client.gui.me.items.MTBaseScreen;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -66,7 +67,7 @@ public class MTVerticalButtonBar implements IMTCompositeWidget {
 
     }
 
-    public void populateScreen(Consumer<Widget> addWidget, Rectangle2d bounds, AEBaseScreen<?> screen) {
+    public void populateScreen(Consumer<Widget> addWidget, Rectangle2d bounds, MTBaseScreen<?> screen) {
         this.screenOrigin = Point.fromTopLeft(bounds);
         this.buttons.forEach(addWidget);
     }

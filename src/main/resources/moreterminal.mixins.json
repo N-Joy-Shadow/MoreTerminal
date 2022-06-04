@@ -5,12 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "moreterminal.refmap.json",
   "mixins": [
-    "MixinAEBaseContainer",
-    "MixinAEBaseScreen"
-
+    "MixinAEBaseContainer"
   ],
   "client": [
-    "MixinAEBaseScreen"
   ],
   "injectors": {
     "defaultRequire": 1

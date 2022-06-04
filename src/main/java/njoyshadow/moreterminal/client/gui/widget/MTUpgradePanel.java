@@ -10,9 +10,11 @@ import appeng.container.slot.AppEngSlot;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.Rectangle2d;
+import net.minecraft.client.renderer.texture.Stitcher;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.text.ITextComponent;
 import njoyshadow.moreterminal.api.client.gui.widget.IMTCompositeWidget;
+import njoyshadow.moreterminal.client.gui.me.items.MTBaseScreen;
 import njoyshadow.moreterminal.client.gui.me.style.utils.MTBlitter;
 
 import javax.annotation.Nullable;
@@ -59,7 +61,7 @@ public class MTUpgradePanel implements IMTCompositeWidget {
         return new Rectangle2d(this.x, this.y, width, height);
     }
 
-    public void populateScreen(Consumer<Widget> addWidget, Rectangle2d bounds, AEBaseScreen<?> screen) {
+    public void populateScreen(Consumer<Widget> addWidget, Rectangle2d bounds, MTBaseScreen<?> screen) {
         this.screenOrigin = Point.fromTopLeft(bounds);
     }
 
@@ -69,10 +71,10 @@ public class MTUpgradePanel implements IMTCompositeWidget {
         Iterator var3 = this.slots.iterator();
 
         while(var3.hasNext()) {
-            Slot slot = (Slot)var3.next();
+            Slot slot = (Slot) var3.next();
             if (slot.isEnabled()) {
-                //slot.xPos = slotOriginX + 1;
-                //slot.yPos = slotOriginY + 1;
+                slot.xPos = slotOriginX + 1;
+                slot.yPos = slotOriginY + 1;
                 slotOriginY += 18;
             }
         }

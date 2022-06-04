@@ -25,17 +25,7 @@ import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalC
 import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
 
 public class MTRegisteration {
-    @OnlyIn(Dist.CLIENT)
-    public static void registerModels(ModelRegistryEvent event){
-        final MTDefinitions definitions = MTApi.INSTANCE.definitions();
-        IItemColor terminalItemColor = new TerminalItemColor();
 
-        MTApi.instance().definitions().parts().AdvanedCraftingTerminal().maybeItem().ifPresent(item -> {
-            Minecraft.getInstance().getItemColors().register(terminalItemColor, item.asItem());
-        });
-
-
-    }
 
     @OnlyIn(Dist.CLIENT)
     public static class TerminalItemColor implements IItemColor {

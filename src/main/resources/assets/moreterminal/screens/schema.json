@@ -299,6 +299,8 @@
                 "$comment": "Configures the slots with this semantic in a grid",
                 "enum": [
                   "IO_BUS_CONFIG",
+                  "BREAK_AFTER_5COLS",
+                  "BREAK_AFTER_7COLS",
                   "BREAK_AFTER_9COLS",
                   "BREAK_AFTER_2COLS",
                   "BREAK_AFTER_3COLS",

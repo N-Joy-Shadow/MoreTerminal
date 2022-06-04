@@ -123,10 +123,9 @@ public abstract class MTMonitorableScreen<T extends IAEStack<T>, C extends MEMon
             }
 
             if (this.style.isSortable()) {
-                //TODO FIX ME
 
                 //    this.sortByToggle = (SettingToggleButton)this.addToLeftToolbar(
-                //            new SettingToggleButton(Settings.SORT_BY, this.getSortBy(), Platform::isSortOrderAvailable, this::toggleServerSetting));
+                //           new SettingToggleButton(Settings.SORT_BY, this.getSortBy(), Platform::isSortOrderAvailable, this::toggleServerSetting));
             }
 
             if (this.style.isSupportsAutoCrafting()) {
