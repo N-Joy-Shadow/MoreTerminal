@@ -19,10 +19,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandler;
 import njoyshadow.moreterminal.Moreterminal;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.item.part.terminalPart.MTAbstractTerminalPart;
 
 import java.util.List;
 
 public class BasicTerminalPart extends AbstractTerminalPart {
+//public class BasicTerminalPart extends MTAbstractTerminalPart {
     @PartModels
     //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
     public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
@@ -76,7 +78,6 @@ public class BasicTerminalPart extends AbstractTerminalPart {
     @Override
     public IItemHandler getInventoryByName(final String name) {
         if (name.equals("crafting")) {
-            //return this.craftingGrid;
             return this.craftingGrid;
         }
         return super.getInventoryByName(name);

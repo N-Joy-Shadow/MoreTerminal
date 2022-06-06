@@ -29,7 +29,6 @@ public class JEIIntergratation implements IModPlugin {
     }
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        System.out.println(String.format("MoreTerminal : %s",ID));
         // Allow Extended Crafting recipe transfer from JEI to Extended Crafting terminal
         registration.addRecipeTransferHandler(
             new BasicCraftingRecipeTransferHandler(BasicCraftingTerminalContainer.class, registration.getTransferHelper(),3),

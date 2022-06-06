@@ -15,22 +15,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandler;
+import njoyshadow.moreterminal.Moreterminal;
 import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.item.part.terminalPart.MTAbstractTerminalPart;
 
 import java.util.List;
 
 import static njoyshadow.moreterminal.Moreterminal.MOD_ID;
 
 public class AdvancedTerminalPart extends AbstractTerminalPart {
+//public class AdvancedTerminalPart extends MTAbstractTerminalPart {
     @PartModels
     //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
-//    public static final ResourceLocation MODEL_OFF = new ResourceLocation(MOD_ID, "part/extendedcrafting/advanced_crafting_terminal_off");
     public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
 
     @PartModels
     //public static final ResourceLocation MODEL_ON = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_on");
-    //public static final ResourceLocation MODEL_ON = new ResourceLocation(MOD_ID, "part/extendedcrafting/advanced_crafting_terminal_on");
     public static final ResourceLocation MODEL_ON = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_on");
     public static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
     public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);

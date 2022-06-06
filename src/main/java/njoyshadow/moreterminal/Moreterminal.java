@@ -19,6 +19,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -43,8 +44,8 @@ import java.util.stream.Collectors;
 @Mod("moreterminal")
 public class Moreterminal {
 
-    public static ResourceLocation MakeID(String Path){
-        return new ResourceLocation(MOD_ID,Path);
+    public static ResourceLocation MakeID(String Path) {
+        return new ResourceLocation(MOD_ID, Path);
     }
 
     //TODO : First Code Clean
@@ -69,14 +70,14 @@ public class Moreterminal {
         modEventBus.addGenericListener(ContainerType.class, MTRegisteration::registerContainerTypes);
 
         Minecraft minecraft = Minecraft.getInstance();
-if(minecraft != null){
-        MTStyleManager.initialize(minecraft.getResourceManager());
-}
-
+        if (minecraft != null) {
+            MTStyleManager.initialize(minecraft.getResourceManager());
+        }
+        registration = new MTRegisteration();
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> registration::registerClientEvents);
 
         modEventBus.addListener(this::commonSetup);
 
-        registration = new MTRegisteration();
 
     }
 
@@ -84,11 +85,6 @@ if(minecraft != null){
         MTNetworkHandler.init(new ResourceLocation("moreterminal", "main"));
 
         MTDefinitions definitions = MTApi.INSTANCE.definitions();
-        //definitions.getRegistry().getBootstrapComponents(IInitComponent.class)
-        //        .forEachRemaining(IInitComponent::initialize);
-        //definitions.getRegistry().getBootstrapComponents(IPostInitComponent.class)
-        //        .forEachRemaining(IPostInitComponent::postInitialize);
-        //MTRegisteration.registerModels(event);
         MTRegisteration.setupInternalRegistries();
         MTRegisteration.postInit();
     }

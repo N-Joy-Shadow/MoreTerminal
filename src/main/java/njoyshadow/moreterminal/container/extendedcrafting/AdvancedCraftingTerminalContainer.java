@@ -41,7 +41,6 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
             //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
-    //private final BasicCraftingSlot outputSlot;
     private final ExtendedCraftingTermSlot outputSlot;
     private final World world;
     private Optional<ITableRecipe> currentRecipe;

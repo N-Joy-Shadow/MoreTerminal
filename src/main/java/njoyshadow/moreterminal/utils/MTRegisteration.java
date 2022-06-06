@@ -3,19 +3,27 @@ package njoyshadow.moreterminal.utils;
 import appeng.api.util.AEColor;
 import appeng.bootstrap.components.IBlockRegistrationComponent;
 import appeng.bootstrap.components.IItemRegistrationComponent;
+import appeng.client.render.cablebus.CableBusModelLoader;
+import appeng.core.features.registries.PartModels;
+import appeng.parts.automation.PlaneModelLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
+import njoyshadow.moreterminal.Moreterminal;
 import njoyshadow.moreterminal.client.ScreenRegistration;
 import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
@@ -26,14 +34,14 @@ import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTermin
 
 public class MTRegisteration {
 
-
     @OnlyIn(Dist.CLIENT)
-    public static class TerminalItemColor implements IItemColor {
-        @Override
-        public int getColor(ItemStack stack, int tintIndex) {
-            return AEColor.TRANSPARENT.getVariantByTintIndex(tintIndex);
-        }
+    public void  registerModelsEvent(ModelRegistryEvent event){
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Moreterminal.MOD_ID, "cable_bus"),
+                new CableBusModelLoader((PartModels) MTApi.INSTANCE.registries().partModels()));
     }
+
+
+
     public static void registerItems(RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -71,5 +79,10 @@ public class MTRegisteration {
     }
 
     public static void postInit() {
+    }
+    @OnlyIn(Dist.CLIENT)
+    public  void registerClientEvents() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(this::registerModelsEvent);
     }
 }

@@ -19,8 +19,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public final class MTBlitter {
-    public static final int DEFAULT_TEXTURE_WIDTH = 256;
-    public static final int DEFAULT_TEXTURE_HEIGHT = 256;
+    public static final int DEFAULT_TEXTURE_WIDTH = 512;
+    public static final int DEFAULT_TEXTURE_HEIGHT = 512;
     private final ResourceLocation texture;
     private final int referenceWidth;
     private final int referenceHeight;
@@ -39,11 +39,11 @@ public final class MTBlitter {
     }
 
     public static MTBlitter texture(ResourceLocation file) {
-        return texture((ResourceLocation)file, 256, 256);
+        return texture((ResourceLocation)file, DEFAULT_TEXTURE_WIDTH, DEFAULT_TEXTURE_HEIGHT);
     }
 
     public static MTBlitter texture(String file) {
-        return texture((String)file, 256, 256);
+        return texture((String)file, DEFAULT_TEXTURE_WIDTH, DEFAULT_TEXTURE_HEIGHT);
     }
 
     public static MTBlitter texture(ResourceLocation file, int referenceWidth, int referenceHeight) {

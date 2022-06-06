@@ -253,11 +253,11 @@
         },
         "textureWidth": {
           "type": "integer",
-          "default": 256
+          "default": 512
         },
         "textureHeight": {
           "type": "integer",
-          "default": 256
+          "default": 512
         },
         "srcRect": {
           "$ref": "#/definitions/rect"

@@ -14,11 +14,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandler;
+import njoyshadow.moreterminal.Moreterminal;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.item.part.terminalPart.MTAbstractTerminalPart;
 
 import java.util.List;
 
+//public class EliteTerminalPart extends MTAbstractTerminalPart {
 public class EliteTerminalPart extends AbstractTerminalPart {
     @PartModels
     //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");

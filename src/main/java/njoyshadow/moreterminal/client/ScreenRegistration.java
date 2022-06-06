@@ -33,6 +33,7 @@ public class ScreenRegistration {
     static final Map<ContainerType<?>, String> CONTAINER_STYLES = new IdentityHashMap<>();
 
     public static void register() {
+        //extended Crafting
         register(BasicCraftingTerminalContainer.TYPE, BasicCraftingTermScreen::new,"/screens/extendedterminals/basic_crafting_terminal.json");
         register(AdvancedCraftingTerminalContainer.TYPE, AdvancedCraftingTermScreen::new,"/screens/extendedterminals/advanced_crafting_terminal.json");
         register(EliteCraftingTerminalContainer.TYPE, EliteCraftingTermScreen::new,"/screens/extendedterminals/elite_crafting_terminal.json");

@@ -3,16 +3,35 @@
   "includes": ["../item_terminal.json"],
   "slots": {
     "CRAFTING_GRID": {
-      "left": 0,
-      "bottom": 154,
+      "left": 14,
+      "bottom": 188,
       "grid": "BREAK_AFTER_5COLS"
     },
     "CRAFTING_RESULT": {
-      "left": 131,
-      "bottom": 136
+      "left": 142,
+      "bottom": 153
+    },
+    "PLAYER_INVENTORY": {
+      "left": 8,
+      "bottom": 82,
+      "grid": "BREAK_AFTER_9COLS"
+    },
+    "PLAYER_HOTBAR": {
+      "left": 8,
+      "bottom": 24,
+      "grid": "HORIZONTAL"
     }
   },
   "text": {
+    "player_inventory_title": {
+      "text": {
+        "translate": "container.inventory"
+      },
+      "position": {
+        "left": 8,
+        "bottom": 96
+      }
+    },
     "dialog_title": {
       "text": {
         "translate": "gui.moreterminal.Terminal"
@@ -28,36 +47,36 @@
       },
       "position": {
         "left": 8,
-        "bottom": 168
+        "bottom": 200
       }
     }
   },
   "terminalStyle": {
     "header": {
-      "texture": "guis/crafting.png",
+      "texture": "guis/advacned_crafting_terminal.png",
       "srcRect": [0, 0, 195, 17]
     },
     "firstRow": {
-      "texture": "guis/crafting.png",
+      "texture": "guis/advacned_crafting_terminal.png",
       "srcRect": [0, 17, 195, 18]
     },
     "row": {
-      "texture": "guis/crafting.png",
+      "texture": "guis/advacned_crafting_terminal.png",
       "srcRect": [0, 35, 195, 18]
     },
     "lastRow": {
-      "texture": "guis/crafting.png",
+      "texture": "guis/advacned_crafting_terminal.png",
       "srcRect": [0, 53, 195, 18]
     },
     "bottom": {
-      "texture": "guis/crafting.png",
-      "srcRect": [0, 71, 195, 170]
+      "texture": "guis/advacned_crafting_terminal.png",
+      "srcRect": [0, 71, 195, 203]
     }
   },
   "widgets": {
     "clearCraftingGrid": {
-      "left": 92,
-      "bottom": 156
+      "left": 106,
+      "bottom": 189
     }
   }
 }

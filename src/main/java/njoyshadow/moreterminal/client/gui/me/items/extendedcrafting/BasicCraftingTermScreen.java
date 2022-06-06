@@ -1,8 +1,10 @@
 package njoyshadow.moreterminal.client.gui.me.items.extendedcrafting;
 
+import appeng.api.config.ActionItems;
 import appeng.api.storage.ITerminalHost;
 import appeng.client.gui.me.items.ItemTerminalScreen;
 import appeng.client.gui.style.ScreenStyle;
+import appeng.client.gui.widgets.ActionButton;
 import appeng.container.me.items.ItemTerminalContainer;
 import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.InventoryActionPacket;
@@ -21,6 +23,10 @@ public class BasicCraftingTermScreen extends MTItemTerminalScreen<BasicCraftingT
 
     public BasicCraftingTermScreen(BasicCraftingTerminalContainer container, PlayerInventory playerInventory, ITextComponent title, MTScreenStyle style) {
         super(container, playerInventory, title, style);
-
+        ActionButton clearBtn = new ActionButton(ActionItems.STASH, (btn) -> {
+            container.clearCraftingGrid();
+        });
+        clearBtn.setHalfSize(true);
+        this.widgets.add("clearCraftingGrid", clearBtn);
     }
 }

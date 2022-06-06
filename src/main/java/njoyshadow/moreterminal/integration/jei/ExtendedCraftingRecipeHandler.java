@@ -49,35 +49,30 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
             ITableRecipe irecipe = (ITableRecipe) recipe;
             ResourceLocation recipeId = irecipe.getId();
 
-
             if (recipeId == null) {
                 return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.missing_id"));
             } else {
 
                 boolean canSendReference = true;
                 boolean isPresentRecipe = player.getEntityWorld().getRecipeManager().getRecipe(recipeId).isPresent();
-
-
                 if (!isPresentRecipe) {
                     if (!(recipe instanceof ShapedTableRecipe) && !(recipe instanceof ShapelessTableRecipe)) {
                         return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.missing_id"));
                     }
-
                     canSendReference = false;
                 }
-
                 if (!irecipe.canFit(Gridsize, Gridsize)) {
                     return this.helper.createUserErrorWithTooltip(new TranslationTextComponent("jei.appliedenergistics2.recipe_too_large"));
                 } else {
-
 
                     IRecipeTransferError error = this.doTransferRecipe(container, irecipe, recipeLayout, player, maxTransfer);
                     if (doTransfer && this.canTransfer(error)) {
 
                         if (canSendReference) {
                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
-                            //NetworkHandler.instance().sendToServer(new JEIRecipePacket(recipeId, this.isCrafting()));
+                            System.out.println("canSendReference");
                         } else {
+                            System.out.println(5.1);
                             NonNullList<Ingredient> flatIngredients = NonNullList.withSize(Gridsize*Gridsize, Ingredient.EMPTY);
                             ItemStack output = ItemStack.EMPTY;
                             int firstInputSlot = recipeLayout.getItemStacks().getGuiIngredients().entrySet().stream().filter((e) -> {
@@ -93,12 +88,8 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                                     do {
                                         if (!var14.hasNext()) {
                                             ShapedRecipe fallbackRecipe = new ShapedRecipe(recipeId,"", Gridsize, Gridsize, flatIngredients, output);
-                                            //ShapedTableRecipe fallbackRecipe = new ShapedTableRecipe(recipeId, Gridsize, Gridsize, flatIngredients, output);
 
-
-                                            System.out.println(Gridsize);
                                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(fallbackRecipe, this.isCrafting(),Gridsize));
-                                            //NetworkHandler.instance().sendToServer(new JEIRecipePacket(fallbackRecipe, this.isCrafting()));
                                             return error;
                                         }
 

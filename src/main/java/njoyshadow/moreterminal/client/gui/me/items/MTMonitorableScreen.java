@@ -124,8 +124,9 @@ public abstract class MTMonitorableScreen<T extends IAEStack<T>, C extends MEMon
 
             if (this.style.isSortable()) {
 
-                //    this.sortByToggle = (SettingToggleButton)this.addToLeftToolbar(
-                //           new SettingToggleButton(Settings.SORT_BY, this.getSortBy(), Platform::isSortOrderAvailable, this::toggleServerSetting));
+
+                    this.sortByToggle = this.addToLeftToolbar(
+                           new SettingToggleButton<>(Settings.SORT_BY, this.getSortBy(), MTPlatform::isSortOrderAvailable, this::toggleServerSetting));
             }
 
             if (this.style.isSupportsAutoCrafting()) {
@@ -135,9 +136,8 @@ public abstract class MTMonitorableScreen<T extends IAEStack<T>, C extends MEMon
             this.addToLeftToolbar(this.sortDirToggle = new SettingToggleButton(Settings.SORT_DIRECTION, this.getSortDir(), this::toggleServerSetting));
             SearchBoxMode searchMode = AEConfig.instance().getTerminalSearchMode();
 
-            //TODO FIX ME
-            //this.addToLeftToolbar(
-            //        new SettingToggleButton(Settings.SEARCH_MODE, searchMode, Platform::isSearchModeAvailable, this::toggleTerminalSearchMode));
+            this.addToLeftToolbar(
+                    new SettingToggleButton<>(Settings.SEARCH_MODE, searchMode, MTPlatform::isSearchModeAvailable, this::toggleTerminalSearchMode));
             if (this.style.getMaxRows() == null) {
                 TerminalStyle terminalStyle = AEConfig.instance().getTerminalStyle();
                 this.addToLeftToolbar(new SettingToggleButton(Settings.TERMINAL_STYLE, terminalStyle, this::toggleTerminalStyle));

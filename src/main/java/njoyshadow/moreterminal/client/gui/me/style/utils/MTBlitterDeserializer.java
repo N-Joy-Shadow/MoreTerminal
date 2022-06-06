@@ -18,8 +18,8 @@ public enum MTBlitterDeserializer implements JsonDeserializer<MTBlitter>{
     } else {
         JsonObject root = json.getAsJsonObject();
         String texture = JSONUtils.getString(root, "texture");
-        int textureWidth = JSONUtils.getInt(root, "textureWidth", 256);
-        int textureHeight = JSONUtils.getInt(root, "textureHeight", 256);
+        int textureWidth = JSONUtils.getInt(root, "textureWidth", 512);
+        int textureHeight = JSONUtils.getInt(root, "textureHeight", 512);
 
 
         MTBlitter blitter;

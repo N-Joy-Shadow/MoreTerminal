@@ -19,8 +19,8 @@ public class MTScrollbar implements IScrollSource, IMTCompositeWidget {
     private static final int HANDLE_WIDTH = 12;
     private static final int HANDLE_HEIGHT = 15;
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tabs.png");
-    private static final MTBlitter ENABLED;
-    private static final MTBlitter DISABLED;
+    private static final Blitter ENABLED;
+    private static final Blitter DISABLED;
     private int displayX = 0;
     private int displayY = 0;
     private int width = 12;
@@ -42,7 +42,7 @@ public class MTScrollbar implements IScrollSource, IMTCompositeWidget {
 
     public void drawForegroundLayer(MatrixStack matrices, int zIndex, Rectangle2d bounds, Point mouse) {
         int yOffset;
-        MTBlitter image;
+        Blitter image;
         if (this.getRange() == 0) {
             yOffset = 0;
             image = DISABLED;
@@ -189,7 +189,7 @@ public class MTScrollbar implements IScrollSource, IMTCompositeWidget {
     }
 
     static {
-        ENABLED = MTBlitter.texture(TEXTURE).src(232, 0, 12, 15);
-        DISABLED = MTBlitter.texture(TEXTURE).src(244, 0, 12, 15);
+        ENABLED = Blitter.texture(TEXTURE).src(232, 0, 12, 15);
+        DISABLED = Blitter.texture(TEXTURE).src(244, 0, 12, 15);
     }
 }

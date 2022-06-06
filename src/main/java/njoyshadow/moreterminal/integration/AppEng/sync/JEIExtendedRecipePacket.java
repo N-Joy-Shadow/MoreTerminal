@@ -74,8 +74,6 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         int[] intData = stream.readVarIntArray();
         int inlineRecipeType = intData[0];
         this.GridSize = intData[1];
-        System.out.println(String.format("GridSize : %s | Variable : %s",this.GridSize,intData[1]));
-        System.out.printf("First : %s | Second : %s%n",intData[0],intData[1]);
         switch (inlineRecipeType) {
             case INLINE_RECIPE_SHAPED:
                 this.recipe = ShapedTableRecipe.Serializer.CRAFTING_SHAPED.read(this.recipeId, stream);
@@ -87,24 +85,22 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     }
 
     public JEIExtendedRecipePacket(ResourceLocation recipeId, boolean crafting, int GridSize) {
-
         this.GridSize = GridSize;
-        PacketBuffer data = this.createCommonHeader(recipeId, crafting, INLINE_RECIPE_NONE);
+        PacketBuffer data = this.createCommonHeader(recipeId, crafting, INLINE_RECIPE_NONE, GridSize);
         this.configureWrite(data);
     }
 
     public JEIExtendedRecipePacket(ShapedRecipe recipe, boolean crafting, int GridSize) {
         this.GridSize = GridSize;
-        PacketBuffer data = this.createCommonHeader(recipe.getId(), crafting, INLINE_RECIPE_SHAPED);
+        PacketBuffer data = this.createCommonHeader(recipe.getId(), crafting, INLINE_RECIPE_SHAPED, GridSize);
         ShapedTableRecipe.Serializer.CRAFTING_SHAPED.write(data, recipe);
         this.configureWrite(data);
     }
 
-    private PacketBuffer createCommonHeader(ResourceLocation recipeId, boolean crafting, int inlineRecipeType) {
+    private PacketBuffer createCommonHeader(ResourceLocation recipeId, boolean crafting, int inlineRecipeType, int GridSize) {
 
-        System.out.println(String.format("GridSize : ",GridSize));
         PacketBuffer data = new PacketBuffer(Unpooled.buffer());
-        int IntData[] = {inlineRecipeType,GridSize};
+        int IntData[] = {inlineRecipeType, GridSize};
 
         data.writeInt(this.getPacketID());
         data.writeBoolean(crafting);
@@ -145,6 +141,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         IPartitionList<IAEItemStack> filter = ViewCellItem.createFilter(cct.getViewCells());
         NonNullList<Ingredient> ingredients = this.ensure3by3CraftingMatrix(recipe);
 
+
         for (int x = 0; x < craftMatrix.getSlots(); ++x) {
             ItemStack currentItem = craftMatrix.getStackInSlot(x);
             Ingredient ingredient = (Ingredient) ingredients.get(x);
@@ -176,7 +173,6 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
                         out = AEItemStack.fromItemStack(ingredient.getMatchingStacks()[0]);
                     }
                 }
-
                 if (out != null) {
                     currentItem = ((IAEItemStack) out).createItemStack();
                 }
@@ -199,14 +195,11 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
                     }
                 }
             }
-
             ItemHandlerUtil.setStackInSlot(craftMatrix, x, currentItem);
         }
-
         if (!this.crafting) {
             this.handleProcessing(con, cct, recipe);
         }
-
         con.onCraftMatrixChanged(new WrapperInvItemHandler(craftMatrix));
     }
 
@@ -214,6 +207,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     private NonNullList<Ingredient> ensure3by3CraftingMatrix(IRecipe<?> recipe) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
 
+        System.out.println(GridSize);
         NonNullList<Ingredient> expandedIngredients = NonNullList.withSize(GridSize * GridSize, Ingredient.EMPTY);
         Preconditions.checkArgument(ingredients.size() <= GridSize * GridSize);
         if (recipe instanceof ShapedTableRecipe) {
@@ -221,19 +215,13 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
             int width = shapedRecipe.getWidth();
             int height = shapedRecipe.getHeight();
 
-            System.out.println(String.format("width : %s , height : %s", width, height));
             Preconditions.checkArgument(width <= GridSize && height <= GridSize);
-            System.out.println(ingredients.size());
-            ;
-            //TODO FIX Me
-            int recipeHeight = DefineHeight(shapedRecipe, ingredients.size());
 
-            System.out.println(GridSize);
+
             for (int h = 0; h < height; ++h) {
                 for (int w = 0; w < width; ++w) {
                     int source = w + h * width;
                     int target = w + h * GridSize;
-                    //int target = w + h * 3;
                     Ingredient i = (Ingredient) ingredients.get(source);
                     expandedIngredients.set(target, i);
                 }
@@ -247,34 +235,6 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         return expandedIngredients;
     }
 
-    //TODO FIX Crafting Slot
-    private int DefineHeight(ShapedTableRecipe Recipe, int IngredientSize) {
-        int recipeTier = Recipe.getTier();
-        int result = 3;
-        if (recipeTier == 1) {
-            result = 3;
-        } else if (recipeTier == 2) {
-            result = 5;
-        } else if (recipeTier == 3) {
-            result = 7;
-        } else if (recipeTier == 4) {
-            if (Recipe.getWidth() > 8 && IngredientSize > 49) {
-                result = 9;
-
-            } else if(Recipe.getWidth() > 6 && IngredientSize > 25){
-                result = 7;
-            }
-            else if(Recipe.getWidth() > 4 && IngredientSize > 9){
-                result = 5;
-            }
-            else {
-                result =3;
-            }
-        }
-        System.out.println(String.format("Tier : %s", recipeTier));
-        System.out.println(String.format("Result Value : %s", result));
-        return result;
-    }
 
     private ItemStack canUseInSlot(Ingredient ingredient, ItemStack is) {
         return (ItemStack) Arrays.stream(ingredient.getMatchingStacks()).filter((p) -> {
