@@ -1,43 +1,26 @@
 package njoyshadow.moreterminal;
 
-import appeng.bootstrap.components.IInitComponent;
-import appeng.bootstrap.components.IItemRegistrationComponent;
-import appeng.bootstrap.components.IPostInitComponent;
-import appeng.core.Api;
-import appeng.core.CreativeTab;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.registries.IForgeRegistry;
-import njoyshadow.moreterminal.client.ScreenRegistration;
 import njoyshadow.moreterminal.client.gui.me.style.MTStyleManager;
 import njoyshadow.moreterminal.integration.AppEng.sync.MTNetworkHandler;
-import njoyshadow.moreterminal.utils.*;
+import njoyshadow.moreterminal.utils.MTApi;
+import njoyshadow.moreterminal.utils.MTCreativeTab;
+import njoyshadow.moreterminal.utils.MTDefinitions;
+import njoyshadow.moreterminal.utils.MTRegisteration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.stream.Collectors;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -58,7 +41,6 @@ public class Moreterminal {
 
 
     public Moreterminal() {
-        MTCreativeTab.init();
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -77,16 +59,19 @@ public class Moreterminal {
         DistExecutor.runWhenOn(Dist.CLIENT, () -> registration::registerClientEvents);
 
         modEventBus.addListener(this::commonSetup);
+        MTCreativeTab.init();
 
 
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
+
         MTNetworkHandler.init(new ResourceLocation("moreterminal", "main"));
 
         MTDefinitions definitions = MTApi.INSTANCE.definitions();
         MTRegisteration.setupInternalRegistries();
         MTRegisteration.postInit();
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {

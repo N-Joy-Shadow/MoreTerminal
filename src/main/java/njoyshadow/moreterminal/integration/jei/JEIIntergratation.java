@@ -17,8 +17,6 @@ import njoyshadow.moreterminal.integration.jei.extendedCrafting.BasicCraftingRec
 import njoyshadow.moreterminal.integration.jei.extendedCrafting.EliteCraftingRecipeTransferHandler;
 import njoyshadow.moreterminal.integration.jei.extendedCrafting.UltimateCraftingRecipeTransferHandler;
 
-import static njoyshadow.moreterminal.Moreterminal.MOD_ID;
-
 @JeiPlugin
 public class JEIIntergratation implements IModPlugin {
     private static final ResourceLocation ID = new ResourceLocation("moreterminal", "core");

@@ -126,6 +126,28 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    maven {
+        name "Modmaven"
+        url "https://modmaven.dev/"
+        // For Gradle 5.1 and above, limit it to just AE2
+        content {
+            includeGroup 'appeng'
+        }
+    }
+        maven {
+            url 'https://maven.blakesmods.com'
+        }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
@@ -141,12 +163,13 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.35'
 
-    implementation fg.deobf("libs:appliedenergistics2:8.4.7")
-    //compileOnly "appeng:appliedenergistics2:8.4.7:api"
-    implementation fg.deobf("libs:jei:1.16.5-7.7.1.152")
+    compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.152:api")
+    compileOnly "appeng:appliedenergistics2:8.4.7"
 
-    implementation fg.deobf("libs:TheOneProbe-1.16:3.1.7")
-    implementation fg.deobf("libs:CraftTweaker-1.16.5:7.1.2.510")
+    runtimeOnly fg.deobf("libs:jei:1.16.5-7.7.1.152")
+    runtimeOnly fg.deobf("libs:appliedenergistics2:8.4.7")
+    runtimeOnly fg.deobf("libs:TheOneProbe-1.16:3.1.7")
+    runtimeOnly fg.deobf("libs:CraftTweaker-1.16.5:7.1.2.510")
 
     implementation fg.deobf("libs:Cucumber:1.16.5-4.1.12")
     implementation fg.deobf("libs:ExtendedCrafting:1.16.5-3.1.11")

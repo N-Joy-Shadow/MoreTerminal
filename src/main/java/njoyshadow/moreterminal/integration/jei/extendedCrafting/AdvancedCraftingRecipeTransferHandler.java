@@ -2,7 +2,6 @@ package njoyshadow.moreterminal.integration.jei.extendedCrafting;
 
 import appeng.api.storage.data.IAEItemStack;
 import appeng.util.item.AEItemStack;
-import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.ingredient.IGuiIngredient;

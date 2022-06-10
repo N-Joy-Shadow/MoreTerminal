@@ -1,7 +1,5 @@
 package njoyshadow.moreterminal.integration.jei;
 
-import appeng.core.sync.network.NetworkHandler;
-import appeng.core.sync.packets.JEIRecipePacket;
 import appeng.helpers.IContainerCraftingPacket;
 import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.crafting.recipe.ShapedTableRecipe;
@@ -12,13 +10,11 @@ import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.item.crafting.ShapelessRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -72,7 +68,6 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
                             System.out.println("canSendReference");
                         } else {
-                            System.out.println(5.1);
                             NonNullList<Ingredient> flatIngredients = NonNullList.withSize(Gridsize*Gridsize, Ingredient.EMPTY);
                             ItemStack output = ItemStack.EMPTY;
                             int firstInputSlot = recipeLayout.getItemStacks().getGuiIngredients().entrySet().stream().filter((e) -> {

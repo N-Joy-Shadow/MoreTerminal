@@ -51,7 +51,9 @@ import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -67,7 +69,6 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     public int GridSize;
 
     public JEIExtendedRecipePacket(PacketBuffer stream) {
-
         this.crafting = stream.readBoolean();
         String id = stream.readString(32767);
         this.recipeId = new ResourceLocation(id);
@@ -98,10 +99,8 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
     }
 
     private PacketBuffer createCommonHeader(ResourceLocation recipeId, boolean crafting, int inlineRecipeType, int GridSize) {
-
         PacketBuffer data = new PacketBuffer(Unpooled.buffer());
         int IntData[] = {inlineRecipeType, GridSize};
-
         data.writeInt(this.getPacketID());
         data.writeBoolean(crafting);
         data.writeResourceLocation(recipeId);
@@ -180,13 +179,14 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
 
             if (currentItem.isEmpty()) {
                 ItemStack[] matchingStacks = ingredient.getMatchingStacks();
-                ItemStack[] var29 = matchingStacks;
-                int var31 = matchingStacks.length;
+                int machingStackSize = matchingStacks.length;
 
-                for (int var24 = 0; var24 < var31; ++var24) {
-                    ItemStack matchingStack = var29[var24];
+                for (int SizeNum = 0; SizeNum < machingStackSize; ++SizeNum) {
+                    ItemStack matchingStack = matchingStacks[SizeNum];
+                    System.out.println(matchingStack.getItem());
                     if (currentItem.isEmpty()) {
                         AdaptorItemHandler ad = new AdaptorItemHandler(playerInventory);
+
                         if (cct.useRealItems()) {
                             currentItem = ad.removeItems(1, matchingStack, (IInventoryDestination) null);
                         } else {
@@ -203,11 +203,10 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
         con.onCraftMatrixChanged(new WrapperInvItemHandler(craftMatrix));
     }
 
-    //TODO integrate gridsize
     private NonNullList<Ingredient> ensure3by3CraftingMatrix(IRecipe<?> recipe) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
 
-        System.out.println(GridSize);
+        System.out.println(String.format("GridSize : %s | Ingredients : %s",GridSize,ingredients.size()));
         NonNullList<Ingredient> expandedIngredients = NonNullList.withSize(GridSize * GridSize, Ingredient.EMPTY);
         Preconditions.checkArgument(ingredients.size() <= GridSize * GridSize);
         if (recipe instanceof ShapedTableRecipe) {
@@ -238,12 +237,16 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
 
     private ItemStack canUseInSlot(Ingredient ingredient, ItemStack is) {
         return (ItemStack) Arrays.stream(ingredient.getMatchingStacks()).filter((p) -> {
+            System.out.println(String.format("CanUseInSlot : %s",p));
             return p.isItemEqual(is);
         }).findFirst().orElse(ItemStack.EMPTY);
     }
 
     private IAEItemStack findBestMatchingItemStack(Ingredient ingredients, IPartitionList<IAEItemStack> filter, IMEMonitor<IAEItemStack> storage, IContainerCraftingPacket cct) {
         Stream<AEItemStack> stacks = Arrays.stream(ingredients.getMatchingStacks()).map(AEItemStack::fromItemStack).filter((r) -> {
+            if(r != null){
+                System.out.println(String.format("findbestMatchItemStack :  %s",r.getItem()));
+            }
             return r != null && (filter == null || filter.isListed(r));
         });
         return getMostStored(stacks, storage, cct);
@@ -251,6 +254,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
 
     private IAEItemStack findBestMatchingPattern(Ingredient ingredients, IPartitionList<IAEItemStack> filter, ICraftingGrid crafting, IMEMonitor<IAEItemStack> storage, IContainerCraftingPacket cct) {
         Stream<IAEItemStack> stacks = Arrays.stream(ingredients.getMatchingStacks()).map(AEItemStack::fromItemStack).filter((r) -> {
+            System.out.println(String.format("findBestMatchingPattern :  %s\n",r.getItem()));
             return r != null && (filter == null || filter.isListed(r));
         }).map((s) -> {
             return (IAEItemStack) s.setCraftable(!crafting.getCraftingFor(s, (ICraftingPatternDetails) null, 0, (World) null).isEmpty());
@@ -260,6 +264,7 @@ public class JEIExtendedRecipePacket extends MTBasePacket {
 
     private static IAEItemStack getMostStored(Stream<? extends IAEItemStack> stacks, IMEMonitor<IAEItemStack> storage, IContainerCraftingPacket cct) {
         return (IAEItemStack) stacks.map((s) -> {
+
             IAEItemStack stored = (IAEItemStack) storage.extractItems(s.copy().setStackSize(9223372036854775807L), Actionable.SIMULATE, cct.getActionSource());
             return Pair.of(s, stored != null ? stored.getStackSize() : 0L);
         }).min((left, right) -> {
