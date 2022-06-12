@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.container.extendedcrafting;
+package njoyshadow.moreterminal.menu.extendedcrafting;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.implementations.tiles.ISegmentedInventory;
@@ -27,18 +27,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
-import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingTermSlot;
-import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
+import njoyshadow.moreterminal.menu.extendedcrafting.slot.ExtendedCraftingTermSlot;
+import njoyshadow.moreterminal.menu.implementations.MTContainerTypeBulder;
 
 import java.util.Optional;
 
-public class UltimateCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
+public class EliteCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
 
 
-    public static final ContainerType<UltimateCraftingTerminalContainer> TYPE = MTContainerTypeBulder
-            .create(UltimateCraftingTerminalContainer::new, ITerminalHost.class)
+    public static final ContainerType<EliteCraftingTerminalContainer> TYPE = MTContainerTypeBulder
+            .create(EliteCraftingTerminalContainer::new, ITerminalHost.class)
             .requirePermission(SecurityPermissions.CRAFT)
-            .build("ultimatecraftingterm");
+            .build("elitecraftingterm");
             //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
@@ -46,11 +46,9 @@ public class UltimateCraftingTerminalContainer extends ItemTerminalContainer imp
     private final ExtendedCraftingTermSlot outputSlot;
     private final World world;
     private Optional<ITableRecipe> currentRecipe;
-
-    private final int GridSize =9;
-
+    private final int GridSize =7;
     private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[GridSize * GridSize];
-    public UltimateCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
+    public EliteCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
         super(TYPE, id, ip, host, false);
         this.craftingInventoryHost = (ISegmentedInventory) host;
         this.world = ip.player.world;
@@ -89,13 +87,17 @@ public class UltimateCraftingTerminalContainer extends ItemTerminalContainer imp
         IInventory matrix = new ExtendedCraftingInventory(cn, Inv, GridSize);
         int i;
         for (i = 0; i < GridSize * GridSize; i++) {
+            //inventory.setInventorySlotContents(i,this.craftingSlots[i].getStack());
             matrix.setInventorySlotContents(i,this.craftingSlots[i].getStack());
+            //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
         }
         //Extended Recipe
         this.currentRecipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
+        //Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, inventory, this.world);
 
         if (this.currentRecipe.isPresent()) {
             ItemStack result = this.currentRecipe.get().getCraftingResult(matrix);
+            //ItemStack result = recipe.get().getCraftingResult(inventory);
             this.outputSlot.putStack(result);
         }
         else {

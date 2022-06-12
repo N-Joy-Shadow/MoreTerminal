@@ -8,6 +8,7 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.ThreadQuickExitException;
 import net.minecraft.network.play.ServerPlayNetHandler;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,6 +19,8 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.event.EventNetworkChannel;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.event.EventNetworkChannel;
 import njoyshadow.moreterminal.integration.AppEng.sync.Packet.MTClientPacketHandler;
 import njoyshadow.moreterminal.integration.AppEng.sync.Packet.MTServerPacketHandler;
 

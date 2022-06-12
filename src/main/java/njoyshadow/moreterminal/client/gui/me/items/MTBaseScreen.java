@@ -2,7 +2,6 @@ package njoyshadow.moreterminal.client.gui.me.items;
 
 import appeng.client.Point;
 import appeng.client.gui.*;
-import appeng.client.gui.style.SlotPosition;
 import appeng.client.gui.style.Text;
 import appeng.client.gui.widgets.CustomSlotWidget;
 import appeng.client.gui.widgets.ITickingWidget;
@@ -45,7 +44,7 @@ import njoyshadow.moreterminal.client.gui.me.style.grid.MTSlotGridLayout;
 import njoyshadow.moreterminal.client.gui.me.style.slot.MTSlotPosition;
 import njoyshadow.moreterminal.client.gui.widget.MTVerticalButtonBar;
 import njoyshadow.moreterminal.client.gui.widget.MTWidgetContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingTermSlot;
+import njoyshadow.moreterminal.menu.extendedcrafting.slot.ExtendedCraftingTermSlot;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;

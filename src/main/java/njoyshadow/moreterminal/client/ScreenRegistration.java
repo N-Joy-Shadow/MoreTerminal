@@ -1,8 +1,6 @@
 package njoyshadow.moreterminal.client;
 
-import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.style.ScreenStyle;
-import appeng.client.gui.style.StyleManager;
 import appeng.container.AEBaseContainer;
 import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.client.gui.IHasContainer;
@@ -19,10 +17,10 @@ import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.EliteCraftin
 import njoyshadow.moreterminal.client.gui.me.items.extendedcrafting.UltimateCraftingTermScreen;
 import njoyshadow.moreterminal.client.gui.me.style.MTScreenStyle;
 import njoyshadow.moreterminal.client.gui.me.style.MTStyleManager;
-import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.AdvancedCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.UltimateCraftingTerminalContainer;
 
 import java.io.FileNotFoundException;
 import java.util.IdentityHashMap;

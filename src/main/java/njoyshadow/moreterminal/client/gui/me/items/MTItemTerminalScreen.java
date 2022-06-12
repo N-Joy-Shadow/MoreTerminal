@@ -27,7 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import njoyshadow.moreterminal.client.gui.me.style.MTScreenStyle;
 
-public class MTItemTerminalScreen<C extends MEMonitorableContainer<IAEItemStack>> extends MTMonitorableScreen<IAEItemStack, C> {
+public class MTItemTerminalScreen<C extends MEMenu<IAEItemStack>> extends MTMonitorableScreen<IAEItemStack, C> {
     public MTItemTerminalScreen(C container, PlayerInventory playerInventory, ITextComponent title, MTScreenStyle style) {
         super(container, playerInventory, title, style);
     }

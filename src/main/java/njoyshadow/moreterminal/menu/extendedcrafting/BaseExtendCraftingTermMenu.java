@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.container.extendedcrafting;
+package njoyshadow.moreterminal.menu.extendedcrafting;
 
 import appeng.api.storage.ITerminalHost;
 import appeng.container.me.items.ItemTerminalContainer;
@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraftforge.items.IItemHandler;
 
-public class ExtendCraftingBaseTerminal  extends ItemTerminalContainer implements IContainerCraftingPacket {
-    public ExtendCraftingBaseTerminal(int id, PlayerInventory ip, ITerminalHost monitorable) {
+public class BaseExtendCraftingTermMenu extends  implements IContainerCraftingPacket {
+    public BaseExtendCraftingTermMenu(int id, PlayerInventory ip, ITerminalHost monitorable) {
         super(id, ip, monitorable);
     }
 

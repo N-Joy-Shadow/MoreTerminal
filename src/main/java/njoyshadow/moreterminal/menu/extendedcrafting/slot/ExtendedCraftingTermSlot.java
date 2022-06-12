@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.container.extendedcrafting.slot;
+package njoyshadow.moreterminal.menu.extendedcrafting.slot;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.energy.IEnergySource;
@@ -31,10 +31,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
-import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.AdvancedCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.UltimateCraftingTerminalContainer;
 import njoyshadow.moreterminal.utils.MTPlatform;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.container.implementations;
+package njoyshadow.moreterminal.menu.implementations;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.features.IWirelessTermHandler;

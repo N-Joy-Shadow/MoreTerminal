@@ -1,17 +1,17 @@
 package njoyshadow.moreterminal.integration.jei;
 
-import com.blakebr0.extendedcrafting.compat.jei.table.AdvancedTableCategory;
-import com.blakebr0.extendedcrafting.compat.jei.table.BasicTableCategory;
-import com.blakebr0.extendedcrafting.compat.jei.table.EliteTableCategory;
-import com.blakebr0.extendedcrafting.compat.jei.table.UltimateTableCategory;
+import com.blakebr0.extendedcrafting.compat.jei.category.table.AdvancedTableCategory;
+import com.blakebr0.extendedcrafting.compat.jei.category.table.BasicTableCategory;
+import com.blakebr0.extendedcrafting.compat.jei.category.table.EliteTableCategory;
+import com.blakebr0.extendedcrafting.compat.jei.category.table.UltimateTableCategory;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
-import net.minecraft.util.ResourceLocation;
-import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
+import net.minecraft.resources.ResourceLocation;
+import njoyshadow.moreterminal.menu.extendedcrafting.AdvancedCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.UltimateCraftingTerminalContainer;
 import njoyshadow.moreterminal.integration.jei.extendedCrafting.AdvancedCraftingRecipeTransferHandler;
 import njoyshadow.moreterminal.integration.jei.extendedCrafting.BasicCraftingRecipeTransferHandler;
 import njoyshadow.moreterminal.integration.jei.extendedCrafting.EliteCraftingRecipeTransferHandler;

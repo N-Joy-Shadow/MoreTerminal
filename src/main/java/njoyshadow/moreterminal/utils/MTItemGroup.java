@@ -1,41 +1,35 @@
 package njoyshadow.moreterminal.utils;
 
-import appeng.api.definitions.IDefinitions;
-import appeng.api.definitions.IItemDefinition;
-import appeng.api.definitions.IParts;
-import appeng.core.Api;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import appeng.core.definitions.AEBlocks;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import njoyshadow.moreterminal.utils.definitions.MTItemDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MTItemGroup extends ItemGroup {
-    private final List<IItemDefinition> itemDefs = new ArrayList<>();
+public class MTItemGroup extends CreativeModeTab {
+    private final List<MTItemDefinition<?>> itemDefs;
 
-
-    public MTItemGroup(String label) {
+    public MTItemGroup(String label, List<MTItemDefinition<?>> itemDefs) {
         super(label);
+        this.itemDefs = itemDefs;
     }
-
-
 
     @Override
-    public ItemStack createIcon() {
-        IDefinitions definitions = Api.instance().definitions();
-        IParts parts = definitions.parts();
-        return parts.craftingTerminal().stack(1);
+    public ItemStack makeIcon() {
+        return AEBlocks.CONTROLLER.stack();
     }
 
-    public void add(IItemDefinition itemDef) {
+    public void add(MTItemDefinition<?> itemDef) {
         this.itemDefs.add(itemDef);
     }
 
     @Override
-    public void fill(NonNullList<ItemStack> items) {
-        for (IItemDefinition itemDef : this.itemDefs) {
-            itemDef.item().fillItemGroup(this, items);
+    public void fillItemList(NonNullList<ItemStack> items) {
+        for (MTItemDefinition<?> itemDef : this.itemDefs) {
+            itemDef.asItem().fillItemCategory(this, items);
         }
     }
 }

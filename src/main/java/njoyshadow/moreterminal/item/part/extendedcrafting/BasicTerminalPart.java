@@ -1,91 +1,11 @@
 package njoyshadow.moreterminal.item.part.extendedcrafting;
 
-import appeng.api.config.SecurityPermissions;
-import appeng.api.parts.IPartModel;
-import appeng.container.me.items.CraftingTermContainer;
-import appeng.container.me.items.ItemTerminalContainer;
-import appeng.core.AELog;
-import appeng.core.AppEng;
-import appeng.items.parts.PartModels;
-import appeng.parts.PartModel;
-import appeng.parts.reporting.AbstractTerminalPart;
-import appeng.tile.inventory.AppEngInternalInventory;
-import appeng.util.Platform;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.items.IItemHandler;
-import njoyshadow.moreterminal.Moreterminal;
-import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
-import njoyshadow.moreterminal.item.part.terminalPart.MTAbstractTerminalPart;
-
-import java.util.List;
-
-public class BasicTerminalPart extends AbstractTerminalPart {
-//public class BasicTerminalPart extends MTAbstractTerminalPart {
-    @PartModels
-    //public static final ResourceLocation MODEL_OFF = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_off");
-    public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
-    @PartModels
-    //public static final ResourceLocation MODEL_ON = new ResourceLocation(Moreterminal.MOD_ID, "part/crafting_terminal_on");
-    public static final ResourceLocation MODEL_ON = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_on");
-
-    public static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
-    public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
-    public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_HAS_CHANNEL);
-
-    private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 9);
-
-    public BasicTerminalPart(final ItemStack is) {
-        super(is);
-    }
-
-    @Override
-    public void getDrops(final List<ItemStack> drops, final boolean wrenched) {
-        super.getDrops(drops, wrenched);
-
-        for (final ItemStack is : this.craftingGrid) {
-            if (!is.isEmpty()) {
-                drops.add(is);
-            }
-        }
-    }
-
-    @Override
-    public void readFromNBT(final CompoundNBT data) {
-        super.readFromNBT(data);
-        this.craftingGrid.readFromNBT(data, "basic_crafting_grid");
-    }
-
-    @Override
-    public void writeToNBT(final CompoundNBT data) {
-        super.writeToNBT(data);
-        this.craftingGrid.writeToNBT(data, "basic_crafting_grid");
-    }
-
-    @Override
-    public ContainerType<?> getContainerType(final PlayerEntity p) {
-        if (Platform.checkPermissions(p, this, SecurityPermissions.CRAFT, false)) {
-            return BasicCraftingTerminalContainer.TYPE;
-        }
-        return BasicCraftingTerminalContainer.TYPE;
-    }
+import appeng.api.parts.IPartItem;
 
 
-    //todo fix
-    @Override
-    public IItemHandler getInventoryByName(final String name) {
-        if (name.equals("crafting")) {
-            return this.craftingGrid;
-        }
-        return super.getInventoryByName(name);
-    }
+public class BasicTerminalPart extends BaseExtendCraftingTermPart {
 
-    @Override
-    public IPartModel getStaticModels() {
-        return this.selectModel(MODELS_OFF, MODELS_ON, MODELS_HAS_CHANNEL);
+    public BasicTerminalPart(IPartItem<?> partItem) {
+        super(partItem, 3, "basic");
     }
 }
-

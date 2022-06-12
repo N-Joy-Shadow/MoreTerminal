@@ -695,8 +695,6 @@ public class MTPlatform{
             boolean a_isSecure = isPowered(a.getGrid()) && a.getLastSecurityKey() != -1L;
             boolean b_isSecure = isPowered(b.getGrid()) && b.getLastSecurityKey() != -1L;
             if (AEConfig.instance().isFeatureEnabled(AEFeature.LOG_SECURITY_AUDITS)) {
-                String locationA = a.getGridBlock().isWorldAccessible() ? a.getGridBlock().getLocation().toString() : "notInWorld";
-                String locationB = b.getGridBlock().isWorldAccessible() ? b.getGridBlock().getLocation().toString() : "notInWorld";
                 AELog.info("Audit: Node A [isSecure=%b, key=%d, playerID=%d, location={%s}] vs Node B[isSecure=%b, key=%d, playerID=%d, location={%s}]", new Object[]{a_isSecure, a.getLastSecurityKey(), a.getPlayerID(), locationA, b_isSecure, b.getLastSecurityKey(), b.getPlayerID(), locationB});
             }
 

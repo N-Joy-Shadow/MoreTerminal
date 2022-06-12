@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.container.extendedcrafting.slot;
+package njoyshadow.moreterminal.menu.extendedcrafting.slot;
 
 import appeng.container.slot.AppEngSlot;
 import appeng.util.helpers.ItemHandlerUtil;

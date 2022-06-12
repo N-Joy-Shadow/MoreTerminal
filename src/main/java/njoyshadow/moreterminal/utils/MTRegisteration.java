@@ -1,13 +1,10 @@
 package njoyshadow.moreterminal.utils;
 
-import appeng.api.util.AEColor;
 import appeng.bootstrap.components.IBlockRegistrationComponent;
 import appeng.bootstrap.components.IItemRegistrationComponent;
 import appeng.client.render.cablebus.CableBusModelLoader;
 import appeng.core.features.registries.PartModels;
-import appeng.parts.automation.PlaneModelLoader;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -25,12 +22,12 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.IForgeRegistry;
 import njoyshadow.moreterminal.Moreterminal;
 import njoyshadow.moreterminal.client.ScreenRegistration;
-import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.AdvancedCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.BasicCraftingTerminalContainer;
 
 import appeng.container.slot.AppEngSlot;
-import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
-import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.UltimateCraftingTerminalContainer;
 
 public class MTRegisteration {
 

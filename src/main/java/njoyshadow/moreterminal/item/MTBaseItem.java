@@ -1,15 +1,11 @@
 package njoyshadow.moreterminal.item;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import njoyshadow.moreterminal.Moreterminal;
-
-public class MTItemBase extends Item{
-
-    public MTItemBase(Properties properties) {
+public class MTBaseItem extends Item{
+    public MTBaseItem(Item.Properties properties) {
         super(properties.setNoRepair());
     }
-
 
     @Override
     public String toString() {
@@ -18,7 +14,8 @@ public class MTItemBase extends Item{
     }
 
     @Override
-    public boolean isBookEnchantable(final ItemStack itemstack1, final ItemStack itemStack2){
+    public boolean isBookEnchantable(final ItemStack itemstack1, final ItemStack itemstack2) {
         return false;
     }
+
 }

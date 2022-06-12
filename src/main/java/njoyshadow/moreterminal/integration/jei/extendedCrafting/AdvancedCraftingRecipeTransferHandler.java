@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.integration.jei.ExtendedCraftingRecipeHandler;
 
 import java.util.ArrayList;

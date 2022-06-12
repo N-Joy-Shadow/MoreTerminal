@@ -3,7 +3,6 @@ package njoyshadow.moreterminal.integration.jei.extendedCrafting;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.util.item.AEItemStack;
 
-import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.ingredient.IGuiIngredient;
@@ -14,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.menu.extendedcrafting.BasicCraftingTerminalContainer;
 import njoyshadow.moreterminal.integration.jei.ExtendedCraftingRecipeHandler;
 
 import java.util.ArrayList;

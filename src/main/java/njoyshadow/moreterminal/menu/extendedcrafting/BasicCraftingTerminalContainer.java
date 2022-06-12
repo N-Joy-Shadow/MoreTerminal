@@ -1,4 +1,4 @@
-package njoyshadow.moreterminal.container.extendedcrafting;
+package njoyshadow.moreterminal.menu.extendedcrafting;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.implementations.tiles.ISegmentedInventory;
@@ -27,18 +27,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
-import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingTermSlot;
-import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
+import njoyshadow.moreterminal.menu.extendedcrafting.slot.ExtendedCraftingTermSlot;
+import njoyshadow.moreterminal.menu.implementations.MTContainerTypeBulder;
+
 
 import java.util.Optional;
 
-public class EliteCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
+public class BasicCraftingTerminalContainer extends ItemTerminalContainer implements IContainerCraftingPacket {
 
 
-    public static final ContainerType<EliteCraftingTerminalContainer> TYPE = MTContainerTypeBulder
-            .create(EliteCraftingTerminalContainer::new, ITerminalHost.class)
+    public static final ContainerType<BasicCraftingTerminalContainer> TYPE = MTContainerTypeBulder
+            .create(BasicCraftingTerminalContainer::new, ITerminalHost.class)
             .requirePermission(SecurityPermissions.CRAFT)
-            .build("elitecraftingterm");
+            .build("basiccraftingterm");
             //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
@@ -46,9 +47,9 @@ public class EliteCraftingTerminalContainer extends ItemTerminalContainer implem
     private final ExtendedCraftingTermSlot outputSlot;
     private final World world;
     private Optional<ITableRecipe> currentRecipe;
-    private final int GridSize =7;
+    private final int GridSize =3;
     private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[GridSize * GridSize];
-    public EliteCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
+    public BasicCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
         super(TYPE, id, ip, host, false);
         this.craftingInventoryHost = (ISegmentedInventory) host;
         this.world = ip.player.world;
