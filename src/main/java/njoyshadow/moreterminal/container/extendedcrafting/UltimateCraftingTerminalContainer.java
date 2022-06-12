@@ -18,6 +18,7 @@ import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
 import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
 import com.google.common.base.Preconditions;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -88,17 +89,13 @@ public class UltimateCraftingTerminalContainer extends ItemTerminalContainer imp
         IInventory matrix = new ExtendedCraftingInventory(cn, Inv, GridSize);
         int i;
         for (i = 0; i < GridSize * GridSize; i++) {
-            //inventory.setInventorySlotContents(i,this.craftingSlots[i].getStack());
             matrix.setInventorySlotContents(i,this.craftingSlots[i].getStack());
-            //this.addSlot(this.craftingSlots[j] = new CraftingMatrixSlot(this, craftingGridInv, j),SlotSemantic.CRAFTING_GRID);
         }
         //Extended Recipe
         this.currentRecipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, matrix, this.world);
-        //Optional<ITableRecipe> recipe = this.world.getRecipeManager().getRecipe(RecipeTypes.TABLE, inventory, this.world);
 
         if (this.currentRecipe.isPresent()) {
             ItemStack result = this.currentRecipe.get().getCraftingResult(matrix);
-            //ItemStack result = recipe.get().getCraftingResult(inventory);
             this.outputSlot.putStack(result);
         }
         else {
@@ -106,6 +103,12 @@ public class UltimateCraftingTerminalContainer extends ItemTerminalContainer imp
         }
 
     }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
+    }
+
     public Optional<ITableRecipe> getCurrentRecipe() {    return this.currentRecipe; }
 
     @Override

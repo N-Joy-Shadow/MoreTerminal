@@ -18,6 +18,7 @@ import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
 import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
 import com.google.common.base.Preconditions;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -105,6 +106,12 @@ public class BasicCraftingTerminalContainer extends ItemTerminalContainer implem
         }
 
     }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
+    }
+
     public Optional<ITableRecipe> getCurrentRecipe() {    return this.currentRecipe; }
 
     @Override

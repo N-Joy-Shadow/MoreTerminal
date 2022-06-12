@@ -782,7 +782,7 @@ public class MTPlatform{
         }
     }
 
-    public static ItemStack extractItemsByRecipe(IEnergySource energySrc, IActionSource mySrc, IMEMonitor<IAEItemStack> src, World w, ITableRecipe r, ItemStack output, IInventory ci, ItemStack providedTemplate, int slot, IItemList<IAEItemStack> items, Actionable realForFake, IPartitionList<IAEItemStack> filter) {
+    public static ItemStack extractItemsByRecipe(IEnergySource energySrc, IActionSource mySrc, IMEMonitor<IAEItemStack> src, World w, ITableRecipe Recipe, ItemStack output, IInventory ci, ItemStack providedTemplate, int slot, IItemList<IAEItemStack> items, Actionable realForFake, IPartitionList<IAEItemStack> filter) {
         if (energySrc.extractAEPower(1.0D, Actionable.SIMULATE, PowerMultiplier.CONFIG) > 0.9D) {
             if (providedTemplate == null) {
                 return ItemStack.EMPTY;
@@ -822,7 +822,7 @@ public class MTPlatform{
                     ItemStack cp = sh.copy();
                     cp.setCount(1);
                     ci.setInventorySlotContents(slot, cp);
-                    if (r.matches(ci, w) && ItemStack.areItemsEqual(r.getCraftingResult(ci), output)) {
+                    if (Recipe.matches(ci, w) && ItemStack.areItemsEqual(Recipe.getCraftingResult(ci), output)) {
                         IAEItemStack ax = x.copy();
                         ax.setStackSize(1L);
                         if (filter == null || filter.isListed(ax)) {

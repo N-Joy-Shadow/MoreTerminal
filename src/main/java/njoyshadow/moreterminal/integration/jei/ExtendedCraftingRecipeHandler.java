@@ -63,10 +63,8 @@ public abstract class ExtendedCraftingRecipeHandler <T extends Container & ICont
 
                     IRecipeTransferError error = this.doTransferRecipe(container, irecipe, recipeLayout, player, maxTransfer);
                     if (doTransfer && this.canTransfer(error)) {
-
                         if (canSendReference) {
                             MTNetworkHandler.instance().sendToServer(new JEIExtendedRecipePacket(recipeId, this.isCrafting(),Gridsize));
-                            System.out.println("canSendReference");
                         } else {
                             NonNullList<Ingredient> flatIngredients = NonNullList.withSize(Gridsize*Gridsize, Ingredient.EMPTY);
                             ItemStack output = ItemStack.EMPTY;

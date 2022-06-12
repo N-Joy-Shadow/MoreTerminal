@@ -3,6 +3,7 @@ package njoyshadow.moreterminal.container.extendedcrafting;
 import appeng.api.storage.ITerminalHost;
 import appeng.container.me.items.ItemTerminalContainer;
 import appeng.helpers.IContainerCraftingPacket;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraftforge.items.IItemHandler;
 
@@ -19,5 +20,10 @@ public class ExtendCraftingBaseTerminal  extends ItemTerminalContainer implement
     @Override
     public boolean useRealItems() {
         return false;
+    }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
     }
 }

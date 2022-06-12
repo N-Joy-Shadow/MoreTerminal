@@ -31,7 +31,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
+import njoyshadow.moreterminal.container.extendedcrafting.AdvancedCraftingTerminalContainer;
 import njoyshadow.moreterminal.container.extendedcrafting.BasicCraftingTerminalContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.EliteCraftingTerminalContainer;
+import njoyshadow.moreterminal.container.extendedcrafting.UltimateCraftingTerminalContainer;
 import njoyshadow.moreterminal.utils.MTPlatform;
 
 import java.util.ArrayList;
@@ -46,12 +49,13 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
     private final IEnergySource energySrc;
     private final IStorageMonitorable storage;
     private final IContainerCraftingPacket container;
-    private int Gridsize =0;
+    private final int Gridsize;
+
     public ExtendedCraftingTermSlot(PlayerEntity player, IActionSource mySrc, IEnergySource energySrc,
                                     IStorageMonitorable storage, IItemHandler cMatrix, IItemHandler secondMatrix, IContainerCraftingPacket ccp,
                                     int GridSize, IInventory matrix) {
 
-        super(player, cMatrix,GridSize,matrix);
+        super(player, cMatrix, GridSize, matrix);
 
         this.energySrc = energySrc;
         this.storage = storage;
@@ -59,7 +63,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
         this.pattern = cMatrix;
         this.craftInv = secondMatrix;
         this.container = ccp;
-        this.Gridsize =GridSize;
+        this.Gridsize = GridSize;
     }
 
     public IItemHandler getCraftingMatrix() {
@@ -83,10 +87,10 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                 int maxTimesToCraft;
                 if (action == InventoryAction.CRAFT_SHIFT) {
                     ia = InventoryAdaptor.getAdaptor(who);
-                    maxTimesToCraft = (int)Math.floor((double)this.getStack().getMaxStackSize() / (double)howManyPerCraft);
+                    maxTimesToCraft = (int) Math.floor((double) this.getStack().getMaxStackSize() / (double) howManyPerCraft);
                 } else if (action == InventoryAction.CRAFT_STACK) {
                     ia = new AdaptorItemHandler(new WrapperCursorItemHandler(who.inventory));
-                    maxTimesToCraft = (int)Math.floor((double)this.getStack().getMaxStackSize() / (double)howManyPerCraft);
+                    maxTimesToCraft = (int) Math.floor((double) this.getStack().getMaxStackSize() / (double) howManyPerCraft);
                 } else {
                     ia = new AdaptorItemHandler(new WrapperCursorItemHandler(who.inventory));
                     maxTimesToCraft = 1;
@@ -96,14 +100,14 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                 if (ia != null) {
                     ItemStack rs = this.getStack().copy();
                     if (!rs.isEmpty()) {
-                        for(int x = 0; x < maxTimesToCraft; ++x) {
-                            if (((InventoryAdaptor)ia).simulateAdd(rs).isEmpty()) {
+                        for (int x = 0; x < maxTimesToCraft; ++x) {
+                            if (((InventoryAdaptor) ia).simulateAdd(rs).isEmpty()) {
                                 IItemList<IAEItemStack> all = inv.getStorageList();
-                                ItemStack extra = ((InventoryAdaptor)ia).addItems(this.craftItem(who, rs, inv, all));
+                                ItemStack extra = ((InventoryAdaptor) ia).addItems(this.craftItem(who, rs, inv, all));
                                 if (!extra.isEmpty()) {
                                     List<ItemStack> drops = new ArrayList();
                                     drops.add(extra);
-                                    Platform.spawnDrops(who.world, new BlockPos((int)who.getPosX(), (int)who.getPosY(), (int)who.getPosZ()), drops);
+                                    Platform.spawnDrops(who.world, new BlockPos((int) who.getPosX(), (int) who.getPosY(), (int) who.getPosZ()), drops);
                                     return;
                                 }
                             }
@@ -118,9 +122,27 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
     protected ITableRecipe findRecipe(IInventory ic, World world) {
 
         if (this.container instanceof BasicCraftingTerminalContainer) {
-            BasicCraftingTerminalContainer containerTerminal = (BasicCraftingTerminalContainer)this.container;
+            BasicCraftingTerminalContainer containerTerminal = (BasicCraftingTerminalContainer) this.container;
 
-            Optional<ITableRecipe> recipe = world.getRecipeManager().getRecipe(RecipeTypes.TABLE, ic, world);
+            Optional<ITableRecipe> recipe = containerTerminal.getCurrentRecipe();
+            if (recipe.isPresent()) {
+                return containerTerminal.getCurrentRecipe().get();
+            }
+        } else if (this.container instanceof AdvancedCraftingTerminalContainer) {
+            AdvancedCraftingTerminalContainer containerTerminal = (AdvancedCraftingTerminalContainer) this.container;
+            Optional<ITableRecipe> recipe = containerTerminal.getCurrentRecipe();
+            if (recipe.isPresent()) {
+                return containerTerminal.getCurrentRecipe().get();
+            }
+        } else if (this.container instanceof EliteCraftingTerminalContainer){
+            EliteCraftingTerminalContainer containerTerminal = (EliteCraftingTerminalContainer) this.container;
+            Optional<ITableRecipe> recipe = containerTerminal.getCurrentRecipe();
+            if (recipe.isPresent()) {
+                return containerTerminal.getCurrentRecipe().get();
+            }
+        } else if (this.container instanceof UltimateCraftingTerminalContainer){
+            UltimateCraftingTerminalContainer containerTerminal = (UltimateCraftingTerminalContainer) this.container;
+            Optional<ITableRecipe> recipe = containerTerminal.getCurrentRecipe();
             if (recipe.isPresent()) {
                 return containerTerminal.getCurrentRecipe().get();
             }
@@ -131,7 +153,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
 
     protected NonNullList<ItemStack> getRemainingItems(IInventory ic, World world) {
         if (this.container instanceof BasicCraftingTerminalContainer) {
-            BasicCraftingTerminalContainer containerTerminal = (BasicCraftingTerminalContainer)this.container;
+            BasicCraftingTerminalContainer containerTerminal = (BasicCraftingTerminalContainer) this.container;
             Optional<ITableRecipe> recipe = world.getRecipeManager().getRecipe(RecipeTypes.TABLE, ic, world);
             if (recipe != null && recipe.isPresent()) {
                 return containerTerminal.getCurrentRecipe().get().getRemainingItems(ic);
@@ -154,7 +176,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
             if (!world.isRemote()) {
                 BaseItemStackHandler Inv = new BaseItemStackHandler(Gridsize * Gridsize);
                 IInventory matrix = new ExtendedCraftingInventory(this.getContainer(), Inv, Gridsize);
-                for(int x = 0; x < Gridsize * Gridsize; ++x) {
+                for (int x = 0; x < Gridsize * Gridsize; ++x) {
                     matrix.setInventorySlotContents(x, this.getPattern().getStackInSlot(x));
                 }
 
@@ -164,7 +186,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                     if (target.isDamageable() && target.isRepairable(request)) {
                         boolean isBad = false;
 
-                        for(int x = 0; x < matrix.getSizeInventory(); ++x) {
+                        for (int x = 0; x < matrix.getSizeInventory(); ++x) {
                             ItemStack pis = matrix.getStackInSlot(x);
                             if (!pis.isEmpty() && pis.getItem() != target) {
                                 isBad = true;
@@ -182,7 +204,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
 
                 is = r.getCraftingResult(matrix);
                 if (inv != null) {
-                    for(int x = 0; x < this.getPattern().getSlots(); ++x) {
+                    for (int x = 0; x < this.getPattern().getSlots(); ++x) {
                         if (!this.getPattern().getStackInSlot(x).isEmpty()) {
                             set[x] = MTPlatform.extractItemsByRecipe(this.energySrc, this.mySrc, inv, world, r, is, matrix, this.getPattern().getStackInSlot(x), x, all, Actionable.MODULATE, ViewCellItem.createFilter(this.container.getViewCells()));
                             matrix.setInventorySlotContents(x, set[x]);
@@ -214,11 +236,11 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
     private void postCraft(PlayerEntity p, IMEMonitor<IAEItemStack> inv, ItemStack[] set, ItemStack result) {
         List<ItemStack> drops = new ArrayList();
         if (!p.getEntityWorld().isRemote()) {
-            for(int x = 0; x < this.craftInv.getSlots(); ++x) {
+            for (int x = 0; x < this.craftInv.getSlots(); ++x) {
                 if (this.craftInv.getStackInSlot(x).isEmpty()) {
                     ItemHandlerUtil.setStackInSlot(this.craftInv, x, set[x]);
                 } else if (!set[x].isEmpty()) {
-                    IAEItemStack fail = (IAEItemStack)inv.injectItems(AEItemStack.fromItemStack(set[x]), Actionable.MODULATE, this.mySrc);
+                    IAEItemStack fail = (IAEItemStack) inv.injectItems(AEItemStack.fromItemStack(set[x]), Actionable.MODULATE, this.mySrc);
                     if (fail != null) {
                         drops.add(fail.createItemStack());
                     }
@@ -227,7 +249,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
         }
 
         if (drops.size() > 0) {
-            Platform.spawnDrops(p.world, new BlockPos((int)p.getPosX(), (int)p.getPosY(), (int)p.getPosZ()), drops);
+            Platform.spawnDrops(p.world, new BlockPos((int) p.getPosX(), (int) p.getPosY(), (int) p.getPosZ()), drops);
         }
 
     }

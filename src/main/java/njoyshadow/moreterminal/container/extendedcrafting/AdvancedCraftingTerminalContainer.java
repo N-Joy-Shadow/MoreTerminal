@@ -5,6 +5,7 @@ import appeng.api.implementations.tiles.ISegmentedInventory;
 import appeng.api.storage.ITerminalHost;
 import appeng.container.ContainerNull;
 import appeng.container.SlotSemantic;
+import appeng.container.me.items.CraftingTermContainer;
 import appeng.container.me.items.ItemTerminalContainer;
 import appeng.container.slot.CraftingMatrixSlot;
 import appeng.core.sync.network.NetworkHandler;
@@ -14,10 +15,12 @@ import appeng.helpers.InventoryAction;
 import appeng.util.Platform;
 import appeng.util.inv.WrapperInvItemHandler;
 import com.blakebr0.cucumber.inventory.BaseItemStackHandler;
+import com.blakebr0.cucumber.inventory.slot.BaseItemStackHandlerSlot;
 import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
 import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
 import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
 import com.google.common.base.Preconditions;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -28,6 +31,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
 import njoyshadow.moreterminal.container.extendedcrafting.slot.ExtendedCraftingTermSlot;
 import njoyshadow.moreterminal.container.implementations.MTContainerTypeBulder;
+import njoyshadow.moreterminal.utils.MTPlatform;
 
 import java.util.Optional;
 
@@ -38,7 +42,6 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
             .create(AdvancedCraftingTerminalContainer::new, ITerminalHost.class)
             .requirePermission(SecurityPermissions.CRAFT)
             .build("advancedcraftingeterm");
-            //.build("basiccraftingterm");
 
     private final ISegmentedInventory craftingInventoryHost;
     private final ExtendedCraftingTermSlot outputSlot;
@@ -46,36 +49,33 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
     private Optional<ITableRecipe> currentRecipe;
     private final int GridSize =5;
     private final CraftingMatrixSlot[] craftingSlots = new CraftingMatrixSlot[GridSize * GridSize];
+    private final BaseItemStackHandler BaseInventory;
     public AdvancedCraftingTerminalContainer(int id, final PlayerInventory ip, final ITerminalHost host) {
         super(TYPE, id, ip, host, false);
         this.craftingInventoryHost = (ISegmentedInventory) host;
         this.world = ip.player.world;
 
+        //TODO I need to Integrate BaseItemInventory and craftingGridInv
+        //TODO and ExtenedCraftingInventory integrate CraftikngMatrixSlot
+        this.BaseInventory = new BaseItemStackHandler(GridSize * GridSize);
         final IItemHandler craftingGridInv = this.craftingInventoryHost.getInventoryByName("crafting");
 
-        BaseItemStackHandler Inv = new BaseItemStackHandler(GridSize * GridSize);
-
-        IInventory matrix = new ExtendedCraftingInventory(this, Inv, GridSize);
-        int i;
-        for (i = 0; i < GridSize * GridSize; i++) {
+        //TODO maybe not Compat
+        IInventory matrix = new ExtendedCraftingInventory(this, this.BaseInventory, GridSize);
+        for (int i = 0; i < GridSize * GridSize; i++) {
                 this.addSlot(this.craftingSlots[i] = new CraftingMatrixSlot(this, craftingGridInv,i),SlotSemantic.CRAFTING_GRID);
-
         }
         this.addSlot(this.outputSlot = new ExtendedCraftingTermSlot(this.getPlayerInventory().player, this.getActionSource(),
                 this.powerSource, host, craftingGridInv, craftingGridInv, this,GridSize,matrix), SlotSemantic.CRAFTING_RESULT);
         this.createPlayerInventorySlots(ip);
-
         this.onCraftMatrixChanged(new WrapperInvItemHandler(craftingGridInv));
-    }
 
+    }
     @Override
     public void onCraftMatrixChanged(IInventory inventory) {
-
-        BaseItemStackHandler Inv = new BaseItemStackHandler(GridSize*GridSize);
         ContainerNull cn = new ContainerNull();
-        IInventory matrix = new ExtendedCraftingInventory(cn, Inv, GridSize);
-        int i;
-        for (i = 0; i < GridSize * GridSize; i++) {
+        IInventory matrix = new ExtendedCraftingInventory(cn, this.BaseInventory, GridSize);
+        for (int i = 0; i < GridSize * GridSize; i++) {
             matrix.setInventorySlotContents(i,this.craftingSlots[i].getStack());
         }
         //Extended Recipe
@@ -90,6 +90,12 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
         }
 
     }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
+    }
+
     public Optional<ITableRecipe> getCurrentRecipe() {    return this.currentRecipe; }
 
     @Override
@@ -123,7 +129,7 @@ public class AdvancedCraftingTerminalContainer extends ItemTerminalContainer imp
         // already contains some of the needed items
         for (Slot slot : getSlots(SlotSemantic.CRAFTING_GRID)) {
             ItemStack stackInSlot = slot.getStack();
-            if (!stackInSlot.isEmpty() && Platform.itemComparisons().isSameItem(itemStack, stackInSlot)) {
+            if (!stackInSlot.isEmpty() && MTPlatform.itemComparisons().isSameItem(itemStack, stackInSlot)) {
                 if (itemStack.getCount() >= amount) {
                     return true;
                 }
