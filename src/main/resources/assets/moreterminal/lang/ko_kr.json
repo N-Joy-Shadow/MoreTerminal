@@ -1,0 +1,8 @@
+{
+  "gui.moreterminal.BasicCraftingTerminal" : "기본 조합 단말기",
+  "gui.moreterminal.AdvancedCraftingTerminal" : "고급 조합 단말기",
+  "gui.moreterminal.EliteCraftingTerminal" : "엘리트 조합 단말기",
+  "gui.moreterminal.UltimateCraftingTerminal" : "최고 조합 단말기",
+  "gui.moreterminal.Terminal" : "터미널",
+  "item.moreterminal.advanced_crafting_terminal" : "고급 조합 단말기"
+}

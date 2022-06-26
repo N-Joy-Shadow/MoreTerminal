@@ -1,0 +1,17 @@
+{
+  "includes": ["base_terminals.json"],
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.moreterminal.Terminal"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  },
+  "terminalStyle": {
+    "supportsAutoCrafting": true
+  }
+}

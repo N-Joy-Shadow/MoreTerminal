@@ -1,0 +1,9 @@
+{
+  "gui.moreterminal.BasicCraftingTerminal" : "Basic Crafting Terminal",
+  "gui.moreterminal.AdvancedCraftingTerminal" : "Advacned Crafting Terminal",
+  "gui.moreterminal.EliteCraftingTerminal" : "Elite Crafting Terminal",
+  "gui.moreterminal.UltimateCraftingTerminal" : "Ultimate Crafting Terminal",
+  "gui.moreterminal.Terminal" : "Terminal",
+  "item.moreterminal.advanced_crafting_terminal" : "Advanced Crafting Terminal",
+  "itemGroup.moreterminal.main" : "More Terminal"
+}
