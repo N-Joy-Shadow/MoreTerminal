@@ -15,7 +15,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import njoyshadow.moreterminal.utils.init.client.InitScreen;
 import njoyshadow.moreterminal.utils.MTCreativeTab;
-import njoyshadow.moreterminal.utils.MTRegisteration;
 import njoyshadow.moreterminal.utils.definitions.MTParts;
 import njoyshadow.moreterminal.utils.init.InitItems;
 import njoyshadow.moreterminal.utils.init.InitMenuTypes;
@@ -37,7 +36,6 @@ public class Moreterminal {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final MTRegisteration registration;
 
 
     public Moreterminal() {
@@ -50,8 +48,6 @@ public class Moreterminal {
 
         Minecraft minecraft = Minecraft.getInstance();
 
-        registration = new MTRegisteration();
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> registration::registerClientEvents);
 
         modEventBus.addListener(this::commonSetup);
         MTCreativeTab.init();
@@ -72,9 +68,6 @@ public class Moreterminal {
     private void commonSetup(FMLCommonSetupEvent event) {
 
         //MTNetworkHandler.init(new ResourceLocation("moreterminal", "main"));
-
-        MTRegisteration.setupInternalRegistries();
-        MTRegisteration.postInit();
 
     }
 

@@ -24,12 +24,11 @@ import java.sql.Array;
 import java.util.List;
 
 public class BaseExtendCraftingTermPart extends AbstractTerminalPart {
-    private static int GridSize;
-    private static int Grid_Matrix;
+    public final AppEngInternalInventory craftingGrid;
     public BaseExtendCraftingTermPart(IPartItem<?> partItem, int GridSize) {
         super(partItem);
-        this.GridSize = GridSize;
-        this.Grid_Matrix = GridSize * GridSize;
+
+        this.craftingGrid = new AppEngInternalInventory(this,GridSize * GridSize);
     }
 
     /**
@@ -39,7 +38,6 @@ public class BaseExtendCraftingTermPart extends AbstractTerminalPart {
     public static final ResourceLocation ADVANCED_INV_CRAFTING = Moreterminal.MakeID("advanced_crafting_terminal");
     public static final ResourceLocation ELITE_INV_CRAFTING = Moreterminal.MakeID("elite_crafting_terminal");
     public static final ResourceLocation ULTIMATE_INV_CRAFTING = Moreterminal.MakeID("ultimate_crafting_terminal");
-    public static final ResourceLocation INV_CRAFTING = Moreterminal.MakeID("crafting_terminal");
 
     @PartModels
     public static final ResourceLocation MODEL_OFF = new ResourceLocation(AppEng.MOD_ID, "part/crafting_terminal_off");
@@ -52,7 +50,6 @@ public class BaseExtendCraftingTermPart extends AbstractTerminalPart {
 
 
 
-    public final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, Grid_Matrix);
 
     @Override
     public void addAdditionalDrops(List<ItemStack> drops, boolean wrenched) {
