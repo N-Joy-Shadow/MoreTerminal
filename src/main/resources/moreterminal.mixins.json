@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "moreterminal.refmap.json",
   "mixins": [
+    "MixinAEBaseMenu",
+    "MixinAEBaseScreen"
   ],
   "client": [
   ],

@@ -29,6 +29,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import njoyshadow.moreterminal.item.part.extendedcrafting.BaseExtendCraftingTermPart;
+import njoyshadow.moreterminal.menu.extendedcrafting.slot.ExtendedCraftingTermSlot;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -44,7 +45,7 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
     private final ExtendedCraftingInventory recipeTestContainer;
     private final ResourceLocation INV_CRAFTING;
     //TODO Replace this
-    private final CraftingTermSlot outputSlot;
+    private final ExtendedCraftingTermSlot outputSlot;
     private ITableRecipe currentRecipe;
 
 
@@ -68,8 +69,8 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
                     SlotSemantics.CRAFTING_GRID);
         }
 
-        this.addSlot(this.outputSlot = new CraftingTermSlot(this.getPlayerInventory().player, this.getActionSource(),
-                        this.powerSource, host.getInventory(), craftingGridInv, craftingGridInv, this),
+        this.addSlot(this.outputSlot = new ExtendedCraftingTermSlot(this.getPlayerInventory().player, this.getActionSource(),
+                        this.powerSource, host.getInventory(), craftingGridInv, craftingGridInv, this,GRID_SIZE),
                 SlotSemantics.CRAFTING_RESULT);
 
         updateCurrentRecipeAndOutput(true);

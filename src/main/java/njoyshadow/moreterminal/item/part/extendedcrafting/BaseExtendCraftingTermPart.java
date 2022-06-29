@@ -80,6 +80,8 @@ public class BaseExtendCraftingTermPart extends AbstractTerminalPart {
         return MEStorageMenu.TYPE;
     }
 
+
+    //I have to know java
     @Override
     public InternalInventory getSubInventory(ResourceLocation id) {
         if (id.equals(BASIC_INV_CRAFTING)) {

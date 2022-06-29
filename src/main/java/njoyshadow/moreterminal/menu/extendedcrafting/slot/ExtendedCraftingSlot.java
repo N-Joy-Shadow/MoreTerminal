@@ -5,6 +5,11 @@ import appeng.crafting.CraftingEvent;
 import appeng.helpers.Inventories;
 import appeng.menu.slot.AppEngSlot;
 import appeng.util.inv.AppEngInternalInventory;
+import com.blakebr0.cucumber.inventory.BaseItemStackHandler;
+import com.blakebr0.cucumber.item.BaseItem;
+import com.blakebr0.extendedcrafting.api.crafting.ITableRecipe;
+import com.blakebr0.extendedcrafting.api.crafting.RecipeTypes;
+import com.blakebr0.extendedcrafting.container.inventory.ExtendedCraftingInventory;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -29,10 +34,15 @@ public class ExtendedCraftingSlot extends AppEngSlot {
      */
     private int amountCrafted;
 
-    public ExtendedCraftingSlot(Player player, InternalInventory craftingGrid) {
+    private final int GridSize;
+    private final int Grid_Matrix;
+
+    public ExtendedCraftingSlot(Player player, InternalInventory craftingGrid, int GridSize) {
         super(new AppEngInternalInventory(1), 0);
         this.player = player;
         this.craftingGrid = craftingGrid;
+        this.GridSize = GridSize;
+        this.Grid_Matrix = GridSize * GridSize;
     }
 
     @Override
@@ -64,15 +74,18 @@ public class ExtendedCraftingSlot extends AppEngSlot {
         CraftingEvent.fireCraftingEvent(playerIn, stack, this.craftingGrid.toContainer());
         this.checkTakeAchievements(stack);
         ForgeHooks.setCraftingPlayer(playerIn);
-        final CraftingContainer ic = new CraftingContainer(this.getMenu(), 3, 3);
+
+        BaseItemStackHandler Inv = new BaseItemStackHandler(Grid_Matrix);
+        final CraftingContainer matrix = new ExtendedCraftingInventory(this.getMenu(),Inv,GridSize);
+        //final CraftingContainer ic = new CraftingContainer(this.getMenu(), 3, 3);
 
         for (int x = 0; x < this.craftingGrid.size(); x++) {
-            ic.setItem(x, this.craftingGrid.getStackInSlot(x));
+            matrix.setItem(x, this.craftingGrid.getStackInSlot(x));
         }
 
-        var aitemstack = this.getRemainingItems(ic, playerIn.level);
+        var aitemstack = this.getRemainingItems(matrix, playerIn.level);
 
-        Inventories.copy(ic, this.craftingGrid, false);
+        Inventories.copy(matrix, this.craftingGrid, false);
 
         ForgeHooks.setCraftingPlayer(null);
 
@@ -117,8 +130,8 @@ public class ExtendedCraftingSlot extends AppEngSlot {
     // TODO: This is really hacky and NEEDS to be solved with a full menu/gui
     // refactoring.
     protected NonNullList<ItemStack> getRemainingItems(CraftingContainer ic, Level level) {
-        return level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, ic, level)
+        return level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, ic, level)
                 .map(iCraftingRecipe -> iCraftingRecipe.getRemainingItems(ic))
-                .orElse(NonNullList.withSize(9, ItemStack.EMPTY));
+                .orElse(NonNullList.withSize(Grid_Matrix, ItemStack.EMPTY));
     }
 }
