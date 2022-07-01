@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import njoyshadow.moreterminal.network.handler.MTNetworkHandler;
 import njoyshadow.moreterminal.utils.init.client.InitScreen;
 import njoyshadow.moreterminal.utils.MTCreativeTab;
 import njoyshadow.moreterminal.utils.definitions.MTParts;
@@ -76,5 +77,7 @@ public class Moreterminal {
     }
     private void postSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(InitScreen::init);
+        MTNetworkHandler.init(new ResourceLocation(MOD_ID,"main"));
+
     }
 }
