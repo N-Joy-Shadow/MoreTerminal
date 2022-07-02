@@ -12,6 +12,7 @@ import com.blakebr0.extendedcrafting.crafting.recipe.ShapedTableRecipe;
 import com.blakebr0.extendedcrafting.crafting.recipe.ShapelessTableRecipe;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
@@ -50,6 +51,8 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
     // Colors for the buttons
     private static final int BLUE_PLUS_BUTTON_COLOR = 0x804545FF;
     private static final int ORANGE_PLUS_BUTTON_COLOR = 0x80FFA500;
+
+    private IDrawable req;
 
     private static final Comparator<GridInventoryEntry> ENTRY_COMPARATOR = Comparator
             .comparing(GridInventoryEntry::getStoredAmount);
@@ -92,6 +95,7 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
                 return new ErrorRenderer(menu, recipe);
             }
         } else {
+            System.out.println("PerformStart");
             performTransfer(menu, recipe, craftMissing);
         }
         // No error
@@ -110,7 +114,7 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
             AELog.debug("Cannot send recipe id %s to server because it's transient", recipeId);
             recipeId = null;
         }
-
+        System.out.println("PerformComplete and sending Packet");
         MTNetworkHandler.instance()
                 .sendToServer(new ExtendedCraftingPacket(recipeId, templateItems, craftMissing,GRID_HEIGHT));
     }
@@ -149,7 +153,16 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
             height = shapedRecipe.getHeight();
         }
         else {
+            if(recipe instanceof ShapelessTableRecipe shapelessRecipe)
+            {
+                int Tier = shapelessRecipe.getTier();
+                System.out.println("Tier : " + Tier);
+                switch (Tier){
+                    case 1:
 
+                        break;
+                }
+            }
             int Size = ingredients.size();
             if(Size > 49){
                 width = 9;

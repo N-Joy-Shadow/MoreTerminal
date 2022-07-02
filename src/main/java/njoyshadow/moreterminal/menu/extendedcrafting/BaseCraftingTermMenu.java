@@ -53,13 +53,10 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
     private final ExtendedCraftingTermSlot outputSlot;
     private ITableRecipe currentRecipe;
 
-
-
     public BaseCraftingTermMenu(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host, int GridSize, ResourceLocation INV) {
         super(menuType, id, ip, host,true);
 
         this.INV_CRAFTING =INV;
-        System.out.println(this.INV_CRAFTING);
         this.GRID_SIZE = GridSize;
         this.GRID_MATRIX = GRID_SIZE * GRID_SIZE;
 
@@ -80,7 +77,6 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
         updateCurrentRecipeAndOutput(true);
 
-
         registerClientAction(ACTION_CLEAR_TO_PLAYER, this::clearToPlayerInventory);
     }
 
@@ -98,7 +94,6 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
     @Override
     public InternalInventory getCraftingMatrix() {
-        //TODO FIX THIS
         return this.craftingInventoryHost.getSubInventory(this.INV_CRAFTING);
     }
 
@@ -155,7 +150,7 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
         return false;
     }
 
-    //This Method Clash
+    //TOOD : This Method Clash but i can't why this method clash
     private void updateCurrentRecipeAndOutput(boolean forceUpdate) {
         boolean hasChanged = forceUpdate;
         for (int x = 0; x < GRID_MATRIX; x++) {
@@ -175,10 +170,8 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
         if (this.currentRecipe == null) {
             this.outputSlot.set(ItemStack.EMPTY);
-            System.out.println("MT : 예아");
         } else {
             this.outputSlot.set(this.currentRecipe.assemble(recipeTestContainer));
-            System.out.println("MT : "+ this.currentRecipe.getResultItem());
         }
     }
 
@@ -187,7 +180,6 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
             sendClientAction(ACTION_CLEAR_TO_PLAYER);
             return;
         }
-        //TODO FIX THIS
         var craftingGridInv = this.craftingInventoryHost.getSubInventory(this.INV_CRAFTING);
         var playerInv = new PlayerInternalInventory(getPlayerInventory());
 

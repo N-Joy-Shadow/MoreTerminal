@@ -24,10 +24,12 @@ public class JEIIntegration implements IModPlugin {
     }
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration){
-        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(AdvancedCraftingTermMenu.class,registration.getTransferHelper(),5
-                ), AdvancedTableCategory.UID);
         registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(BasicCraftingTermMenu.class,registration.getTransferHelper(),3
                 ), BasicTableCategory.UID);
+    //    registration.addRecipeTransferHandler(BasicCraftingTermMenu.class,BasicTableCategory.UID,1,9,10,36);
+
+        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(AdvancedCraftingTermMenu.class,registration.getTransferHelper(),5
+                ), AdvancedTableCategory.UID);
         registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(EliteCraftingTermMenu.class,registration.getTransferHelper(),7
                 ), EliteTableCategory.UID);
         registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(UltimateCraftingTermMenu.class,registration.getTransferHelper(),9

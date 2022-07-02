@@ -129,7 +129,28 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
     // TODO: This is really hacky and NEEDS to be solved with a full menu/gui
     // refactoring.
     protected ITableRecipe findRecipe(CraftingContainer ic, Level level) {
-        if (this.menu instanceof AdvancedCraftingTermMenu terminalMenu) {
+        if (this.menu instanceof BasicCraftingTermMenu terminalMenu) {
+            var recipe = terminalMenu.getCurrentRecipe();
+
+            if (recipe != null && recipe.matches(ic, level)) {
+                return terminalMenu.getCurrentRecipe();
+            }
+        }
+        else if (this.menu instanceof AdvancedCraftingTermMenu terminalMenu) {
+            var recipe = terminalMenu.getCurrentRecipe();
+
+            if (recipe != null && recipe.matches(ic, level)) {
+                return terminalMenu.getCurrentRecipe();
+            }
+        }
+        else if (this.menu instanceof EliteCraftingTermMenu terminalMenu) {
+            var recipe = terminalMenu.getCurrentRecipe();
+
+            if (recipe != null && recipe.matches(ic, level)) {
+                return terminalMenu.getCurrentRecipe();
+            }
+        }
+        else if (this.menu instanceof UltimateCraftingTermMenu terminalMenu) {
             var recipe = terminalMenu.getCurrentRecipe();
 
             if (recipe != null && recipe.matches(ic, level)) {
@@ -197,8 +218,10 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
             // add one of each item to the items on the board...
             var level = p.level;
             if (!level.isClientSide()) {
-                //final var ic = new CraftingContainer(p.containerMenu, 3, 3);
-                final var ic = new ExtendedCraftingInventory(p.containerMenu, new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
+                final var ic = new CraftingContainer(p.containerMenu, GRID_SIZE, GRID_SIZE);
+
+
+                //final var ic = new ExtendedCraftingInventory(p.containerMenu, new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
                 for (var x = 0; x < GRID_MATRIX; x++) {
                     ic.setItem(x, this.getPattern().getStackInSlot(x));
                 }

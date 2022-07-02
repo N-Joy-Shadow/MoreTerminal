@@ -76,8 +76,8 @@ public class ExtendedCraftingSlot extends AppEngSlot {
         ForgeHooks.setCraftingPlayer(playerIn);
 
         BaseItemStackHandler Inv = new BaseItemStackHandler(Grid_Matrix);
-        final CraftingContainer matrix = new ExtendedCraftingInventory(this.getMenu(),Inv,GridSize);
-        //final CraftingContainer ic = new CraftingContainer(this.getMenu(), 3, 3);
+        // CraftingContainer matrix = new ExtendedCraftingInventory(this.getMenu(),Inv,GridSize);
+        final CraftingContainer matrix = new CraftingContainer(this.getMenu(), GridSize, GridSize);
 
         for (int x = 0; x < this.craftingGrid.size(); x++) {
             matrix.setItem(x, this.craftingGrid.getStackInSlot(x));
