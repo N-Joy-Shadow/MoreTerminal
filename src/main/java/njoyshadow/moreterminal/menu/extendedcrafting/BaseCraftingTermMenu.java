@@ -49,7 +49,6 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
     private final ExtendedCraftingInventory recipeTestContainer;
     private final ResourceLocation INV_CRAFTING;
-    //TODO Replace this
     private final ExtendedCraftingTermSlot outputSlot;
     private ITableRecipe currentRecipe;
 

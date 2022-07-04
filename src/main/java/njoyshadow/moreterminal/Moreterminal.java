@@ -13,7 +13,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import njoyshadow.moreterminal.client.gui.style.MTScreenStyle;
+import njoyshadow.moreterminal.client.gui.style.MTStyleManager;
 import njoyshadow.moreterminal.network.handler.MTNetworkHandler;
+import njoyshadow.moreterminal.utils.ClientMoreTerminal;
+import njoyshadow.moreterminal.utils.ServerMoreTerminal;
 import njoyshadow.moreterminal.utils.init.client.InitScreen;
 import njoyshadow.moreterminal.utils.MTCreativeTab;
 import njoyshadow.moreterminal.utils.definitions.MTParts;
@@ -40,6 +44,7 @@ public class Moreterminal {
 
 
     public Moreterminal() {
+        DistExecutor.unsafeRunForDist(() -> ClientMoreTerminal::new,() -> ServerMoreTerminal::new);
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -56,9 +61,7 @@ public class Moreterminal {
         modEventBus.addGenericListener(MenuType.class, this::registerMenuTypes);
         modEventBus.addGenericListener(Item.class, this::registerItems);
 
-        modEventBus.addListener(this::postSetup);
         //InitMenuTypes.init((Registry<MenuType<?>>) Registry.MENU);
-
     }
     public void registerMenuTypes(RegistryEvent.Register<MenuType<?>> event) {
         InitMenuTypes.init(event.getRegistry());
@@ -75,9 +78,5 @@ public class Moreterminal {
     private void setup(final FMLCommonSetupEvent event) {
         // some preinit code
     }
-    private void postSetup(final FMLClientSetupEvent event) {
-        event.enqueueWork(InitScreen::init);
-        MTNetworkHandler.init(new ResourceLocation(MOD_ID,"main"));
 
-    }
 }

@@ -38,6 +38,12 @@
     "viewCells": {
       "right": -2,
       "top": 0
+    },
+    "search": {
+      "left": 80,
+      "top": 4,
+      "width": 89,
+      "height": 12
     }
   }
 }

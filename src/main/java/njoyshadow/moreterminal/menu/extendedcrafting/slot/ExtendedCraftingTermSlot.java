@@ -126,7 +126,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
         }
     }
 
-    // TODO: This is really hacky and NEEDS to be solved with a full menu/gui
     // refactoring.
     protected ITableRecipe findRecipe(CraftingContainer ic, Level level) {
         if (this.menu instanceof BasicCraftingTermMenu terminalMenu) {
@@ -161,7 +160,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
         return level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, ic, level).orElse(null);
     }
 
-    // TODO: This is really hacky and NEEDS to be solved with a full menu/gui
     // refactoring.
     @Override
     protected NonNullList<ItemStack> getRemainingItems(CraftingContainer ic, Level level) {

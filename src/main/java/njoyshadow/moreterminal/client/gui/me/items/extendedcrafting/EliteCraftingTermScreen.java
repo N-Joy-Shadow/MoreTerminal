@@ -6,11 +6,13 @@ import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.ActionButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import njoyshadow.moreterminal.client.gui.me.common.MTMEStorageScreen;
+import njoyshadow.moreterminal.client.gui.style.MTScreenStyle;
 import njoyshadow.moreterminal.menu.extendedcrafting.EliteCraftingTermMenu;
 
-public class EliteCraftingTermScreen<C extends EliteCraftingTermMenu> extends MEStorageScreen<C> {
+public class EliteCraftingTermScreen<C extends EliteCraftingTermMenu> extends MTMEStorageScreen<C> {
 
-    public EliteCraftingTermScreen(C menu, Inventory playerInventory, Component title, ScreenStyle style) {
+    public EliteCraftingTermScreen(C menu, Inventory playerInventory, Component title, MTScreenStyle style) {
         super(menu, playerInventory, title, style);
 
 

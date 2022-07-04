@@ -78,6 +78,10 @@
       "left": 138,
       "bottom": 225
     },
+    "clearToPlayerInv": {
+      "left": 148,
+      "bottom": 225
+    },
     "viewCells": {
       "right": 3,
       "top": 0

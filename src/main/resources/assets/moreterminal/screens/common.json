@@ -5,6 +5,11 @@
     "verticalToolbar": {
       "left": -2,
       "top": 6
+    },
+    "upgrades": {
+      "$comment": "The upgrade panel found on some screens",
+      "right": -2,
+      "top": 0
     }
   }
 }

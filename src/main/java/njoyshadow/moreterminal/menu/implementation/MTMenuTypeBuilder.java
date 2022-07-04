@@ -152,7 +152,6 @@ public final class MTMenuTypeBuilder<M extends AEBaseMenu, I> {
     private boolean open(Player player, MenuLocator locator) {
         if (!(player instanceof ServerPlayer)) {
             // Cannot open menus on the client or for non-players
-            // FIXME logging?
             return false;
         }
 

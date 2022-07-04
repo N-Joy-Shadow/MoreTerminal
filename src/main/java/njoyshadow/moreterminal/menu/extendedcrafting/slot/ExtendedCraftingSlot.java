@@ -127,7 +127,6 @@ public class ExtendedCraftingSlot extends AppEngSlot {
         return super.remove(par1);
     }
 
-    // TODO: This is really hacky and NEEDS to be solved with a full menu/gui
     // refactoring.
     protected NonNullList<ItemStack> getRemainingItems(CraftingContainer ic, Level level) {
         return level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, ic, level)
