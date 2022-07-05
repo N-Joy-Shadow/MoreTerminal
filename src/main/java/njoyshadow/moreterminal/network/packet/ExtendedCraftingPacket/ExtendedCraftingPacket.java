@@ -178,9 +178,7 @@ public class ExtendedCraftingPacket extends MTBasePacket {
                 });
             }
         }
-        System.out.println("Slot Change Start");
         menu.slotsChanged(craftMatrix.toContainer());
-        System.out.println("Slot Change Done");
         if (!toAutoCraft.isEmpty()) {
             // This must be the last call since it changes the menu!
             var stacks = toAutoCraft.entrySet().stream().map(e -> new GenericStack(e.getKey(), e.getValue())).toList();

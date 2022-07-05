@@ -166,7 +166,6 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
         Level level = this.getPlayerInventory().player.level;
         this.currentRecipe = level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, recipeTestContainer, level).orElse(null);
-
         if (this.currentRecipe == null) {
             this.outputSlot.set(ItemStack.EMPTY);
         } else {

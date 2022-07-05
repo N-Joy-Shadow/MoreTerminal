@@ -75,9 +75,8 @@ public class ExtendedCraftingSlot extends AppEngSlot {
         this.checkTakeAchievements(stack);
         ForgeHooks.setCraftingPlayer(playerIn);
 
-        BaseItemStackHandler Inv = new BaseItemStackHandler(Grid_Matrix);
-        // CraftingContainer matrix = new ExtendedCraftingInventory(this.getMenu(),Inv,GridSize);
-        final CraftingContainer matrix = new CraftingContainer(this.getMenu(), GridSize, GridSize);
+        final CraftingContainer matrix = new ExtendedCraftingInventory(this.getMenu(),new BaseItemStackHandler(Grid_Matrix),GridSize);
+        //final CraftingContainer matrix = new CraftingContainer(this.getMenu(), GridSize, GridSize);
 
         for (int x = 0; x < this.craftingGrid.size(); x++) {
             matrix.setItem(x, this.craftingGrid.getStackInSlot(x));
@@ -100,7 +99,12 @@ public class ExtendedCraftingSlot extends AppEngSlot {
             if (!itemstack2.isEmpty()) {
                 if (this.craftingGrid.getStackInSlot(i).isEmpty()) {
                     this.craftingGrid.setItemDirect(i, itemstack2);
-                } else if (!this.player.getInventory().add(itemstack2)) {
+                }
+                else if(ItemStack.isSame(itemstack1,itemstack2) && ItemStack.tagMatches(itemstack1,itemstack2)){
+                    itemstack2.grow(itemstack1.getCount());
+                    this.craftingGrid.setItemDirect(i, itemstack2);
+                }
+                else if (!this.player.getInventory().add(itemstack2)) {
                     this.player.drop(itemstack2, false);
                 }
             }
@@ -129,8 +133,10 @@ public class ExtendedCraftingSlot extends AppEngSlot {
 
     // refactoring.
     protected NonNullList<ItemStack> getRemainingItems(CraftingContainer ic, Level level) {
-        return level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, ic, level)
+        return player.level.getRecipeManager().getRemainingItemsFor(RecipeTypes.TABLE,ic,player.level);
+
+        /*return level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, ic, level)
                 .map(iCraftingRecipe -> iCraftingRecipe.getRemainingItems(ic))
-                .orElse(NonNullList.withSize(Grid_Matrix, ItemStack.EMPTY));
+                .orElse(NonNullList.withSize(Grid_Matrix, ItemStack.EMPTY));*/
     }
 }

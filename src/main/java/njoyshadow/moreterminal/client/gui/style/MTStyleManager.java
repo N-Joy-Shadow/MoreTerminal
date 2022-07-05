@@ -35,7 +35,6 @@ public final class MTStyleManager {
 
     public static MTScreenStyle loadStyleDoc(String path) {
         MTScreenStyle style;
-        System.out.println(path);
         try {
             style = loadStyleDocInternal(path);
         } catch (FileNotFoundException e) {
