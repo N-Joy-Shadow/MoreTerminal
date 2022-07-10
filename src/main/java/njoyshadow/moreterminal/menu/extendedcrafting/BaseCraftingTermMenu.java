@@ -149,7 +149,6 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
         return false;
     }
 
-    //TOOD : This Method Clash but i can't why this method clash
     private void updateCurrentRecipeAndOutput(boolean forceUpdate) {
         boolean hasChanged = forceUpdate;
         for (int x = 0; x < GRID_MATRIX; x++) {
@@ -166,6 +165,7 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
         Level level = this.getPlayerInventory().player.level;
         this.currentRecipe = level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, recipeTestContainer, level).orElse(null);
+
         if (this.currentRecipe == null) {
             this.outputSlot.set(ItemStack.EMPTY);
         } else {

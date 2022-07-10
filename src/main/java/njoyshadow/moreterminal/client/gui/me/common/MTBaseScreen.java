@@ -67,7 +67,7 @@ public abstract class MTBaseScreen<T extends AEBaseMenu> extends AbstractContain
          */
         public static final String TEXT_ID_DIALOG_TITLE = "dialog_title";
 
-        //private final VerticalButtonBar verticalToolbar;
+
         private final MTVerticalButtonBar verticalToolbar;
 
         // drag y

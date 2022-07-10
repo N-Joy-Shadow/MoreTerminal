@@ -1,11 +1,11 @@
 package njoyshadow.moreterminal.utils.crafting;
 
 import com.blakebr0.extendedcrafting.crafting.recipe.ShapedTableRecipe;
+import com.blakebr0.extendedcrafting.crafting.recipe.ShapelessTableRecipe;
 import com.google.common.base.Preconditions;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 
 public class ExtendedCraftingRecipeUtil {
     public static NonNullList<Ingredient> ensureExtendedCraftingMatrix(Recipe<?> recipe, int Grid_Size){
@@ -34,7 +34,7 @@ public class ExtendedCraftingRecipeUtil {
             }
         }
         // Anything else should be a flat list
-        else {
+        else{
             for (var i = 0; i < ingredients.size(); i++) {
                 expandedIngredients.set(i, ingredients.get(i));
             }

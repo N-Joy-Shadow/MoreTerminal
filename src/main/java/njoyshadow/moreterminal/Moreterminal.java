@@ -15,6 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import njoyshadow.moreterminal.client.gui.style.MTScreenStyle;
 import njoyshadow.moreterminal.client.gui.style.MTStyleManager;
+import njoyshadow.moreterminal.item.fluid.FindFluid;
 import njoyshadow.moreterminal.network.handler.MTNetworkHandler;
 import njoyshadow.moreterminal.utils.ClientMoreTerminal;
 import njoyshadow.moreterminal.utils.ServerMoreTerminal;
@@ -62,7 +63,7 @@ public class Moreterminal {
         MTParts.init();
         modEventBus.addGenericListener(MenuType.class, this::registerMenuTypes);
         modEventBus.addGenericListener(Item.class, this::registerItems);
-
+        FindFluid.asdasd();
         //InitMenuTypes.init((Registry<MenuType<?>>) Registry.MENU);
     }
     public void registerMenuTypes(RegistryEvent.Register<MenuType<?>> event) {

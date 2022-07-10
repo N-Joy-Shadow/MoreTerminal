@@ -25,10 +25,7 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import njoyshadow.moreterminal.menu.extendedcrafting.AdvancedCraftingTermMenu;
-import njoyshadow.moreterminal.menu.extendedcrafting.BasicCraftingTermMenu;
-import njoyshadow.moreterminal.menu.extendedcrafting.EliteCraftingTermMenu;
-import njoyshadow.moreterminal.menu.extendedcrafting.UltimateCraftingTermMenu;
+import njoyshadow.moreterminal.menu.extendedcrafting.*;
 import njoyshadow.moreterminal.utils.MTPlatform;
 
 import java.util.ArrayList;
@@ -65,9 +62,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
         return false;
     }
 
-    @Override
-    public void onTake(Player p, ItemStack is) {
-    }
+
 
     public void doClick(InventoryAction action, Player who) {
         if (this.getItem().isEmpty()) {
@@ -128,28 +123,7 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
 
     // refactoring.
     protected ITableRecipe findRecipe(CraftingContainer ic, Level level) {
-        if (this.menu instanceof BasicCraftingTermMenu terminalMenu) {
-            var recipe = terminalMenu.getCurrentRecipe();
-
-            if (recipe != null && recipe.matches(ic, level)) {
-                return terminalMenu.getCurrentRecipe();
-            }
-        }
-        else if (this.menu instanceof AdvancedCraftingTermMenu terminalMenu) {
-            var recipe = terminalMenu.getCurrentRecipe();
-
-            if (recipe != null && recipe.matches(ic, level)) {
-                return terminalMenu.getCurrentRecipe();
-            }
-        }
-        else if (this.menu instanceof EliteCraftingTermMenu terminalMenu) {
-            var recipe = terminalMenu.getCurrentRecipe();
-
-            if (recipe != null && recipe.matches(ic, level)) {
-                return terminalMenu.getCurrentRecipe();
-            }
-        }
-        else if (this.menu instanceof UltimateCraftingTermMenu terminalMenu) {
+        if (this.menu instanceof BaseCraftingTermMenu terminalMenu) {
             var recipe = terminalMenu.getCurrentRecipe();
 
             if (recipe != null && recipe.matches(ic, level)) {
@@ -170,32 +144,11 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
                 return TermMenu.getCurrentRecipe().getRemainingItems(ic);
             }
         }
-        else if(this.menu instanceof BasicCraftingTermMenu basicTermMenu){
+        else if(this.menu instanceof BaseCraftingTermMenu basicTermMenu){
             ITableRecipe recipe = basicTermMenu.getCurrentRecipe();
 
             if (recipe != null && recipe.matches(ic,level)) {
                 return basicTermMenu.getCurrentRecipe().getRemainingItems(ic);
-            }
-        }
-        else if(this.menu instanceof AdvancedCraftingTermMenu advancedTermMenu){
-            ITableRecipe recipe = advancedTermMenu.getCurrentRecipe();
-
-            if (recipe != null && recipe.matches(ic,level)) {
-                return advancedTermMenu.getCurrentRecipe().getRemainingItems(ic);
-            }
-        }
-        else if(this.menu instanceof EliteCraftingTermMenu eliteTermMenu){
-            ITableRecipe recipe = eliteTermMenu.getCurrentRecipe();
-
-            if (recipe != null && recipe.matches(ic,level)) {
-                return eliteTermMenu.getCurrentRecipe().getRemainingItems(ic);
-            }
-        }
-        else if(this.menu instanceof UltimateCraftingTermMenu ultimateTermMenu){
-            ITableRecipe recipe = ultimateTermMenu.getCurrentRecipe();
-
-            if (recipe != null && recipe.matches(ic,level)) {
-                return ultimateTermMenu.getCurrentRecipe().getRemainingItems(ic);
             }
         }
 
@@ -217,8 +170,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
             var level = p.level;
             if (!level.isClientSide()) {
                 //final var ic = new CraftingContainer(p.containerMenu, GRID_SIZE, GRID_SIZE);
-
-
                 final var ic = new ExtendedCraftingInventory(p.containerMenu, new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
                 for (var x = 0; x < GRID_MATRIX; x++) {
                     ic.setItem(x, this.getPattern().getStackInSlot(x));

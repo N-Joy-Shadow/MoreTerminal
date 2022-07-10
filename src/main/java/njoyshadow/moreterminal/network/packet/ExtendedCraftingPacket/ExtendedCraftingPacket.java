@@ -88,7 +88,6 @@ public class ExtendedCraftingPacket extends MTBasePacket {
             // Server might have closed the menu before the client-packet is processed. This is not an error.
             return;
         }
-
         if (!cct.useRealItems()) {
             AELog.warn("Trying to use real items for crafting in a pattern encoding terminal");
             return;
