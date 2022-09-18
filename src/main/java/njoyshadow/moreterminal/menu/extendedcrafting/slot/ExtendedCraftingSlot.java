@@ -34,14 +34,14 @@ public class ExtendedCraftingSlot extends AppEngSlot {
      */
     private int amountCrafted;
 
-    private final int GridSize;
+    private final int GRID_SIZE;
     private final int Grid_Matrix;
 
     public ExtendedCraftingSlot(Player player, InternalInventory craftingGrid, int GridSize) {
         super(new AppEngInternalInventory(1), 0);
         this.player = player;
         this.craftingGrid = craftingGrid;
-        this.GridSize = GridSize;
+        this.GRID_SIZE = GridSize;
         this.Grid_Matrix = GridSize * GridSize;
     }
 
@@ -75,7 +75,7 @@ public class ExtendedCraftingSlot extends AppEngSlot {
         this.checkTakeAchievements(stack);
         ForgeHooks.setCraftingPlayer(playerIn);
 
-        final CraftingContainer matrix = new ExtendedCraftingInventory(this.getMenu(),new BaseItemStackHandler(Grid_Matrix),GridSize);
+        final CraftingContainer matrix = new CraftingContainer(this.getMenu(),GRID_SIZE,GRID_SIZE);
         //final CraftingContainer matrix = new CraftingContainer(this.getMenu(), GridSize, GridSize);
 
         for (int x = 0; x < this.craftingGrid.size(); x++) {

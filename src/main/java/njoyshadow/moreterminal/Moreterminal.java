@@ -63,7 +63,7 @@ public class Moreterminal {
         MTParts.init();
         modEventBus.addGenericListener(MenuType.class, this::registerMenuTypes);
         modEventBus.addGenericListener(Item.class, this::registerItems);
-        FindFluid.asdasd();
+        //FindFluid.asdasd();
         //InitMenuTypes.init((Registry<MenuType<?>>) Registry.MENU);
     }
     public void registerMenuTypes(RegistryEvent.Register<MenuType<?>> event) {

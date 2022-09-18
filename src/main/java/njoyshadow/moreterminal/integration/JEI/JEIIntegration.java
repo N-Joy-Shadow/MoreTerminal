@@ -27,15 +27,16 @@ public class JEIIntegration implements IModPlugin {
     }
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration){
-        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(BasicCraftingTermMenu.class,registration.getTransferHelper(),3
+        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<BasicCraftingTermMenu>(BasicCraftingTermMenu.class,registration.getTransferHelper(),3
         ), BasicTableCategory.UID);
-        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(AdvancedCraftingTermMenu.class,registration.getTransferHelper(),5
+        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<AdvancedCraftingTermMenu>(AdvancedCraftingTermMenu.class,registration.getTransferHelper(),5
                 ), AdvancedTableCategory.UID);
-        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(EliteCraftingTermMenu.class,registration.getTransferHelper(),7
+        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<EliteCraftingTermMenu>(EliteCraftingTermMenu.class,registration.getTransferHelper(),7
                 ), EliteTableCategory.UID);
-        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<>(UltimateCraftingTermMenu.class,registration.getTransferHelper(),9
+        registration.addRecipeTransferHandler(new ExtendedCraftingRecipeTransfer<UltimateCraftingTermMenu>(UltimateCraftingTermMenu.class,registration.getTransferHelper(),9
                 ), UltimateTableCategory.UID);
         //registration.addRecipeTransferHandler(BasicCraftingTermMenu.class,BasicTableCategory.UID,1,9,10,36);
+
     }
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         ItemStack[] itemStacks = {MTParts.BASIC_CRAFTING_TERMINAL.stack(),

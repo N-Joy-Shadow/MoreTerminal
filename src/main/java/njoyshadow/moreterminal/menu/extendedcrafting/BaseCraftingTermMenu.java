@@ -9,6 +9,7 @@ import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.InventoryActionPacket;
 import appeng.helpers.IMenuCraftingPacket;
 import appeng.helpers.InventoryAction;
+import appeng.me.Grid;
 import appeng.menu.SlotSemantics;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.crafting.CraftConfirmMenu;
@@ -27,6 +28,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -47,7 +49,7 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
     private final ISegmentedInventory craftingInventoryHost;
     private final CraftingMatrixSlot[] craftingSlots;
 
-    private final ExtendedCraftingInventory recipeTestContainer;
+    private final CraftingContainer recipeTestContainer;
     private final ResourceLocation INV_CRAFTING;
     private final ExtendedCraftingTermSlot outputSlot;
     private ITableRecipe currentRecipe;
@@ -61,8 +63,8 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
         this.craftingInventoryHost = (ISegmentedInventory) host;
         this.craftingSlots = new CraftingMatrixSlot[GRID_MATRIX];
-        this.recipeTestContainer  = new ExtendedCraftingInventory(this,new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
-
+        //this.recipeTestContainer  = new ExtendedCraftingInventory(this,new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
+        this.recipeTestContainer  = new CraftingContainer(this,GRID_SIZE, GRID_SIZE);
         var craftingGridInv = this.craftingInventoryHost.getSubInventory(this.INV_CRAFTING);
 
         for (int i = 0; i < GRID_MATRIX; i++) {
@@ -78,7 +80,35 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
 
         registerClientAction(ACTION_CLEAR_TO_PLAYER, this::clearToPlayerInventory);
     }
+    private void updateCurrentRecipeAndOutput(boolean forceUpdate) {
+        boolean hasChanged = forceUpdate;
+        for (int x = 0; x < GRID_MATRIX; x++) {
+            //여기서 아이템이 안바뀜
+            var stack = this.craftingSlots[x].getItem();
 
+
+            //첫번째 루프에서 x는 0일때 recipeTestcontainer의 첫번째 아이템만 바꾸고 다시 x = 0으로 돌아옴, 즉 한놈만 바꾸고 가버림
+            if (!ItemStack.isSameItemSameTags(stack, recipeTestContainer.getItem(x))) {
+                hasChanged = true;
+                recipeTestContainer.setItem(x, stack.copy());
+            }
+        }
+
+        if (!hasChanged) {
+            return;
+        }
+
+        Level level = this.getPlayerInventory().player.level;
+        //문제의 라인
+        //마지막 에서 바뀔 아이템이 눈치 없이 들어옴
+        this.currentRecipe = level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, recipeTestContainer, level).orElse(null);
+
+        if (this.currentRecipe == null) {
+            this.outputSlot.set(ItemStack.EMPTY);
+        } else {
+            this.outputSlot.set(this.currentRecipe.assemble(recipeTestContainer));
+        }
+    }
 
 
     @Override
@@ -149,29 +179,7 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
         return false;
     }
 
-    private void updateCurrentRecipeAndOutput(boolean forceUpdate) {
-        boolean hasChanged = forceUpdate;
-        for (int x = 0; x < GRID_MATRIX; x++) {
-            var stack = this.craftingSlots[x].getItem();
-            if (!ItemStack.isSameItemSameTags(stack, recipeTestContainer.getItem(x))) {
-                hasChanged = true;
-                recipeTestContainer.setItem(x, stack.copy());
-            }
-        }
 
-        if (!hasChanged) {
-            return;
-        }
-
-        Level level = this.getPlayerInventory().player.level;
-        this.currentRecipe = level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, recipeTestContainer, level).orElse(null);
-
-        if (this.currentRecipe == null) {
-            this.outputSlot.set(ItemStack.EMPTY);
-        } else {
-            this.outputSlot.set(this.currentRecipe.assemble(recipeTestContainer));
-        }
-    }
 
     public void clearToPlayerInventory() {
         if (isClientSide()) {

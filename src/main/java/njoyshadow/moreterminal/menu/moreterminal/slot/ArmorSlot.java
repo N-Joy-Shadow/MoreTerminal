@@ -1,10 +1,19 @@
 package njoyshadow.moreterminal.menu.moreterminal.slot;
 
+import appeng.api.inventories.InternalInventory;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.inventory.Slot;
 
 public class ArmorSlot extends Slot {
-    public ArmorSlot(Container p_40223_, int p_40224_, int p_40225_, int p_40226_) {
-        super(p_40223_, p_40224_, p_40225_, p_40226_);
+
+
+    public ArmorSlot(Container inv, int x, int y) {
+        super(inv, x, y, 0);
+
     }
+    public enum EnumSlotType{
+
+    }
+
 }

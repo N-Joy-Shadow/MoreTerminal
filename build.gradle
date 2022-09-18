@@ -190,6 +190,13 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven {
+        url 'https://www.cursemaven.com'
+        // FG4: It's recommended to uncomment the following block
+        content {
+            includeGroup "curse.maven"
+        }
+    }
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
@@ -203,19 +210,23 @@ repositories {
 }
 
 dependencies {
+    implementation 'junit:junit:4.13.1'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.52'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.80'
 
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.7.1")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.7.1")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.209:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.209")
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255")
 
-    compileOnly fg.deobf("appeng:appliedenergistics2:11.1.4")
-    runtimeOnly fg.deobf("appeng:appliedenergistics2:11.1.4")
+    compileOnly fg.deobf("appeng:appliedenergistics2:11.1.7")
+    runtimeOnly fg.deobf("appeng:appliedenergistics2:11.1.7")
 
     runtimeOnly  fg.deobf("com.blakebr0.cucumber:Cucumber:1.18.2-5.1.0")
     compileOnly  fg.deobf("com.blakebr0.cucumber:Cucumber:1.18.2-5.1.0")
@@ -226,7 +237,7 @@ dependencies {
     runtimeOnly fg.deobf("libs:TheOneProbe-1.18:5.1.0")
     runtimeOnly fg.deobf("libs:CraftTweaker-forge-1.18.2:9.1.159")
 
-
+    implementation fg.deobf('curse.maven:spark-361579:3824951')
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

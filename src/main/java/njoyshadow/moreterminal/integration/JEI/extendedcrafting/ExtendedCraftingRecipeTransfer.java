@@ -44,7 +44,7 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
 
     private final Class<T> containerClass;
     private final IRecipeTransferHandlerHelper helper;
-    
+
     // Colors for the slot highlights
     private static final int BLUE_SLOT_HIGHLIGHT_COLOR = 0x400000ff;
     private static final int RED_SLOT_HIGHLIGHT_COLOR = 0x66ff0000;
@@ -57,11 +57,12 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
     private static final Comparator<GridInventoryEntry> ENTRY_COMPARATOR = Comparator
             .comparing(GridInventoryEntry::getStoredAmount);
 
-    public ExtendedCraftingRecipeTransfer(Class<T> containerClass, IRecipeTransferHandlerHelper helper,int GridSize) {
+    public ExtendedCraftingRecipeTransfer(Class<T> containerClass, IRecipeTransferHandlerHelper helper, int GridSize) {
         super(GridSize);
         this.containerClass = containerClass;
         this.helper = helper;
     }
+
     @Override
     public IRecipeTransferError transferRecipe(T menu, ITableRecipe recipe, IRecipeLayout display, Player player,
                                                boolean maxTransfer, boolean doTransfer) {
@@ -95,7 +96,6 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
                 return new ErrorRenderer(menu, recipe);
             }
         } else {
-            System.out.println("PerformStart");
             performTransfer(menu, recipe, craftMissing);
         }
         // No error
@@ -116,14 +116,14 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
         }
         System.out.println("PerformComplete and sending Packet");
         MTNetworkHandler.instance()
-                .sendToServer(new ExtendedCraftingPacket(recipeId, templateItems, craftMissing,GRID_HEIGHT));
+                .sendToServer(new ExtendedCraftingPacket(recipeId, templateItems, craftMissing, GRID_HEIGHT));
     }
 
     private NonNullList<ItemStack> findGoodTemplateItems(Recipe<?> recipe, MEStorageMenu menu) {
         var ingredientPriorities = getIngredientPriorities(menu, ENTRY_COMPARATOR);
 
         var templateItems = NonNullList.withSize(GRID_MATRIX, ItemStack.EMPTY);
-        var ingredients = ExtendedCraftingRecipeUtil.ensureExtendedCraftingMatrix(recipe,this.GRID_HEIGHT);
+        var ingredients = ExtendedCraftingRecipeUtil.ensureExtendedCraftingMatrix(recipe, this.GRID_HEIGHT);
         for (int i = 0; i < ingredients.size(); i++) {
             var ingredient = ingredients.get(i);
             if (!ingredient.isEmpty()) {
@@ -147,54 +147,35 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
 
         // JEI will align non-shaped recipes smaller than 3x3 in the grid. It'll center them horizontally, and
         // some will be aligned to the bottom. (i.e. slab recipes).
-        int width , height;
+        int width = 3, height = 3;
         if (recipe instanceof ShapedTableRecipe shapedRecipe) {
             width = shapedRecipe.getWidth();
             height = shapedRecipe.getHeight();
-        }
-        else {
-            if(recipe instanceof ShapelessTableRecipe shapelessRecipe)
-            {
-                int Tier = shapelessRecipe.getTier();
-                System.out.println("Tier : " + Tier);
-                switch (Tier){
-                    case 1:
-
-                        break;
-                }
+        }else{
+            if(ingredients.size() > 49){
+                width = height = 9;
             }
-            int Size = ingredients.size();
-            if(Size > 49){
-                width = 9;
-                height = 9;
-            }else if(Size > 25){
-                width = 7;
-                height = 7;
-            }else if(Size > 9){
-                width = 5;
-                height =5;
-            }
-            else{
-                width = 3;
-                height = 3;
-            }
-        }
-
-        //TODO FIX LATER
-        /*else {
-            if (ingredients.size() > 4) {
-                width = height = 3;
+            else if(ingredients.size() > 25){
+                width = height = 7;
+            } else if (ingredients.size() > 9) {
+                width = height = 5;
+            } else if (ingredients.size() > 4) {
+                width = height =3;
             } else if (ingredients.size() > 1) {
                 width = height = 2;
-            } else {
+            }
+            else {
                 width = height = 1;
             }
-        }*/
+        }
 
         var result = new HashMap<Integer, Ingredient>(ingredients.size());
         for (int i = 0; i < ingredients.size(); i++) {
             // JEI uses slot 0 for the output by default, shifting all input slots by 1
-            var guiSlot = 1 + getCraftingIndex(i, width, height);
+
+
+            //TODO: I remove + 1 for test
+            var guiSlot = 1 +  getCraftingIndex(i, width, height);
             var ingredient = ingredients.get(i);
             if (!ingredient.isEmpty()) {
                 result.put(guiSlot, ingredient);

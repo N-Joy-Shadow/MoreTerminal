@@ -146,7 +146,6 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
         }
         else if(this.menu instanceof BaseCraftingTermMenu basicTermMenu){
             ITableRecipe recipe = basicTermMenu.getCurrentRecipe();
-
             if (recipe != null && recipe.matches(ic,level)) {
                 return basicTermMenu.getCurrentRecipe().getRemainingItems(ic);
             }
@@ -169,8 +168,8 @@ public class ExtendedCraftingTermSlot extends ExtendedCraftingSlot {
             // add one of each item to the items on the board...
             var level = p.level;
             if (!level.isClientSide()) {
-                //final var ic = new CraftingContainer(p.containerMenu, GRID_SIZE, GRID_SIZE);
-                final var ic = new ExtendedCraftingInventory(p.containerMenu, new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
+                final var ic = new CraftingContainer(p.containerMenu, GRID_SIZE, GRID_SIZE);
+                //final var ic = new ExtendedCraftingInventory(p.containerMenu, new BaseItemStackHandler(GRID_MATRIX), GRID_SIZE);
                 for (var x = 0; x < GRID_MATRIX; x++) {
                     ic.setItem(x, this.getPattern().getStackInSlot(x));
                 }

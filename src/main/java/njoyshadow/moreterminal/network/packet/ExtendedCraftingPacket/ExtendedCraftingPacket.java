@@ -105,8 +105,10 @@ public class ExtendedCraftingPacket extends MTBasePacket {
         var energy = grid.getEnergyService();
         var craftMatrix = cct.getCraftingMatrix();
 
-        // We'll try to use the best possible ingredients based on what's available in the network
+        //TODO : FIX THIS Method
+        //I can't find why no response when transfer shapelessreicpe
 
+        // We'll try to use the best possible ingredients based on what's available in the network
         var storage = grid.getStorageService().getInventory();
         var cachedStorage = grid.getStorageService().getCachedInventory();
         var filter = ViewCellItem.createItemFilter(cct.getViewCells());
