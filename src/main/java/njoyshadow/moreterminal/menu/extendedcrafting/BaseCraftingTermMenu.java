@@ -83,11 +83,11 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
     private void updateCurrentRecipeAndOutput(boolean forceUpdate) {
         boolean hasChanged = forceUpdate;
         for (int x = 0; x < GRID_MATRIX; x++) {
-            //ì—¬ê¸°ì„œ ì•„ì´í…œì´ ì•ˆë°”ë€œ
+            //¿©±â¼­ ¾ÆÀÌÅÛÀÌ ¾È¹Ù²ñ
             var stack = this.craftingSlots[x].getItem();
 
 
-            //ì²«ë²ˆì§¸ ë£¨í”„ì—ì„œ xëŠ” 0ì¼ë•Œ recipeTestcontainerì˜ ì²«ë²ˆì§¸ ì•„ì´í…œë§Œ ë°”ê¾¸ê³  ë‹¤ì‹œ x = 0ìœ¼ë¡œ ëŒì•„ì˜´, ì¦‰ í•œë†ˆë§Œ ë°”ê¾¸ê³  ê°€ë²„ë¦¼
+            //Ã¹¹øÂ° ·çÇÁ¿¡¼­ x´Â 0ÀÏ¶§ recipeTestcontainerÀÇ Ã¹¹øÂ° ¾ÆÀÌÅÛ¸¸ ¹Ù²Ù°í ´Ù½Ã x = 0À¸·Î µ¹¾Æ¿È, Áï ÇÑ³ð¸¸ ¹Ù²Ù°í °¡¹ö¸²
             if (!ItemStack.isSameItemSameTags(stack, recipeTestContainer.getItem(x))) {
                 hasChanged = true;
                 recipeTestContainer.setItem(x, stack.copy());
@@ -99,8 +99,8 @@ public class BaseCraftingTermMenu extends MEStorageMenu implements IMenuCrafting
         }
 
         Level level = this.getPlayerInventory().player.level;
-        //ë¬¸ì œì˜ ë¼ì¸
-        //ë§ˆì§€ë§‰ ì—ì„œ ë°”ë€” ì•„ì´í…œì´ ëˆˆì¹˜ ì—†ì´ ë“¤ì–´ì˜´
+        //¹®Á¦ÀÇ ¶óÀÎ
+        //¸¶Áö¸· ¿¡¼­ ¹Ù²ð ¾ÆÀÌÅÛÀÌ ´«Ä¡ ¾øÀÌ µé¾î¿È
         this.currentRecipe = level.getRecipeManager().getRecipeFor(RecipeTypes.TABLE, recipeTestContainer, level).orElse(null);
 
         if (this.currentRecipe == null) {

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ad ",
+    "cb ",
+    "   "
+  ],
+  "key": {
+    "a": {
+      "item": "ae2:crafting_terminal"
+    },
+    "b" : {
+      "item" : "ae2:engineering_processor"
+    },
+    "c" : {
+     "item" : "ae2:calculation_processor"
+    },
+    "d" : {
+      "item" : "extendedcrafting:advanced_table"
+    }
+
+  },
+  "result": {
+    "item": "moreterminal:advanced_crafting_terminal"
+  }
+}

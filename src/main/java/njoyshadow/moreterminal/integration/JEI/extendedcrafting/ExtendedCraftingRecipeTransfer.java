@@ -175,7 +175,7 @@ public class ExtendedCraftingRecipeTransfer<T extends BaseCraftingTermMenu>
 
 
             //TODO: I remove + 1 for test
-            var guiSlot = 1 +  getCraftingIndex(i, width, height);
+            var guiSlot = i + 1;
             var ingredient = ingredients.get(i);
             if (!ingredient.isEmpty()) {
                 result.put(guiSlot, ingredient);

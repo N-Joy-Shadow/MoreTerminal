@@ -18,4 +18,5 @@ public class BasicCraftingTermMenu extends BaseCraftingTermMenu {
     public BasicCraftingTermMenu(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
         super(menuType, id, ip, host, 3, BaseExtendCraftingTermPart.BASIC_INV_CRAFTING);
     }
+
 }

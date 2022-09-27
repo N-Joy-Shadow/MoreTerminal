@@ -1,8 +1,0 @@
-{
-  "parent": "moreterminal:part/display_off",
-  "textures": {
-    "lightsBright": "moreterminal:part/crafting_terminal_bright",
-    "lightsMedium": "moreterminal:part/crafting_terminal_medium",
-    "lightsDark": "moreterminal:part/crafting_terminal_dark"
-  }
-}
