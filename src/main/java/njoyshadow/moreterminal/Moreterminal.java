@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -37,11 +36,9 @@ public class Moreterminal {
     private static final Logger LOGGER = LogManager.getLogger();
 
 
-
-
     public Moreterminal() {
 
-        DistExecutor.unsafeRunForDist(() -> ClientMoreTerminal::new,() -> ServerMoreTerminal::new);
+        DistExecutor.unsafeRunForDist(() -> ClientMoreTerminal::new, () -> ServerMoreTerminal::new);
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -57,20 +54,26 @@ public class Moreterminal {
         MTParts.init();
         modEventBus.addGenericListener(MenuType.class, this::registerMenuTypes);
         modEventBus.addGenericListener(Item.class, this::registerItems);
-        //FindFluid.asdasd();
+
         //InitMenuTypes.init((Registry<MenuType<?>>) Registry.MENU);
     }
+
     public void registerMenuTypes(RegistryEvent.Register<MenuType<?>> event) {
         InitMenuTypes.init(event.getRegistry());
     }
+
     public void registerItems(RegistryEvent.Register<Item> event) {
         InitItems.init(event.getRegistry());
     }
+
     private void commonSetup(FMLCommonSetupEvent event) {
 
         //MTNetworkHandler.init(new ResourceLocation("moreterminal", "main"));
 
     }
+
+
+
 
     private void setup(final FMLCommonSetupEvent event) {
         // some preinit code
