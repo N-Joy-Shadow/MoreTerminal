@@ -4,9 +4,14 @@
   "gui.moreterminal.EliteCraftingTerminal" : "Elite Crafting Terminal",
   "gui.moreterminal.UltimateCraftingTerminal" : "Ultimate Crafting Terminal",
   "gui.moreterminal.Terminal" : "Terminal",
+
   "item.moreterminal.basic_crafting_terminal" : "Basic Crafting Terminal",
   "item.moreterminal.advanced_crafting_terminal" : "Advanced Crafting Terminal",
   "item.moreterminal.elite_crafting_terminal" : "Elite Crafting Terminal",
   "item.moreterminal.ultimate_crafting_terminal" : "Ultimate Crafting Terminal",
+
+  "item.moreterminal.printed_integration_process" : "Printed Integration Circuit",
+  "item.moreterminal.integration_processor" : "Integration Processor",
+
   "itemGroup.moreterminal.main" : "More Terminal"
 }

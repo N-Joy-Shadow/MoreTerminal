@@ -2,11 +2,16 @@
   "gui.moreterminal.BasicCraftingTerminal" : "기본 조합 단말기",
   "gui.moreterminal.AdvancedCraftingTerminal" : "고급 조합 단말기",
   "gui.moreterminal.EliteCraftingTerminal" : "엘리트 조합 단말기",
-  "gui.moreterminal.UltimateCraftingTerminal" : "최고 조합 단말기",
+  "gui.moreterminal.UltimateCraftingTerminal" : "얼티메이트 조합 단말기",
   "gui.moreterminal.Terminal" : "터미널",
+
   "itemGroup.moreterminal.main" : "더 많은 단말기",
+
   "item.moreterminal.basic_crafting_terminal" : "기본 조합 단말기",
   "item.moreterminal.advanced_crafting_terminal" : "고급 조합 단말기",
   "item.moreterminal.elite_crafting_terminal" : "엘리트 조합 단말기",
-  "item.moreterminal.ultimate_crafting_terminal" : "최고 조합 단말기"
+  "item.moreterminal.ultimate_crafting_terminal" : "얼티메이트 조합 단말기",
+
+  "item.moreterminal.printed_integration_process" : "인쇄된 통합 회로",
+  "item.moreterminal.integration_processor" : "통합 프로세서"
 }

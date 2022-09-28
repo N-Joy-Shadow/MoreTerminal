@@ -1,0 +1,18 @@
+{
+    "type": "ae2:inscriber",
+    "mode": "press",
+    "result": {
+      "item": "moreterminal:integration_processor"
+    },
+    "ingredients": {
+      "middle": {
+        "item": "minecraft:redstone"
+      },
+      "top": {
+        "item": "moreterminal:printed_integration_process"
+      },
+      "bottom": {
+        "item": "ae2:printed_silicon"
+      }
+    }
+  }

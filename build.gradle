@@ -16,7 +16,6 @@ apply plugin: 'org.spongepowered.mixin'
 
 group = 'njoyshadow'
 version = '1.0-SNAPSHOT'
-
 java {
     archivesBaseName = 'moreterminal'
     toolchain.languageVersion = JavaLanguageVersion.of(17)

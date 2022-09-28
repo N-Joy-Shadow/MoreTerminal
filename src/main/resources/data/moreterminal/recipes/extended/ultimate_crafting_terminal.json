@@ -2,17 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ab",
-    "cd"
+    "c "
   ],
   "key": {
     "a": {
       "item": "ae2:crafting_terminal"
     },
-    "d" : {
-      "item" : "ae2:logic_processor"
-    },
     "c" : {
-     "item" : "ae2:calculation_processor"
+      "item" : "moreterminal:integration_processor"
     },
     "b" : {
       "item" : "extendedcrafting:ultimate_table"

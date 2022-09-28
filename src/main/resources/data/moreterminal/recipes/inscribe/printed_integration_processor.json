@@ -1,0 +1,18 @@
+{
+    "type": "ae2:inscriber",
+    "mode": "press",
+    "result": {
+      "item": "moreterminal:printed_integration_process"
+    },
+    "ingredients": {
+      "middle": {
+        "item": "ae2:fluix_dust"
+      },
+      "top": {
+        "item": "ae2:printed_logic_processor"
+      },
+      "bottom": {
+        "item": "ae2:printed_calculation_processor"
+      }
+    }
+  }
